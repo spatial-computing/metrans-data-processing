@@ -1,4 +1,4 @@
-package infolab.usc.geo.metransmapmatching;
+package edu.usc.infolab.metrans.mapmatching;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.linearref.LinearLocation;
