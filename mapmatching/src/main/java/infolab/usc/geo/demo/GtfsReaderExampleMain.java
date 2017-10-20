@@ -1,13 +1,13 @@
 package infolab.usc.geo.demo;
 
-import org.onebusaway.csv_entities.EntityHandler;
+import com.vividsolutions.jts.geom.LineString;
+import infolab.usc.geo.gtfsutil.GtfsUtil;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
-import org.onebusaway.gtfs.model.Route;
-import org.onebusaway.gtfs.model.Stop;
-import org.onebusaway.gtfs.serialization.GtfsReader;
+import org.onebusaway.gtfs.model.ShapePoint;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class GtfsReaderExampleMain {
 
@@ -18,39 +18,23 @@ public class GtfsReaderExampleMain {
 //            System.exit(-1);
 //        }
 
-        GtfsReader reader = new GtfsReader();
-        reader.setInputLocation(new File("/home/kiennd/Downloads/Metrans/gtfs_bus_fixed"));
-
-        /**
-         * You can register an entity handler that listens for new objects as they
-         * are read
-         */
-//        reader.addEntityHandler(new GtfsEntityHandler());
-
-        /**
-         * Or you can use the internal entity store, which has references to all the
-         * loaded entities
-         */
-        GtfsDaoImpl store = new GtfsDaoImpl();
-        reader.setEntityStore(store);
-
-        reader.run();
+        GtfsDaoImpl store = GtfsUtil.readGtfsFromDir("data/gtfs_bus_170718");
 
         // Access entities through the store
-        for (Route route : store.getAllRoutes()) {
-            System.out.println("route: " + route.getShortName());
-        }
-//        System.out.println(store.getShapePointForId(0).toString());
-//        System.out.println(store.isPackShapePoints());
-    }
+//        for (Route route : store.getAllRoutes()) {
+//            System.out.println("route: " + route.getShortName());
+//        }
 
-    private static class GtfsEntityHandler implements EntityHandler {
+        ArrayList<ShapePoint> shapePoints = new ArrayList<ShapePoint>(store.getAllShapePoints());
+        System.out.println(shapePoints.get(0).toString());
+        System.out.println(shapePoints.get(0).getId());
+        System.out.println(shapePoints.get(0).getShapeId().getId());
+        System.out.println(store.isPackShapePoints());
 
-        public void handleEntity(Object bean) {
-            if (bean instanceof Stop) {
-                Stop stop = (Stop) bean;
-                System.out.println("stop: " + stop.getName());
-            }
-        }
+
+
+        Map<String, LineString> shapeLineStrings = GtfsUtil.getLineStrings(store);
+        System.out.println(shapeLineStrings.get("21054_JUN17").getNumPoints());
+        System.out.println(shapeLineStrings.get("21054_JUN17"));
     }
 }
