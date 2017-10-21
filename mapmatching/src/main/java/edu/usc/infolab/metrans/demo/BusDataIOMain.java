@@ -60,5 +60,18 @@ public class BusDataIOMain {
             }
         }
         logger.info(invalidDirectionTripsCount + " invalid direction day trips");
+
+
+        logger.info("Separating the whole day records of a bus into RUNs");
+        ArrayList<ArrayList<BusGpsRecord>> allRuns = new ArrayList<>();
+        for (ArrayList<BusGpsRecord> busIdsRecords : busGpsDayTrips) {
+            ArrayList<ArrayList<BusGpsRecord>> dayRuns = BusDataUtil.separateToRuns(busIdsRecords);
+            allRuns.addAll(dayRuns);
+        }
+        logger.info("Total " + allRuns.size() + " runs");
+
+        logger.info("Cleaning runs");
+        BusDataUtil.cleanRuns(allRuns);
+        logger.info("Total " + allRuns.size() + " runs after cleaning");
     }
 }

@@ -10,6 +10,7 @@ import java.util.*;
  * Bus data processing utilities
  */
 public class BusDataUtil {
+    public static final int MIN_RUN_GPS_RECORDS_COUNT = 4;
     public static final Set<Integer> VALID_BUS_DIRECTIONS = Collections.unmodifiableSet(
             new HashSet<Integer>(Arrays.asList(0, 1, 2, 3)));
 
@@ -89,6 +90,89 @@ public class BusDataUtil {
 
 
     /**
+     * Check if current record is in the same run with previous record.
+     *
+     * They are in the same run if they have same BUS_ID, LINE_ID, RUN_ID, ROUTE_ID, BUS_DIRECTION
+     * @param prevRecord previous record
+     * @param currRecord current record
+     * @return whether or not current record is in the same run with previous record
+     */
+    public static boolean isInSameRun(BusGpsRecord prevRecord, BusGpsRecord currRecord) {
+        return prevRecord.getBusId() == currRecord.getBusId() &&
+                prevRecord.getLineId() == currRecord.getLineId() &&
+                prevRecord.getRunId() == currRecord.getRunId() &&
+                prevRecord.getRouteId() == currRecord.getRouteId() &&
+                prevRecord.getBusDirection() == currRecord.getBusDirection();
+    }
+
+
+    /**
+     * Separate records into different runs:
+     * - ALL consecutive records with the same BUS_ID, LINE_ID, RUN_ID, ROUTE_ID, BUS_DIRECTION are in the same run
+     * @param records a list of records
+     * @return list of runs
+     */
+    public static ArrayList<ArrayList<BusGpsRecord>> separateToRuns(ArrayList<BusGpsRecord> records) {
+        ArrayList<ArrayList<BusGpsRecord>> allRuns = new ArrayList<>();
+        if (records.isEmpty())
+            return allRuns;
+
+        ArrayList<BusGpsRecord> aRun = new ArrayList<>();
+        aRun.add(records.get(0));
+
+        for (int i = 1; i < records.size(); i++) {
+            BusGpsRecord prevRecord = aRun.get(aRun.size() - 1);
+            BusGpsRecord currRecord = records.get(i);
+
+            if (isInSameRun(prevRecord, currRecord)) {
+                aRun.add(currRecord);
+            } else {
+                // a NEW run
+                allRuns.add(aRun); // save the run
+
+                aRun = new ArrayList<>(); // start a new run
+                aRun.add(currRecord);
+            }
+        }
+        allRuns.add(aRun);
+
+
+        return allRuns;
+    }
+
+
+    /**
+     * Check if a run is a good run:
+     * - having at least {@link #MIN_RUN_GPS_RECORDS_COUNT} records
+     * - having direction (using {@link #hasValidDirection(BusGpsRecord)}, assuming all records have same direction
+     * @param aRun
+     * @return
+     */
+    public static boolean isGoodRun(ArrayList<BusGpsRecord> aRun) {
+        if (aRun.size() < MIN_RUN_GPS_RECORDS_COUNT)
+            return false;
+        if (!hasValidDirection(aRun.get(0)))
+            return false;
+        return true;
+    }
+
+
+    /**
+     * Remove "not good" runs, using {@link #isGoodRun(ArrayList)}
+     * @param runs
+     */
+    public static void cleanRuns(ArrayList<ArrayList<BusGpsRecord>> runs) {
+        ArrayList<ArrayList<BusGpsRecord>> toRemove = new ArrayList<>();
+        for (ArrayList<BusGpsRecord> aRun : runs) {
+            if (!isGoodRun(aRun))
+                toRemove.add(aRun);
+        }
+
+        runs.removeAll(toRemove);
+    }
+
+
+    /**
      * Get set of all directions of bus records
      * @param records bus records
      * @return set of all directions of bus records
@@ -103,7 +187,8 @@ public class BusDataUtil {
     }
 
     /**
-     * Check if a record has valid direction
+     * Check if a record has valid direction.
+     * A direction is valid if it is in {@link #VALID_BUS_DIRECTIONS}
      * @param record a bus GPS record
      * @return whether or not a record has valid direction
      */
