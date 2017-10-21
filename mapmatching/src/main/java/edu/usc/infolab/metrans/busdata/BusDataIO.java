@@ -15,13 +15,14 @@ import java.util.ArrayList;
  * IO class for bus data
  */
 public class BusDataIO {
+    public static final String BUS_DATA_CSV_HEADER = "DATE_AND_TIME,BUS_ID,LINE_ID,RUN_ID,ROUTE_ID,ROUTE_DESCRIPTION,BUS_DIRECTION,LAT,LON,BUS_LOCATION_TIME,SCHEDULE_DEVIATION,ARRIVAL_AT_NEXT_TIME_POINT,NEXT_TIME_POINT_LOCATION,TIME_POINT";
     public static final String BUS_GPS_CSV_SEPARATOR = ",";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final ZoneId LOS_ANGELES_ZONE_ID = ZoneId.of("America/Los_Angeles");
+    public static DateTimeFormatter defaultDateTimeParser =
+            DateTimeFormatter.ofPattern(DATE_TIME_FORMAT).withZone(LOS_ANGELES_ZONE_ID);
 
     private static final Logger logger = LoggerFactory.getLogger(BusDataIO.class);
-    private static DateTimeFormatter defaultDateTimeParser =
-            DateTimeFormatter.ofPattern(DATE_TIME_FORMAT).withZone(LOS_ANGELES_ZONE_ID);
 
     /**
      * Read bus GPS records from a CSV file
@@ -40,9 +41,12 @@ public class BusDataIO {
             String line;
 
             while ((line = reader.readLine()) != null) {
+                if (line.equals(BUS_DATA_CSV_HEADER))
+                    continue;
                 BusGpsRecord record = convertCsvBusLineToRecord(line);
 
-                records.add(record);
+                if (record != null)
+                    records.add(record);
             }
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -63,21 +67,26 @@ public class BusDataIO {
     /**
      * Convert a raw line CSV bus data into a record
      * @param line raw line CSV
-     * @return a record
+     * @return a record or {@code null} if error occurred
      */
     public static BusGpsRecord convertCsvBusLineToRecord(String line) {
-        String[] rawRecord = line.split(BUS_GPS_CSV_SEPARATOR);
+        try {
+            String[] rawRecord = line.split(BUS_GPS_CSV_SEPARATOR);
 
-        ZonedDateTime dateAndTime = ZonedDateTime.parse(rawRecord[0], defaultDateTimeParser);
-        int busId = Integer.valueOf(rawRecord[1]);
-        int lineId = Integer.valueOf(rawRecord[2]);
-        int runId = Integer.valueOf(rawRecord[3]);
-        int routeId = Integer.valueOf(rawRecord[4]);
-        int busDirection = Integer.valueOf(rawRecord[6]);
-        double lat = Double.valueOf(rawRecord[7]);
-        double lon = Double.valueOf(rawRecord[8]);
-        ZonedDateTime busLocationTime = ZonedDateTime.parse(rawRecord[9], defaultDateTimeParser);
+            ZonedDateTime dateAndTime = ZonedDateTime.parse(rawRecord[0], defaultDateTimeParser);
+            int busId = Integer.valueOf(rawRecord[1]);
+            int lineId = Integer.valueOf(rawRecord[2]);
+            int runId = Integer.valueOf(rawRecord[3]);
+            int routeId = Integer.valueOf(rawRecord[4]);
+            int busDirection = Integer.valueOf(rawRecord[6]);
+            double lat = Double.valueOf(rawRecord[7]);
+            double lon = Double.valueOf(rawRecord[8]);
+            ZonedDateTime busLocationTime = ZonedDateTime.parse(rawRecord[9], defaultDateTimeParser);
 
-        return new BusGpsRecord(dateAndTime, busId, lineId, runId, routeId, busDirection, lat, lon, busLocationTime);
+            return new BusGpsRecord(dateAndTime, busId, lineId, runId, routeId, busDirection, lat, lon, busLocationTime);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return null;
+        }
     }
 }

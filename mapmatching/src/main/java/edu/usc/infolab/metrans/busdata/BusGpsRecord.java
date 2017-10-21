@@ -2,11 +2,13 @@ package edu.usc.infolab.metrans.busdata;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A simplified bus GPS record
  */
 public class BusGpsRecord {
+
     private ZonedDateTime dateAndTime;
     private int busId;
     private int lineId;
@@ -108,7 +110,7 @@ public class BusGpsRecord {
     @Override
     public String toString() {
         return "BusGpsRecord{" +
-                "dateAndTime=" + dateAndTime +
+                "dateAndTime=" + dateAndTime.format(BusDataIO.defaultDateTimeParser) +
                 ", busId=" + busId +
                 ", lineId=" + lineId +
                 ", runId=" + runId +
@@ -116,7 +118,7 @@ public class BusGpsRecord {
                 ", busDirection=" + busDirection +
                 ", lat=" + lat +
                 ", lon=" + lon +
-                ", busLocationTime=" + busLocationTime +
+                ", busLocationTime=" + busLocationTime.format(BusDataIO.defaultDateTimeParser) +
                 '}';
     }
 }
