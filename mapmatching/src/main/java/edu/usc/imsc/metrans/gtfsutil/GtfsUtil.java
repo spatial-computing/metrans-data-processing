@@ -1,4 +1,4 @@
-package edu.usc.infolab.metrans.gtfsutil;
+package edu.usc.imsc.metrans.gtfsutil;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;

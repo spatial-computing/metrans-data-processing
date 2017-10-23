@@ -1,4 +1,4 @@
-package edu.usc.infolab.metrans.busdata;
+package edu.usc.imsc.metrans.busdata;
 
 import org.junit.Test;
 

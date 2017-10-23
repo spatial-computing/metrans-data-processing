@@ -1,7 +1,7 @@
-package edu.usc.infolab.metrans.demo;
+package edu.usc.imsc.metrans.demo;
 
 import com.vividsolutions.jts.geom.LineString;
-import edu.usc.infolab.metrans.gtfsutil.GtfsUtil;
+import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.ShapePoint;
 import org.slf4j.Logger;

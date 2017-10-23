@@ -1,4 +1,4 @@
-package edu.usc.infolab.metrans.gtfsutil;
+package edu.usc.imsc.metrans.gtfsutil;
 
 import com.vividsolutions.jts.geom.LineString;
 import org.junit.Test;

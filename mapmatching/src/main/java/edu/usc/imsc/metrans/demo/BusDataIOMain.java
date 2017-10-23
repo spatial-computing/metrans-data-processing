@@ -1,8 +1,8 @@
-package edu.usc.infolab.metrans.demo;
+package edu.usc.imsc.metrans.demo;
 
-import edu.usc.infolab.metrans.busdata.BusDataIO;
-import edu.usc.infolab.metrans.busdata.BusDataPreprocessing;
-import edu.usc.infolab.metrans.busdata.BusGpsRecord;
+import edu.usc.imsc.metrans.busdata.BusDataIO;
+import edu.usc.imsc.metrans.busdata.BusGpsRecord;
+import edu.usc.imsc.metrans.busdata.BusDataPreprocessing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

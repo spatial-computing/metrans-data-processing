@@ -1,8 +1,6 @@
-package edu.usc.infolab.metrans.busdata;
+package edu.usc.imsc.metrans.busdata;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * A simplified bus GPS record
