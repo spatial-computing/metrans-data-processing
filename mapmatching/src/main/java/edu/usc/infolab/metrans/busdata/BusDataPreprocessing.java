@@ -69,9 +69,19 @@ public class BusDataPreprocessing {
         }
         logger.info("Total " + allRuns.size() + " runs");
 
+        recordCount = 0;
+        for (ArrayList<BusGpsRecord> aRun : allRuns)
+            recordCount += aRun.size();
+        logger.info("Total " + recordCount + " records");
+
         logger.info("Cleaning runs");
         BusDataUtil.cleanRuns(allRuns);
         logger.info("Total " + allRuns.size() + " runs after cleaning");
+
+        recordCount = 0;
+        for (ArrayList<BusGpsRecord> aRun : allRuns)
+            recordCount += aRun.size();
+        logger.info("Total " + recordCount + " records after cleaning");
 
         return allRuns;
     }

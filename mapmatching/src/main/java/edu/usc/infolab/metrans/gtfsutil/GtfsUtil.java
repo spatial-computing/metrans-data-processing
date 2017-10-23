@@ -8,6 +8,8 @@ import org.onebusaway.csv_entities.EntityHandler;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.ShapePoint;
 import org.onebusaway.gtfs.model.Stop;
+import org.onebusaway.gtfs.model.StopTime;
+import org.onebusaway.gtfs.model.Trip;
 import org.onebusaway.gtfs.serialization.GtfsReader;
 
 import java.io.File;
@@ -62,10 +64,10 @@ public class GtfsUtil {
      * @param store GTFS store
      * @return a map from ShapeId to LineString representation of the shape from {@code store}
      */
-    public static Map<String, LineString> getLineStrings(GtfsDaoImpl store) {
+    public static Map<String, LineString> getShapeLineStringsMapping(GtfsDaoImpl store) {
         Map<String, LineString> shapeLineStrings = new HashMap<>();
 
-        Map<String, ArrayList<ShapePoint>> shapeShapePoints = getShapePointsMap(store);
+        Map<String, ArrayList<ShapePoint>> shapeShapePoints = getShapeShapePointsMapping(store);
 
         GeometryFactory factory = JTSFactoryFinder.getGeometryFactory();
         for (Map.Entry<String, ArrayList<ShapePoint>> entry : shapeShapePoints.entrySet()) {
@@ -87,7 +89,7 @@ public class GtfsUtil {
      * @param store GTFS store
      * @return get a map from ShapeId to points of that shape
      */
-    public static Map<String, ArrayList<ShapePoint>> getShapePointsMap(GtfsDaoImpl store) {
+    public static Map<String, ArrayList<ShapePoint>> getShapeShapePointsMapping(GtfsDaoImpl store) {
         Map<String, ArrayList<ShapePoint> > shapeShapePoints = new HashMap<>();
         Collection<ShapePoint> shapePoints = store.getAllShapePoints();
         for (ShapePoint sp : shapePoints) {
@@ -117,4 +119,56 @@ public class GtfsUtil {
     }
 
 
+    /**
+     * Get a map of TripId to StopTimes of that trip, sorted by stop sequence
+     * @param store GTFS store
+     * @return a map of TripId to StopTimes of that trip
+     */
+    public static Map<String, ArrayList<StopTime>> getTripStopTimesMapping(GtfsDaoImpl store) {
+        Map<String, ArrayList<StopTime>> tripStopTimes = new HashMap<>();
+
+        for (StopTime stopTime: store.getAllStopTimes()) {
+            String tripId = stopTime.getTrip().getId().getId();
+            String key = tripId;
+
+            if (tripStopTimes.containsKey(key)) {
+                tripStopTimes.get(key).add(stopTime);
+            } else {
+                ArrayList<StopTime> stopTimes = new ArrayList<>();
+                stopTimes.add(stopTime);
+
+                tripStopTimes.put(key, stopTimes);
+            }
+        }
+
+        //sort by stop sequence
+        Comparator<StopTime> stopTimeSequenceComparator = new Comparator<StopTime>() {
+            @Override
+            public int compare(StopTime o1, StopTime o2) {
+                return o1.getStopSequence() - o2.getStopSequence();
+            }
+        };
+
+        for (Map.Entry<String, ArrayList<StopTime>> entry : tripStopTimes.entrySet()) {
+            entry.getValue().sort(stopTimeSequenceComparator);
+        }
+
+        return tripStopTimes;
+    }
+
+
+    /**
+     * Get TripId ==> ShapeId mapping
+     * @param store GTFS store
+     * @return TripId ==> ShapeId mapping
+     */
+    public static Map<String, String> getTripShapeMapping(GtfsDaoImpl store) {
+        Map<String, String> tripShapeMap = new HashMap<>();
+
+        for (Trip trip : store.getAllTrips()) {
+            tripShapeMap.put(trip.getId().getId(), trip.getShapeId().getId());
+        }
+
+        return tripShapeMap;
+    }
 }

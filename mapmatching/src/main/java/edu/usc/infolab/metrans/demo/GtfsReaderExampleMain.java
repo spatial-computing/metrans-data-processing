@@ -39,7 +39,7 @@ public class GtfsReaderExampleMain {
 
 
 
-        Map<String, LineString> shapeLineStrings = GtfsUtil.getLineStrings(store);
+        Map<String, LineString> shapeLineStrings = GtfsUtil.getShapeLineStringsMapping(store);
         logger.info(String.valueOf(shapeLineStrings.get("21054_JUN17").getNumPoints()));
         logger.info(shapeLineStrings.get("21054_JUN17").toString());
     }

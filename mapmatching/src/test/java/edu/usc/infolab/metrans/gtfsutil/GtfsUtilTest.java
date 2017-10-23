@@ -30,7 +30,7 @@ public class GtfsUtilTest {
     public void getLineStrings() throws Exception {
         GtfsDaoImpl store = GtfsUtil.readGtfsFromDir(INPUT_DIR);
 
-        Map<String, LineString> shapeLineStrings = GtfsUtil.getLineStrings(store);
+        Map<String, LineString> shapeLineStrings = GtfsUtil.getShapeLineStringsMapping(store);
         assertEquals((long)shapeLineStrings.get(SHAPE_ID).getNumPoints(), 857);
     }
 
@@ -38,7 +38,7 @@ public class GtfsUtilTest {
     public void getShapePointsMap() throws Exception {
         GtfsDaoImpl store = GtfsUtil.readGtfsFromDir(INPUT_DIR);
 
-        Map<String, ArrayList<ShapePoint> > shapePointsMap = GtfsUtil.getShapePointsMap(store);
+        Map<String, ArrayList<ShapePoint> > shapePointsMap = GtfsUtil.getShapeShapePointsMapping(store);
         assertEquals((long)shapePointsMap.get(SHAPE_ID).size(), 857);
     }
 
