@@ -24,7 +24,7 @@ public class GtfsReaderExampleMain {
 //            System.exit(-1);
 //        }
         logger.info("Start reading gtfs data");
-        GtfsDaoImpl store = GtfsUtil.readGtfsFromDir("data/gtfs_bus_170718");
+        GtfsDaoImpl store = GtfsUtil.readGtfsFromDir("data/gtfs_bus_160617");
 
         // Access entities through the store
 //        for (Route route : store.getAllRoutes()) {
@@ -38,9 +38,10 @@ public class GtfsReaderExampleMain {
         logger.info(String.valueOf(store.isPackShapePoints()));
 
 
-
+        String shapeId160617 = "20660_JUN16";
+        String shapeId170718 = "21054_JUN17";
         Map<String, LineString> shapeLineStrings = GtfsUtil.getShapeLineStringsMapping(store);
-        logger.info(String.valueOf(shapeLineStrings.get("21054_JUN17").getNumPoints()));
-        logger.info(shapeLineStrings.get("21054_JUN17").toString());
+        logger.info(String.valueOf(shapeLineStrings.get(shapeId160617).getNumPoints()));
+        logger.info(shapeLineStrings.get(shapeId160617).toString());
     }
 }

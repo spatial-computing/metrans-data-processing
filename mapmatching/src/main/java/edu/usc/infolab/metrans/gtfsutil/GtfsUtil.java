@@ -171,4 +171,30 @@ public class GtfsUtil {
 
         return tripShapeMap;
     }
+
+
+    /**
+     * Get RouteId ==> Trips mapping
+     * @param store GTFS store
+     * @return RouteId ==> Trips mapping
+     */
+    public static Map<String, ArrayList<Trip>> getRouteTripsMapping(GtfsDaoImpl store) {
+        Map<String, ArrayList<Trip>> routeTripsMap = new HashMap<>();
+
+        for (Trip trip : store.getAllTrips()) {
+            String routeId = trip.getRoute().getId().getId();
+            String key = routeId;
+
+            if (routeTripsMap.containsKey(key)) {
+                routeTripsMap.get(key).add(trip);
+            } else {
+                ArrayList<Trip> trips = new ArrayList<>();
+                trips.add(trip);
+
+                routeTripsMap.put(key, trips);
+            }
+        }
+
+        return routeTripsMap;
+    }
 }
