@@ -143,14 +143,14 @@ public class BusDataUtil {
 
     /**
      * Check if a run is a good run:
-     * - having at least {@link #MIN_RUN_GPS_RECORDS_COUNT} records
+     * - (NOT USED) having at least {@link #MIN_RUN_GPS_RECORDS_COUNT} records
      * - having direction (using {@link #hasValidDirection(BusGpsRecord)}, assuming all records have same direction
      * @param aRun
      * @return
      */
     public static boolean isGoodRun(ArrayList<BusGpsRecord> aRun) {
-        if (aRun.size() < MIN_RUN_GPS_RECORDS_COUNT)
-            return false;
+//        if (aRun.size() < MIN_RUN_GPS_RECORDS_COUNT)
+//            return false;
         if (!hasValidDirection(aRun.get(0)))
             return false;
         return true;

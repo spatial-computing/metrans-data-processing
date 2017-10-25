@@ -2,6 +2,7 @@ package edu.usc.imsc.metrans.gtfsutil;
 
 import com.vividsolutions.jts.geom.LineString;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
+import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -24,6 +26,7 @@ public class GtfsStore {
     private static final Logger logger = LoggerFactory.getLogger(GtfsStore.class);
     private Map<String, LineString> shapeLineStrings = null;
     private Map<String, ArrayList<StopTime>> tripStopTimes = null;
+    private Map<String, Trip> routeMaxLengthTrip = null;
     private Map<String, String> tripShape = null;
     private Map<String, ArrayList<Trip>> routeTrips = null;
     private GtfsDaoImpl gtfsDao = null;
@@ -38,6 +41,8 @@ public class GtfsStore {
     public GtfsStore(GtfsDaoImpl gtfsDaoImpl) throws IOException {
        this.gtfsDao = gtfsDaoImpl;
     }
+
+
 
 
     /**
@@ -59,6 +64,47 @@ public class GtfsStore {
 
         logger.info("Preparing RouteId ==> Trips:...");
         routeTrips = GtfsUtil.getRouteTripsMapping(gtfsDao);
+
+        logger.info("Preparing RouteId ==> MaxLengthTrip:...");
+        routeMaxLengthTrip = prepareMaxLengthTrip();
+    }
+
+
+    /**
+     * For each route, find the trip that has maximum length
+     * @return mapping from route id to the trip that has maximum length
+     */
+    private Map<String, Trip> prepareMaxLengthTrip() {
+        Map<String, Trip> tmp = new HashMap<>();
+        for (Route route : getGtfsDao().getAllRoutes()) {
+            Trip trip = findMaxLengthTripForRoute(route);
+
+            tmp.put(route.getId().getId(), trip);
+        }
+
+        return tmp;
+    }
+
+    /**
+     * For a {@code route}, find the trip that has maximum length
+     * @param route a route
+     * @return the trip that has maximum length
+     */
+    public Trip findMaxLengthTripForRoute(Route route) {
+        double maxLength = -1;
+        Trip maxLengthTrip = null;
+
+        for (Trip trip : getGtfsDao().getAllTrips()) {
+            if (trip.getRoute().equals(route)) {
+                double len = GtfsUtil.calTripLength(this, trip);
+                if (maxLength < len) {
+                    maxLength = len;
+                    maxLengthTrip = trip;
+                }
+            }
+        }
+
+        return maxLengthTrip;
     }
 
 
@@ -80,5 +126,9 @@ public class GtfsStore {
 
     public Map<String, ArrayList<Trip>> getRouteTrips() {
         return routeTrips;
+    }
+
+    public Map<String, Trip> getRouteMaxLengthTrip() {
+        return routeMaxLengthTrip;
     }
 }

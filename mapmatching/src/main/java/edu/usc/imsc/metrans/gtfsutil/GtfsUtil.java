@@ -3,14 +3,14 @@ package edu.usc.imsc.metrans.gtfsutil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
+import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.onebusaway.csv_entities.EntityHandler;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
-import org.onebusaway.gtfs.model.ShapePoint;
-import org.onebusaway.gtfs.model.Stop;
-import org.onebusaway.gtfs.model.StopTime;
-import org.onebusaway.gtfs.model.Trip;
+import org.onebusaway.gtfs.model.*;
 import org.onebusaway.gtfs.serialization.GtfsReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import java.util.*;
  * Utilities for GTFS data
  */
 public class GtfsUtil {
+    private static final Logger logger = LoggerFactory.getLogger(GtfsUtil.class);
 
     /**
      * Read GTFS data from {@code inputDir}
@@ -196,5 +197,64 @@ public class GtfsUtil {
         }
 
         return routeTripsMap;
+    }
+
+
+    /**
+     * Calculate length of a trip based on its shape
+     * @param trip the trip
+     * @return length of a trip based on its shape
+     */
+    public static double calTripLength(GtfsStore store, Trip trip) {
+        double len = -1;
+
+        try {
+            String shapeId = trip.getShapeId().getId();
+            LineString lineString = store.getShapeLineStrings().get(shapeId);
+            len = lineString.getLength();
+        } catch (Exception ex) {
+            logger.error("Error calculating length of trip " + trip.toString(), ex);
+        }
+
+        return len;
+    }
+
+
+    /**
+     * Get the short version of a route id, e.g. 10-13097 becomes 10, DSE-HG remains DSE-HG.
+     *
+     * Algo: If the route id starts with a number, return the number before "-", else return itself.
+     * @param routeId a full route id
+     * @return the short version of a route id
+     */
+    public static String toShortRouteId(String routeId) {
+        String shortName = "";
+        if (Character.isDigit(routeId.charAt(0))) {
+            // start with a number
+            for (int i = 0 ; i < routeId.length(); i++) {
+                if (routeId.charAt(i) == '-') {
+                    shortName = routeId.substring(0, i);
+                }
+            }
+        } else
+            shortName = routeId;
+
+        return shortName;
+    }
+
+
+    /**
+     * Get route from a short id (such as 10)
+     * @param gtfsStore GTFS store
+     * @param shortId route short id
+     * @return return the route from short id or {@code null} if no route found
+     */
+    public static Route getRouteFromShortId(GtfsStore gtfsStore, String shortId) {
+        for (Route route : gtfsStore.getGtfsDao().getAllRoutes()) {
+            if (toShortRouteId(route.getId().getId()).equals(shortId))
+                return route;
+        }
+
+        return null;
     }
 }
