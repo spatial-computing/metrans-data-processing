@@ -4,6 +4,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
+import infolab.usc.geo.util.WGS2MetricTransformer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.onebusaway.csv_entities.EntityHandler;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
@@ -61,24 +62,33 @@ public class GtfsUtil {
     }
 
     /**
-     * Get a map from ShapeId to {@link LineString} representation of the shape
+     * Get a map from ShapeId to {@link LineString} representation of the shape.
+     *
+     * The line string is already transformed using fromWGS84
      * @param store GTFS store
      * @return a map from ShapeId to LineString representation of the shape from {@code store}
      */
     public static Map<String, LineString> getShapeLineStringsMapping(GtfsDaoImpl store) {
         Map<String, LineString> shapeLineStrings = new HashMap<>();
 
+        // Transform GPS to metric space.
+
         Map<String, ArrayList<ShapePoint>> shapeShapePoints = getShapeShapePointsMapping(store);
 
         GeometryFactory factory = JTSFactoryFinder.getGeometryFactory();
-        for (Map.Entry<String, ArrayList<ShapePoint>> entry : shapeShapePoints.entrySet()) {
-            List<Coordinate> points = new ArrayList<>();
-            for (ShapePoint sp : entry.getValue()) {
-                points.add(new Coordinate(sp.getLon(), sp.getLat()));
+        try {
+            for (Map.Entry<String, ArrayList<ShapePoint>> entry : shapeShapePoints.entrySet()) {
+                List<Coordinate> points = new ArrayList<>();
+                for (ShapePoint sp : entry.getValue()) {
+                    points.add(new Coordinate(sp.getLon(), sp.getLat()));
+                }
+                Coordinate[] coordinates = new Coordinate[points.size()];
+                LineString lineString = factory.createLineString(points.toArray(coordinates));
+                lineString = (LineString) WGS2MetricTransformer.LATransformer.fromWGS84(lineString);
+                shapeLineStrings.put(entry.getKey(), lineString);
             }
-            Coordinate[] coordinates = new Coordinate[points.size()];
-            LineString lineString = factory.createLineString(points.toArray(coordinates));
-            shapeLineStrings.put(entry.getKey(), lineString);
+        } catch (Exception ex) {
+            logger.error("Unable to get shape to LineString mapping: ", ex);
         }
 
         return shapeLineStrings;

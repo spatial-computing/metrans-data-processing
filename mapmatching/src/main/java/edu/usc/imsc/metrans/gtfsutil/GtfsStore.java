@@ -35,11 +35,15 @@ public class GtfsStore {
     public GtfsStore(String gtfsDir) throws IOException {
         logger.info("Start reading gtfs data from " + gtfsDir);
         gtfsDao = GtfsUtil.readGtfsFromDir(gtfsDir);
+
+        prepareMappings();
     }
 
 
     public GtfsStore(GtfsDaoImpl gtfsDaoImpl) throws IOException {
        this.gtfsDao = gtfsDaoImpl;
+
+       prepareMappings();
     }
 
 

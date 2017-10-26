@@ -6,6 +6,7 @@ import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
 import org.onebusaway.gtfs.model.Trip;
+import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class MapMatchingDemo {
     private static final Logger logger = LoggerFactory.getLogger(MapMatchingDemo.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, TransformException {
         logger.info("Getting data from CSV file");
         String busDataFile = "data/busdata/Bus10.csv";
         ArrayList<BusGpsRecord> records = BusDataIO.readBusGpsRecordsFromFile(busDataFile);
@@ -27,7 +28,19 @@ public class MapMatchingDemo {
         GtfsStore gtfsStore = new GtfsStore(gtfsDir);
 
         for (ArrayList<BusGpsRecord> gpsRun : allRuns) {
-            Trip matchedTrip = GpsRunTripMatcher.matchGpsRunToScheduledTrip(gpsRun, gtfsStore);
+            ArrayList<ArrayList<BusGpsRecord>> splitRuns = GpsRunTripMatcher.splitRunAndRecoverDirection(gpsRun, gtfsStore);
+            //logger.info("Split runs size = " + splitRuns.size());
+
+            if (1 < splitRuns.size()) {
+                logger.info("split runs ***************************************************");
+                for (ArrayList<BusGpsRecord> aRun: splitRuns) {
+                    logger.info("A new run: ---------------------------");
+                    for (BusGpsRecord record : aRun)
+                        logger.info(record.toString());
+                }
+            }
         }
+
+        logger.info("DONE");
     }
 }
