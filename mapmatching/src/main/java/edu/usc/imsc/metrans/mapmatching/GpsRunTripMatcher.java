@@ -9,7 +9,6 @@ import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import infolab.usc.geo.util.WGS2MetricTransformer;
 import org.onebusaway.gtfs.model.Route;
-import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 import org.opengis.referencing.operation.TransformException;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
  */
 public class GpsRunTripMatcher {
     private static final Logger logger = LoggerFactory.getLogger(GpsRunTripMatcher.class);
-    public static final double BUS_GPS_OUTLIER_DISTANCE = 100; // distance from Bus GPS point to a project point to be considered as an outlier
+    public static final double BUS_GPS_OUTLIER_DISTANCE = 400; // distance from Bus GPS point to a project point to be considered as an outlier
 
 
     /**
@@ -107,13 +106,15 @@ public class GpsRunTripMatcher {
          * + temporarily ignore trend 0
          * + startRunIndex = the first non-zero trend
          * + nextRunIndex = the smallest index i has a different trend value from startRunIndex
+         * + [startRunIndex, nextRunIndex - 1] are 1 run
+         * + remove trailing 0-trend records
+         * + if trend[startRunIndex - 1] == 0, keep it,
+         *      - because that means the first record in this run already pass 1 stop
          * + assign startRunIndex = nextRunIndex and repeat
          */
-        int removedIndexTrendCode = -1000000;
         // remove heading 0s
         int startRunIndex = 0;
         while (startRunIndex < trend.length && trend[startRunIndex] == 0) {
-            trend[startRunIndex] = removedIndexTrendCode; // remove this record
             startRunIndex += 1;
         }
         //now we have startRunIndex as the first non-zero trend
@@ -138,6 +139,9 @@ public class GpsRunTripMatcher {
                     break;
 
             if (!aRun.isEmpty()) {
+                // keep the previous startRunIndex - 1 if its trend == 0
+                if (0 < startRunIndex && trend[startRunIndex - 1] == 0)
+                    aRun.add(0, outlierRemovedRecords.get(startRunIndex - 1));
                 // assign new direction of a record as the trend value but use BUS_DIRECTION = 0 when trend = -1
                 int newDirection = trend[startRunIndex];
                 if (newDirection == -1)

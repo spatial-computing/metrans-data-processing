@@ -2,10 +2,10 @@ package edu.usc.imsc.metrans.demo;
 
 import edu.usc.imsc.metrans.busdata.BusDataIO;
 import edu.usc.imsc.metrans.busdata.BusDataPreprocessing;
+import edu.usc.imsc.metrans.busdata.BusDataUtil;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
-import org.onebusaway.gtfs.model.Trip;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,19 +27,32 @@ public class MapMatchingDemo {
         String gtfsDir = "data/gtfs_bus_160617";
         GtfsStore gtfsStore = new GtfsStore(gtfsDir);
 
+        int splitCount = 0;
+        ArrayList<ArrayList<BusGpsRecord>> allSplitRuns = new ArrayList<>();
         for (ArrayList<BusGpsRecord> gpsRun : allRuns) {
             ArrayList<ArrayList<BusGpsRecord>> splitRuns = GpsRunTripMatcher.splitRunAndRecoverDirection(gpsRun, gtfsStore);
             //logger.info("Split runs size = " + splitRuns.size());
 
             if (1 < splitRuns.size()) {
-                logger.info("split runs ***************************************************");
-                for (ArrayList<BusGpsRecord> aRun: splitRuns) {
-                    logger.info("A new run: ---------------------------");
-                    for (BusGpsRecord record : aRun)
-                        logger.info(record.toString());
-                }
+//                logger.info("split runs ***************************************************");
+//                for (ArrayList<BusGpsRecord> aRun: splitRuns) {
+//                    logger.info("A new run: ---------------------------");
+//                    for (BusGpsRecord record : aRun)
+//                        logger.info(record.toString());
+//                }
+
+                splitCount += 1;
             }
+
+            allSplitRuns.addAll(splitRuns);
         }
+
+        logger.info(splitCount + " runs split");
+
+        allRuns.clear();
+        allRuns = allSplitRuns;
+        BusDataUtil.printRunsStatistics(allRuns);
+
 
         logger.info("DONE");
     }

@@ -12,6 +12,7 @@ import org.opengis.referencing.operation.TransformException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class MetransBusMatching {
         double maxAllowedDistance = 250;
         String gpsFilename = "data/metrans/gps-10.csv";
         List<Coordinate> points = new ArrayList<>();
-        List<String> lines = FileUtils.readLines(new File(gpsFilename));
+        List<String> lines = FileUtils.readLines(new File(gpsFilename),StandardCharsets.UTF_8);
         List<String[]> fieldsList = new ArrayList<>();
         for (String line : lines.subList(1, lines.size())) {
             String[] fields = line.split(",");
@@ -73,7 +74,7 @@ public class MetransBusMatching {
     private static LineString readShapeFile(String routeShapeFilename) throws IOException {
         GeometryFactory factory = JTSFactoryFinder.getGeometryFactory();
         List<Coordinate> points = new ArrayList<>();
-        List<String> lines = FileUtils.readLines(new File(routeShapeFilename));
+        List<String> lines = FileUtils.readLines(new File(routeShapeFilename), StandardCharsets.UTF_8);
         for (String line : lines.subList(1, lines.size())) {
             String[] fields = line.split(",");
             double lat = Double.valueOf(fields[1]), lon = Double.valueOf(fields[2]);

@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: infolab.usc.geo.demo.MetransBusMatching
+Main-Class: edu.usc.imsc.metrans.demo.MapMatchingDemo
 

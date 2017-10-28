@@ -10,9 +10,8 @@ import java.util.*;
  * Bus data processing utilities
  */
 public class BusDataUtil {
-    public static final int MIN_RUN_GPS_RECORDS_COUNT = 4;
     public static final Set<Integer> VALID_BUS_DIRECTIONS = Collections.unmodifiableSet(
-            new HashSet<Integer>(Arrays.asList(0, 1, 2, 3)));
+            new HashSet<>(Arrays.asList(0, 1, 2, 3)));
 
     private static final Logger logger = LoggerFactory.getLogger(BusDataUtil.class);
 
@@ -142,15 +141,12 @@ public class BusDataUtil {
 
 
     /**
-     * Check if a run is a good run:
-     * - (NOT USED) having at least {@link #MIN_RUN_GPS_RECORDS_COUNT} records
-     * - having direction (using {@link #hasValidDirection(BusGpsRecord)}, assuming all records have same direction
+     * Check if a run has valid direction (using {@link #hasValidDirection(BusGpsRecord)},
+     * assuming all records have same direction
      * @param aRun
-     * @return
+     * @return whether or not a run has valid direction
      */
-    public static boolean isGoodRun(ArrayList<BusGpsRecord> aRun) {
-//        if (aRun.size() < MIN_RUN_GPS_RECORDS_COUNT)
-//            return false;
+    public static boolean isValidDirectionRun(ArrayList<BusGpsRecord> aRun) {
         if (!hasValidDirection(aRun.get(0)))
             return false;
         return true;
@@ -158,13 +154,13 @@ public class BusDataUtil {
 
 
     /**
-     * Remove "not good" runs, using {@link #isGoodRun(ArrayList)}
+     * Remove "not good" runs, using {@link #isValidDirectionRun(ArrayList)}
      * @param runs
      */
     public static void cleanRuns(ArrayList<ArrayList<BusGpsRecord>> runs) {
         ArrayList<ArrayList<BusGpsRecord>> toRemove = new ArrayList<>();
         for (ArrayList<BusGpsRecord> aRun : runs) {
-            if (!isGoodRun(aRun))
+            if (!isValidDirectionRun(aRun))
                 toRemove.add(aRun);
         }
 
@@ -225,5 +221,19 @@ public class BusDataUtil {
         while (!records.isEmpty() && !hasValidDirection(records.get(records.size() - 1))) {
             records.remove(records.size() - 1);
         }
+    }
+
+
+    /**
+     * Print some statistics for multiple runs
+     * @param allRuns
+     */
+    public static void printRunsStatistics(ArrayList<ArrayList<BusGpsRecord>> allRuns) {
+        logger.info("Total " + allRuns.size() + " runs");
+
+        int recordCount = 0;
+        for (ArrayList<BusGpsRecord> aRun : allRuns)
+            recordCount += aRun.size();
+        logger.info("Total " + recordCount + " records");
     }
 }

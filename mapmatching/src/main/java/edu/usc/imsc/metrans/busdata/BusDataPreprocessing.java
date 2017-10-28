@@ -67,21 +67,11 @@ public class BusDataPreprocessing {
             ArrayList<ArrayList<BusGpsRecord>> dayRuns = BusDataUtil.separateToRuns(busIdsRecords);
             allRuns.addAll(dayRuns);
         }
-        logger.info("Total " + allRuns.size() + " runs");
-
-        recordCount = 0;
-        for (ArrayList<BusGpsRecord> aRun : allRuns)
-            recordCount += aRun.size();
-        logger.info("Total " + recordCount + " records");
+        BusDataUtil.printRunsStatistics(allRuns);
 
         logger.info("Cleaning runs");
         BusDataUtil.cleanRuns(allRuns);
-        logger.info("Total " + allRuns.size() + " runs after cleaning");
-
-        recordCount = 0;
-        for (ArrayList<BusGpsRecord> aRun : allRuns)
-            recordCount += aRun.size();
-        logger.info("Total " + recordCount + " records after cleaning");
+        BusDataUtil.printRunsStatistics(allRuns);
 
         return allRuns;
     }
