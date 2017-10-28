@@ -6,6 +6,7 @@ import edu.usc.imsc.metrans.busdata.BusDataUtil;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
+import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,9 @@ public class MapMatchingDemo {
 
         allRuns.clear();
         allRuns = allSplitRuns;
+        BusDataUtil.printRunsStatistics(allRuns);
+
+        MapMatchingUtil.removeTooFewRecordsRun(allRuns, 5);
         BusDataUtil.printRunsStatistics(allRuns);
 
 
