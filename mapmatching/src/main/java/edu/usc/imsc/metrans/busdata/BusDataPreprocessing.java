@@ -73,6 +73,12 @@ public class BusDataPreprocessing {
         BusDataUtil.cleanRuns(allRuns);
         BusDataUtil.printRunsStatistics(allRuns);
 
+        logger.info("Removing duplicate records in each run");
+        for (ArrayList<BusGpsRecord> busIdsRecords : allRuns) {
+            BusDataUtil.removeDuplicateRecordsInRun(busIdsRecords);
+        }
+        BusDataUtil.printRunsStatistics(allRuns);
+
         return allRuns;
     }
 }

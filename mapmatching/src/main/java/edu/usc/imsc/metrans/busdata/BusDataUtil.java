@@ -10,6 +10,7 @@ import java.util.*;
  * Bus data processing utilities
  */
 public class BusDataUtil {
+    public static final double EPSILON = 1e-12;
     public static final Set<Integer> VALID_BUS_DIRECTIONS = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(0, 1, 2, 3)));
 
@@ -235,5 +236,47 @@ public class BusDataUtil {
         for (ArrayList<BusGpsRecord> aRun : allRuns)
             recordCount += aRun.size();
         logger.info("Total " + recordCount + " records");
+    }
+
+    /**
+     * Remove duplicates records in a run
+     * @param gpsRun a GPS run
+     */
+    public static void removeDuplicateRecordsInRun(ArrayList<BusGpsRecord> gpsRun) {
+        int size = gpsRun.size();
+        boolean[] dups = new boolean[size];
+        Arrays.fill(dups, false);
+        for (int i = 0; i < size; i++) {
+            if (!dups[i]) {
+                for (int j = i + 1; j < size; j++) {
+                    if (isDuplicate(gpsRun.get(i), gpsRun.get(j))) {
+                        dups[j] = true;
+                    }
+                }
+            }
+        }
+
+        for (int i = size - 1; 0 <= i; i--) {
+            if (dups[i]) {
+                gpsRun.remove(i);
+            }
+        }
+    }
+
+    /**
+     * Whether or not two 2 records are duplicate
+     * @param a record 1
+     * @param b record 2
+     * @return Whether or not two 2 records are duplicate
+     */
+    public static boolean isDuplicate(BusGpsRecord a, BusGpsRecord b) {
+        return a.getBusId() == b.getBusId()
+                && a.getLineId() == b.getLineId()
+                && a.getRunId() == b.getRunId()
+                && a.getRouteId() == b.getRouteId()
+                && a.getBusDirection() == b.getBusDirection()
+                && (Math.abs(a.getLat() - b.getLat()) <= EPSILON)
+                && (Math.abs(a.getLon() - b.getLon()) <= EPSILON)
+                && a.getBusLocationTime().isEqual(b.getBusLocationTime());
     }
 }

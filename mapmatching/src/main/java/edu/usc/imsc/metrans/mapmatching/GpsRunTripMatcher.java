@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Map GPS run(s) to a scheduled trip
@@ -24,6 +25,35 @@ public class GpsRunTripMatcher {
     private static final Logger logger = LoggerFactory.getLogger(GpsRunTripMatcher.class);
     public static final double BUS_GPS_OUTLIER_DISTANCE = 400; // distance from Bus GPS point to a project point to be considered as an outlier
 
+    private static ReentrantLock countLock = new ReentrantLock();
+    private static int outlierCount = 0; // stupid but quick way to do some statistics. Do not use if you dont know what you are doing
+    private static int zeroTrendCount = 0; // stupid but quick way to do some statistics. Do not use if you dont know what you are doing
+
+    public static void setCounts(int anOutlierCount, int aZeroTrendCount) {
+        countLock.lock();
+
+        outlierCount = anOutlierCount;
+        zeroTrendCount = aZeroTrendCount;
+
+        countLock.unlock();
+    }
+
+    public static void increaseCounts(int anOutlierCountAmount, int aZeroTrendCountAmount) {
+        countLock.lock();
+
+        outlierCount += anOutlierCountAmount;
+        zeroTrendCount += aZeroTrendCountAmount;
+
+        countLock.unlock();
+    }
+
+    public static int getOutlierCount() {
+        return outlierCount;
+    }
+
+    public static int getZeroTrendCount() {
+        return zeroTrendCount;
+    }
 
     /**
      * Split GPS points into different runs and make sure that each run is a single run along a trip.
@@ -89,6 +119,7 @@ public class GpsRunTripMatcher {
                 closestStops.add(stopTimes.get(closestStopIndex));
                 outlierRemovedRecords.add(record);
             }
+            else increaseCounts(1, 0);
         }
 
         if (outlierRemovedRecords.isEmpty()) return runs;
@@ -117,6 +148,7 @@ public class GpsRunTripMatcher {
         while (startRunIndex < trend.length && trend[startRunIndex] == 0) {
             startRunIndex += 1;
         }
+        increaseCounts(0, startRunIndex);
         //now we have startRunIndex as the first non-zero trend
 
         while (startRunIndex < trend.length) {
@@ -133,8 +165,10 @@ public class GpsRunTripMatcher {
             //refine the run by
             //remove trailing 0-trend records in each run (since a run is always start with non-zero trend
             for (int i = nextRunIndex - 1; startRunIndex <= i; i--)
-                if (trend[i] == 0)
+                if (trend[i] == 0) {
                     aRun.remove(aRun.size() - 1);
+                    increaseCounts(0, 1);
+                }
                 else
                     break;
 
