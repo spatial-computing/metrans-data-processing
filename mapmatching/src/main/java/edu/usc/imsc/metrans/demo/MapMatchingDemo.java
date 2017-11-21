@@ -89,5 +89,7 @@ public class MapMatchingDemo {
 
 
         logger.info("DONE");
+
+        BusDelayMain.busDelayMain(allRuns, gtfsStore);
     }
 }
