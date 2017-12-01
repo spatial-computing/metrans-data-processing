@@ -7,6 +7,7 @@ import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
 import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
+import edu.usc.imsc.metrans.timematching.BusDelayMain;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
