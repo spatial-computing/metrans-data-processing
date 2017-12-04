@@ -1,5 +1,6 @@
 package edu.usc.imsc.metrans.delaytime;
 
+import com.vividsolutions.jts.geom.LineString;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.connection.DatabaseIO;
 import edu.usc.imsc.metrans.connection.FileIO;
@@ -9,24 +10,33 @@ import edu.usc.imsc.metrans.timedata.*;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
+import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import static edu.usc.imsc.metrans.delaytime.DelayComputation.*;
+import static edu.usc.imsc.metrans.delaytime.DistanceOnPolyline.readShapeFile;
 import static edu.usc.imsc.metrans.delaytime.SchedulePreprocessing.*;
 import static edu.usc.imsc.metrans.delaytime.ClosestSchedules.*;
 
 public class DelayTimeMain {
     private static final Logger logger = LoggerFactory.getLogger(DelayTimeMain.class);
+    public static LineString line;
 
-    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
+    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore)
+            throws TransformException, IOException {
 
         logger.info("BUS DELAY ESTIMATION START");
         ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
         if (allRuns.size() == 0) return;
+
+        // Read the shape file as a polyline
+        String routeShapeFilename = "data/metrans/shape-10.csv";
+        line = readShapeFile(routeShapeFilename);
 
         // Get routeId
         Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(allRuns.get(0).get(0).getRouteId()));
@@ -46,8 +56,11 @@ public class DelayTimeMain {
         // Get start time and end time of all schedules
         Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(schedulesOfRoute);
 
+        int ind = 0;
         for (ArrayList<BusGpsRecord> eachRun : allRuns) {
 
+            System.out.println(ind);
+            ind += 1;
             // Filter on time interval
             Map<String, ArrayList<StopTime>> candidateSchedules
                     = getCandidateSchedules(eachRun, schedulesOfRoute, scheduleStartTimeEndTime);

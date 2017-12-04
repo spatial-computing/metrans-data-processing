@@ -3,7 +3,9 @@ package edu.usc.imsc.metrans.delaytime;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
 import org.onebusaway.gtfs.model.StopTime;
+import org.opengis.referencing.operation.TransformException;
 
+import static edu.usc.imsc.metrans.delaytime.DelayTimeMain.line;
 import static edu.usc.imsc.metrans.delaytime.Util.*;
 
 import java.time.ZonedDateTime;
@@ -17,7 +19,8 @@ public class DelayComputation {
     private static double delayTimeThreshold = 15 * 60;
 
     public static ArrayList<DelayTimeRecord> delayComputation(ArrayList<BusGpsRecord> run,
-                                                              Map<String, ArrayList<StopTime>> closestCandidateSchedules) {
+                                                              Map<String, ArrayList<StopTime>> closestCandidateSchedules)
+            throws TransformException {
 
         int busId = run.get(0).getBusId();
         ArrayList<DelayTimeRecord> estimatedArrivalTimeResult =  new ArrayList<>();
@@ -53,10 +56,12 @@ public class DelayComputation {
     }
 
     public static Double calEstimatedArrivalTime(BusGpsRecord gps1, BusGpsRecord gps2,
-                                        int gps1Time, int gps2Time, StopTime inBetweenStop) {
+                                        int gps1Time, int gps2Time, StopTime inBetweenStop) throws TransformException {
 
-        double d0 = getDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat());
-        double d1 = getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(), inBetweenStop.getStop().getLat());
+
+        double d0 = DistanceOnPolyline.getDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat(), line);
+        double d1 = DistanceOnPolyline.getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(),
+                inBetweenStop.getStop().getLat(), line);
 
         double estimatedArrivalTime = d1 / (d0 / (gps2Time - gps1Time)) + gps1Time;
         return estimatedArrivalTime;
