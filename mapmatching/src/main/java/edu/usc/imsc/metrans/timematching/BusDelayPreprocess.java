@@ -14,15 +14,17 @@ import java.util.Map;
 
 public class BusDelayPreprocess {
 
+    private static double errorTime = 10 * 60;
 
     public static Map<String, ArrayList<StopTime>> getCandidateSchedules(
-            ArrayList<BusGpsRecord> run, Map<String, ArrayList<StopTime>> stopTimesOfRoute) {
+            ArrayList<BusGpsRecord> run,
+            Map<String, ArrayList<StopTime>> schedulesOfRoute,
+            Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime) {
 
-        Map<String, ArrayList<StopTime>> candidateStopTimes = new HashMap<>();
-        Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(stopTimesOfRoute);
+        Map<String, ArrayList<StopTime>> candidateSchedules = new HashMap<>();
         RunStartTimeEndTime runStartTimeEndTime = new RunStartTimeEndTime(run);
 
-        for (String schedule : stopTimesOfRoute.keySet()) {
+        for (String schedule : scheduleStartTimeEndTime.keySet()) {
 
             ScheduleStartTimeEndTime stopTimes = scheduleStartTimeEndTime.get(schedule);
             Integer runStartTime = runStartTimeEndTime.getRunStartTime();
@@ -31,20 +33,20 @@ public class BusDelayPreprocess {
             Integer scheduleEndTime = stopTimes.getScheduleEndTime();
 
             if (runStartTime > runEndTime) {
-                System.out.println(runEndTime);
+                System.out.println("Attention: runStartTime > runEndTime");
                 runEndTime += 24 * 3600;
             }
 
             if (scheduleStartTime > scheduleEndTime) {
-                System.out.println(scheduleEndTime);
+                System.out.println("Attention: scheduleStartTime > scheduleEndTime");
                 scheduleEndTime += 24 * 3600;
             }
 
-            if (scheduleStartTime <= runStartTime && scheduleEndTime >= runEndTime) {
-                candidateStopTimes.put(schedule, stopTimesOfRoute.get(schedule));
+            if (scheduleStartTime <= (runStartTime + errorTime) && scheduleEndTime >= (runEndTime - errorTime)) {
+                candidateSchedules.put(schedule, schedulesOfRoute.get(schedule));
             }
         }
-        return candidateStopTimes;
+        return candidateSchedules;
     }
 
     public static Map<String, ArrayList<StopTime>> getSchedulesOfRoute(ArrayList<Trip> tripsOfRoute, GtfsStore gtfsStore) {
@@ -70,7 +72,8 @@ public class BusDelayPreprocess {
     }
 
     // Get the start time and end time for each schedule
-    public static Map<String, ScheduleStartTimeEndTime> getScheduleStartTimeEndTime(Map<String, ArrayList<StopTime>> stopTimes) {
+    public static Map<String, ScheduleStartTimeEndTime> getScheduleStartTimeEndTime(
+            Map<String, ArrayList<StopTime>> stopTimes) {
 
         Map<String, ScheduleStartTimeEndTime> ScheduleStartTimeEndTime = new HashMap<>();
         for (String eachStopTime : stopTimes.keySet()) {

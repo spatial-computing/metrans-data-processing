@@ -62,18 +62,7 @@ public class BusDelayUtil {
         return time.getHour() * 3600 + time.getMinute() * 60 + time.getSecond();
     }
 
-    public static String integerToTimeStamp (int time) {
-        Integer hour = time / 3600;
-        Integer minute = (time - hour * 3600) / 60;
-        Integer second = (time - hour * 3600 - minute * 60);
-        String hourStr = (hour < 10)? ("0"+hour.toString()) : hour.toString();
-        String minuteStr = (minute < 10)? ("0"+minute.toString()) : minute.toString();
-        String secondStr = (second < 10)? ("0"+second.toString()) : second.toString();
-
-        return hourStr + ":" + minuteStr + ":" +secondStr;
-    }
-
-    public static ZonedDateTime calEstimatedArrivalZonedDateTime(Double estimatedArrivalTime, ZonedDateTime gpsTime) {
+    public static ZonedDateTime doubleToZonedDateTime(Double estimatedArrivalTime, ZonedDateTime gpsTime) {
 
         Double hour = estimatedArrivalTime / 3600;
         Double minute = (estimatedArrivalTime - hour.intValue() * 3600) / 60;
@@ -81,33 +70,10 @@ public class BusDelayUtil {
         Double nanoSecond = (estimatedArrivalTime - hour.intValue() * 3600 - minute.intValue() * 60 - second.intValue()) * 1000;
 
 
-        ZonedDateTime estimatedArrivalZonedDateTime = ZonedDateTime.of(gpsTime.getYear(), gpsTime.getMonthValue(), gpsTime.getDayOfMonth(),
+        ZonedDateTime estimatedArrivalZDT = ZonedDateTime.of(gpsTime.getYear(), gpsTime.getMonthValue(), gpsTime.getDayOfMonth(),
                 hour.intValue(), minute.intValue(), second.intValue(), nanoSecond.intValue(), gpsTime.getZone());
 
-        return estimatedArrivalZonedDateTime;
+        return estimatedArrivalZDT;
     }
 
-    public static boolean writeTxtFile(Map<ZonedDateTime, StopTime> estimatedArrivalTimeResult, String fileName) throws Exception{
-        boolean flag = false;
-        File file = new File(fileName);
-        FileOutputStream o = null;
-        try {
-            if(!file.exists()) {
-                file.createNewFile();
-                o = new FileOutputStream(file);
-
-                for (ZonedDateTime time : estimatedArrivalTimeResult.keySet()) {
-                    StopTime tmp = estimatedArrivalTimeResult.get(time);
-                    String scheduleStr = integerToTimeStamp(tmp.getArrivalTime());
-                    o.write((tmp.getStop().toString() + "," + scheduleStr + "," + time.toString() + "\n").getBytes("GBK"));
-                }
-                o.close();
-                flag = true;
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-        return flag;
-    }
 }

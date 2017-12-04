@@ -20,7 +20,7 @@ public class MapMatchingDemo {
 
     public static void main(String[] args) throws IOException, TransformException {
         logger.info("Getting data from CSV file");
-        String busDataFile = "data/busdata/Bus10.csv";
+        String busDataFile = "data/metrans/gps-10.csv";
         ArrayList<BusGpsRecord> records = BusDataIO.readBusGpsRecordsFromFile(busDataFile);
         logger.info(records.size() + " records");
 

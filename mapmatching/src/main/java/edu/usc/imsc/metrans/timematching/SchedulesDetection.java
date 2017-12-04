@@ -11,7 +11,6 @@ import static edu.usc.imsc.metrans.timematching.SchedulesDetectionUtil.*;
 
 public class SchedulesDetection {
 
-    private static int CLOSEST_NUM = 5;
     private static double DIS_THRESHOLD = 5.0; //filter the closest schedules
 
     public static Map<String, ArrayList<StopTime>> schedulesDetectionMain(ArrayList<BusGpsRecord> run,
