@@ -1,4 +1,4 @@
-package edu.usc.imsc.metrans.timematching;
+package edu.usc.imsc.metrans.timedata;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import org.onebusaway.gtfs.model.StopTime;
@@ -9,18 +9,18 @@ import java.util.Map;
 
 public class ScheduleStartTimeEndTime {
 
-    private Integer startTime;
-    private Integer endTime;
+    private int startTime;
+    private int endTime;
 
     public ScheduleStartTimeEndTime(ArrayList<StopTime> scheduleTime) {
         this.startTime = scheduleTime.get(0).getArrivalTime();
         this.endTime = scheduleTime.get(scheduleTime.size() - 1).getArrivalTime();
     }
 
-    public Integer getScheduleStartTime() {
+    public int getScheduleStartTime() {
         return startTime;
     }
-    public Integer getScheduleEndTime() {
+    public int getScheduleEndTime() {
         return endTime;
     }
 

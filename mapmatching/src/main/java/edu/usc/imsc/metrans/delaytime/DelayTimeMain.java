@@ -1,31 +1,31 @@
-package edu.usc.imsc.metrans.timematching;
+package edu.usc.imsc.metrans.delaytime;
 
-import com.sun.tools.corba.se.idl.InterfaceGen;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.connection.DatabaseIO;
 import edu.usc.imsc.metrans.connection.FileIO;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
+import edu.usc.imsc.metrans.timedata.*;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static edu.usc.imsc.metrans.timematching.BusDelayComputation.busDelayComputationMain;
-import static edu.usc.imsc.metrans.timematching.BusDelayPreprocess.*;
-import static edu.usc.imsc.metrans.timematching.SchedulesDetection.schedulesDetectionMain;
+import static edu.usc.imsc.metrans.delaytime.DelayComputation.*;
+import static edu.usc.imsc.metrans.delaytime.SchedulePreprocessing.*;
+import static edu.usc.imsc.metrans.delaytime.ClosestSchedules.*;
 
-public class BusDelayMain {
-    private static final Logger logger = LoggerFactory.getLogger(BusDelayMain.class);
+public class DelayTimeMain {
+    private static final Logger logger = LoggerFactory.getLogger(DelayTimeMain.class);
 
-    public static void busDelayMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
+    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
 
-        ArrayList<BusDelay> estimatedArrivalTimeResult = new ArrayList<>();
+        logger.info("BUS DELAY ESTIMATION START");
+        ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
         if (allRuns.size() == 0) return;
 
         // Get routeId
@@ -33,9 +33,15 @@ public class BusDelayMain {
 
         // Get all trips for that route
         ArrayList<Trip> tripsOfRoute = getTripsOfRoute(route, gtfsStore);
+        logger.info("Total " + tripsOfRoute.size() + " trips");
 
         // Get all schedules (stop times) for that route
         Map<String, ArrayList<StopTime>> schedulesOfRoute = getSchedulesOfRoute(tripsOfRoute, gtfsStore);
+        Integer scheduleTimes = 0;
+        for (String schedule: schedulesOfRoute.keySet()) {
+            scheduleTimes += schedulesOfRoute.get(schedule).size();
+        }
+        logger.info("Total " + scheduleTimes + " scheduleTimes");
 
         // Get start time and end time of all schedules
         Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(schedulesOfRoute);
@@ -48,17 +54,21 @@ public class BusDelayMain {
 
             // Detect top n closest schedule candidates based on distance
             Map<String, ArrayList<StopTime>> closestCandidateSchedules
-                    = schedulesDetectionMain(eachRun, candidateSchedules);
+                    = findClosestSchedules(eachRun, candidateSchedules);
 
             if (closestCandidateSchedules.size() != 0) {
 
-                ArrayList<BusDelay> estimatedArrivalTime
-                        = busDelayComputationMain(eachRun, closestCandidateSchedules);
+                ArrayList<DelayTimeRecord> estimatedArrivalTime
+                        = delayComputation(eachRun, closestCandidateSchedules);
                 estimatedArrivalTimeResult.addAll(estimatedArrivalTime);
+
             }
         }
 
+        logger.info("WRITE BEGIN");
         FileIO.writeFile(route, estimatedArrivalTimeResult);
 //        DatabaseIO.writeDatabase(route, estimatedArrivalTimeResult);
+        logger.info("FINISHED");
+
     }
 }

@@ -1,6 +1,6 @@
 package edu.usc.imsc.metrans.connection;
 
-import edu.usc.imsc.metrans.timematching.BusDelay;
+import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
 import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.Stop;
@@ -13,7 +13,7 @@ import java.util.function.DoubleBinaryOperator;
 
 public class DatabaseIO {
 
-    public static void writeDatabase(Route route, ArrayList<BusDelay> estimatedArrivalTimeResult) {
+    public static void writeDatabase(Route route, ArrayList<DelayTimeRecord> estimatedArrivalTimeResult) {
 
         Connection con;
         String driver = "com.mysql.jdbc.Driver";

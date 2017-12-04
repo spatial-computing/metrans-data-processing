@@ -7,13 +7,14 @@ import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
 import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
-import edu.usc.imsc.metrans.timematching.BusDelayMain;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static edu.usc.imsc.metrans.delaytime.DelayTimeMain.delayTimeMain;
 
 public class MapMatchingDemo {
     private static final Logger logger = LoggerFactory.getLogger(MapMatchingDemo.class);
@@ -91,6 +92,7 @@ public class MapMatchingDemo {
 
         logger.info("DONE");
 
-        BusDelayMain.busDelayMain(allRuns, gtfsStore);
+//        BusDelayMain.busDelayMain(allRuns, gtfsStore);
+        delayTimeMain(allRuns, gtfsStore);
     }
 }

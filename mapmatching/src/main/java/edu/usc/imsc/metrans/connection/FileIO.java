@@ -1,9 +1,8 @@
 package edu.usc.imsc.metrans.connection;
 
-import edu.usc.imsc.metrans.timematching.BusDelay;
+import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
 import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Route;
-import org.onebusaway.gtfs.model.StopTime;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,19 +11,20 @@ import java.util.ArrayList;
 
 public class FileIO {
 
-    public static void writeFile(Route route, ArrayList<BusDelay> estimatedArrivalTimeResult) {
+    public static Boolean writeFile(Route route, ArrayList<DelayTimeRecord> estimatedArrivalTimeResult) {
 
         try {
             if(writeHelper(route, estimatedArrivalTimeResult, "./data/estimatedArrivalTime.txt"))
-                System.out.println("Finished");
+                return true;
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }
+        return false;
     }
 
 
-    public static boolean writeHelper(Route route, ArrayList<BusDelay> estimatedArrivalTimeResult, String fileName) throws Exception{
+    public static boolean writeHelper(Route route, ArrayList<DelayTimeRecord> estimatedArrivalTimeResult, String fileName) throws Exception{
         boolean flag = false;
         File file = new File(fileName);
         FileOutputStream o = null;
@@ -33,7 +33,7 @@ public class FileIO {
                 file.createNewFile();
                 o = new FileOutputStream(file);
 
-                for (BusDelay busDelay : estimatedArrivalTimeResult) {
+                for (DelayTimeRecord busDelay : estimatedArrivalTimeResult) {
                     AgencyAndId stop = busDelay.getStopTime().getStop().getId();
                     AgencyAndId trip = busDelay.getStopTime().getTrip().getId();
                     Integer busId = busDelay.getBusId();

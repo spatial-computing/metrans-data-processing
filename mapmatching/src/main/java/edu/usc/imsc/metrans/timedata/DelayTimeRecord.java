@@ -1,4 +1,4 @@
-package edu.usc.imsc.metrans.timematching;
+package edu.usc.imsc.metrans.timedata;
 
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
@@ -6,15 +6,14 @@ import org.onebusaway.gtfs.model.Trip;
 
 import java.time.ZonedDateTime;
 
-public class BusDelay {
+public class DelayTimeRecord {
 
     private StopTime stopTime;
     private ZonedDateTime estimatedTime;
-    private Integer busId;
-    private Double delayTime;
+    private int busId;
+    private double delayTime;
 
-
-    public BusDelay(StopTime stopTime, ZonedDateTime estimatedTime, Integer busId, Double delayTime){
+    public DelayTimeRecord(StopTime stopTime, ZonedDateTime estimatedTime, int busId, double delayTime){
         this.stopTime = stopTime;
         this.estimatedTime = estimatedTime;
         this.busId = busId;
@@ -23,7 +22,7 @@ public class BusDelay {
 
     public StopTime getStopTime() {return stopTime;}
     public ZonedDateTime getEstimatedTime() {return estimatedTime;}
-    public Double getDelayTime() {return delayTime;}
-    public Integer getBusId() {return busId;}
+    public int getBusId() {return busId;}
+    public double getDelayTime() {return delayTime;}
 
 }

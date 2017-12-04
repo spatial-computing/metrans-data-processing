@@ -1,4 +1,4 @@
-package edu.usc.imsc.metrans.timematching;
+package edu.usc.imsc.metrans.timedata;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import org.onebusaway.gtfs.model.StopTime;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class RunStartTimeEndTime {
 
-    private Integer startTime;
-    private Integer endTime;
+    private int startTime;
+    private int endTime;
 
     public RunStartTimeEndTime(ArrayList<BusGpsRecord> run) {
         ZonedDateTime busLocationStartTime = run.get(0).getBusLocationTime();
@@ -20,10 +20,10 @@ public class RunStartTimeEndTime {
                 busLocationEndTime.getSecond();
     }
 
-    public Integer getRunStartTime() {
+    public int getRunStartTime() {
         return startTime;
     }
-    public Integer getRunEndTime() { return endTime; }
+    public int getRunEndTime() { return endTime; }
 
 
 }

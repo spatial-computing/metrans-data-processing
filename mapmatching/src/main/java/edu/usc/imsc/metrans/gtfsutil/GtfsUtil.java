@@ -264,7 +264,6 @@ public class GtfsUtil {
             if (toShortRouteId(route.getId().getId()).equals(shortId))
                 return route;
         }
-
         return null;
     }
 }

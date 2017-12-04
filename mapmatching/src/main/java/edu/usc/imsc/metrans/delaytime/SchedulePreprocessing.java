@@ -1,8 +1,10 @@
-package edu.usc.imsc.metrans.timematching;
+package edu.usc.imsc.metrans.delaytime;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
+import edu.usc.imsc.metrans.timedata.RunStartTimeEndTime;
+import edu.usc.imsc.metrans.timedata.ScheduleStartTimeEndTime;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
@@ -12,9 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BusDelayPreprocess {
+public class SchedulePreprocessing {
 
-    private static double errorTime = 10 * 60;
+    private static int errorTime = 10 * 60;
 
     public static Map<String, ArrayList<StopTime>> getCandidateSchedules(
             ArrayList<BusGpsRecord> run,
@@ -27,10 +29,10 @@ public class BusDelayPreprocess {
         for (String schedule : scheduleStartTimeEndTime.keySet()) {
 
             ScheduleStartTimeEndTime stopTimes = scheduleStartTimeEndTime.get(schedule);
-            Integer runStartTime = runStartTimeEndTime.getRunStartTime();
-            Integer runEndTime = runStartTimeEndTime.getRunEndTime();
-            Integer scheduleStartTime = stopTimes.getScheduleStartTime();
-            Integer scheduleEndTime = stopTimes.getScheduleEndTime();
+            int runStartTime = runStartTimeEndTime.getRunStartTime();
+            int runEndTime = runStartTimeEndTime.getRunEndTime();
+            int scheduleStartTime = stopTimes.getScheduleStartTime();
+            int scheduleEndTime = stopTimes.getScheduleEndTime();
 
             if (runStartTime > runEndTime) {
                 System.out.println("Attention: runStartTime > runEndTime");
