@@ -47,7 +47,7 @@ public class OracleIO {
 
                 PreparedStatement psql;
 
-                psql = con.prepareStatement("insert into estimatedArrivalTime "
+                psql = con.prepareStatement("insert into gtfs.estimated "
                         + "values(?, ?, ?, ?, ?, ?, ?)");
 
 //                psql.setInt(1, i);
