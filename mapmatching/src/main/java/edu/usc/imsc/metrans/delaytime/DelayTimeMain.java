@@ -4,6 +4,7 @@ import com.vividsolutions.jts.geom.LineString;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.connection.DatabaseIO;
 import edu.usc.imsc.metrans.connection.FileIO;
+import edu.usc.imsc.metrans.connection.OracleIO;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import edu.usc.imsc.metrans.timedata.*;
@@ -56,11 +57,8 @@ public class DelayTimeMain {
         // Get start time and end time of all schedules
         Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(schedulesOfRoute);
 
-        int ind = 0;
         for (ArrayList<BusGpsRecord> eachRun : allRuns) {
 
-            System.out.println(ind);
-            ind += 1;
             // Filter on time interval
             Map<String, ArrayList<StopTime>> candidateSchedules
                     = getCandidateSchedules(eachRun, schedulesOfRoute, scheduleStartTimeEndTime);
@@ -79,8 +77,9 @@ public class DelayTimeMain {
         }
 
         logger.info("WRITE BEGIN");
-        FileIO.writeFile(route, estimatedArrivalTimeResult);
+//        FileIO.writeFile(route, estimatedArrivalTimeResult);
 //        DatabaseIO.writeDatabase(route, estimatedArrivalTimeResult);
+        OracleIO.writeDatabase(route, estimatedArrivalTimeResult);
         logger.info("FINISHED");
 
     }

@@ -38,7 +38,7 @@ public class OracleIO {
 //            }
             for (int i = 0; i < estimatedArrivalTimeResult.size(); i++){
 
-                AgencyAndId stopId = estimatedArrivalTimeResult.get(i).getStopTime().getStop().getId();
+                String stopId = estimatedArrivalTimeResult.get(i).getStopTime().getStop().getId().getId();
                 AgencyAndId tripId = estimatedArrivalTimeResult.get(i).getStopTime().getTrip().getId();
                 Integer busId = estimatedArrivalTimeResult.get(i).getBusId();
                 Integer scheduleTime = estimatedArrivalTimeResult.get(i).getStopTime().getArrivalTime();
@@ -52,15 +52,15 @@ public class OracleIO {
 
 //                psql.setInt(1, i);
                 psql.setString(1, route.getId().toString());
-                psql.setString(2, stopId.toString());
+                psql.setString(2, stopId);
                 psql.setString(3, tripId.toString());
                 psql.setInt(4, busId);
                 psql.setInt(5, scheduleTime);
                 psql.setTimestamp(6, Timestamp.valueOf(time.toLocalDateTime()));
                 psql.setDouble(7, delay);
 
-                System.out.println(time);
                 psql.executeUpdate();
+                psql.close();
 
             }
 

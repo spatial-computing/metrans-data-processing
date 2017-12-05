@@ -34,7 +34,7 @@ public class FileIO {
                 o = new FileOutputStream(file);
 
                 for (DelayTimeRecord busDelay : estimatedArrivalTimeResult) {
-                    AgencyAndId stop = busDelay.getStopTime().getStop().getId();
+                    String stop = busDelay.getStopTime().getStop().getId().getId();
                     AgencyAndId trip = busDelay.getStopTime().getTrip().getId();
                     Integer busId = busDelay.getBusId();
                     Integer arrivalTime = busDelay.getStopTime().getArrivalTime();

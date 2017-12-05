@@ -61,12 +61,12 @@ public class ClosestSchedules {
 
         double gpsLon = gps.getLon();
         double gpsLat = gps.getLat();
-        double shortestDistance = DistanceOnPolyline.getDistance(gpsLon, gpsLat, schedule.get(0).getStop().getLon(),
-                schedule.get(0).getStop().getLat(), line);
+        double shortestDistance = getDistance(gpsLon, gpsLat, schedule.get(0).getStop().getLon(),
+                schedule.get(0).getStop().getLat());
 
         for (int i = 1; i < schedule.size(); i++) {
-            double distance = DistanceOnPolyline.getDistance(gpsLon, gpsLat, schedule.get(i).getStop().getLon(),
-                    schedule.get(i).getStop().getLat(), line);
+            double distance = getDistance(gpsLon, gpsLat, schedule.get(i).getStop().getLon(),
+                    schedule.get(i).getStop().getLat());
             if (distance < shortestDistance)
                 shortestDistance = distance;
         }

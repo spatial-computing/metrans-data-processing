@@ -59,9 +59,9 @@ public class DelayComputation {
                                         int gps1Time, int gps2Time, StopTime inBetweenStop) throws TransformException {
 
 
-        double d0 = DistanceOnPolyline.getDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat(), line);
-        double d1 = DistanceOnPolyline.getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(),
-                inBetweenStop.getStop().getLat(), line);
+        double d0 = getDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat());
+        double d1 = getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(),
+                inBetweenStop.getStop().getLat());
 
         double estimatedArrivalTime = d1 / (d0 / (gps2Time - gps1Time)) + gps1Time;
         return estimatedArrivalTime;
