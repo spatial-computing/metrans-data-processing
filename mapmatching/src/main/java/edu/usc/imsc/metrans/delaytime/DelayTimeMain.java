@@ -26,18 +26,17 @@ import static edu.usc.imsc.metrans.delaytime.ClosestSchedules.*;
 
 public class DelayTimeMain {
     private static final Logger logger = LoggerFactory.getLogger(DelayTimeMain.class);
-    public static LineString line;
+//    public static LineString line;
 
-    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore)
-            throws TransformException, IOException {
+    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
 
         logger.info("BUS DELAY ESTIMATION START");
         ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
         if (allRuns.size() == 0) return;
 
         // Read the shape file as a polyline
-        String routeShapeFilename = "data/metrans/shape-10.csv";
-        line = readShapeFile(routeShapeFilename);
+//        String routeShapeFilename = "data/metrans/shape-10.csv";
+//        line = readShapeFile(routeShapeFilename);
 
         // Get routeId
         Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(allRuns.get(0).get(0).getRouteId()));
@@ -77,9 +76,9 @@ public class DelayTimeMain {
         }
 
         logger.info("WRITE BEGIN");
-//        FileIO.writeFile(route, estimatedArrivalTimeResult);
+        FileIO.writeFile(route, estimatedArrivalTimeResult);
 //        DatabaseIO.writeDatabase(route, estimatedArrivalTimeResult);
-        OracleIO.writeDatabase(route, estimatedArrivalTimeResult);
+//        OracleIO.writeDatabase(route, estimatedArrivalTimeResult);
         logger.info("FINISHED");
 
     }

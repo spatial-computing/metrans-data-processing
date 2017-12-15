@@ -1,14 +1,15 @@
 package edu.usc.imsc.metrans.timedata;
 
-import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
-import org.onebusaway.gtfs.model.Trip;
 
 import java.time.ZonedDateTime;
 
+/**
+ * A record containing estimated arrival time, and hence, delay time for stop-time schedule
+ */
 public class DelayTimeRecord {
 
-    private StopTime stopTime;
+    private StopTime stopTime; // stop-time schedule we want to estimate
     private ZonedDateTime estimatedTime;
     private int busId;
     private double delayTime;

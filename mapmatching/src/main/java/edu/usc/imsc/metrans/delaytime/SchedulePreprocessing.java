@@ -16,8 +16,15 @@ import java.util.Map;
 
 public class SchedulePreprocessing {
 
-    private static int errorTime = 10 * 60;
+    private static int errorTime = 10 * 60; // in seconds
 
+    /**
+     * Get scheduled trips with [start, end] time covers [start, end] time of the run
+     * @param run GPS run
+     * @param schedulesOfRoute scheduled trips of the route
+     * @param scheduleStartTimeEndTime [start, end] time of scheduled trips
+     * @return the scheduled trips with [start, end] time covers [start, end] time of the run
+     */
     public static Map<String, ArrayList<StopTime>> getCandidateSchedules(
             ArrayList<BusGpsRecord> run,
             Map<String, ArrayList<StopTime>> schedulesOfRoute,
@@ -51,36 +58,53 @@ public class SchedulePreprocessing {
         return candidateSchedules;
     }
 
+    /**
+     * Get schedule stop-times of each route
+     * @param tripsOfRoute list of trip of the route
+     * @param gtfsStore GTFS data store
+     * @return map from TripId => StopTimes of that trip for all trips of the route
+     */
     public static Map<String, ArrayList<StopTime>> getSchedulesOfRoute(ArrayList<Trip> tripsOfRoute, GtfsStore gtfsStore) {
         Map<String, ArrayList<StopTime>> schedulesOfRoute = new HashMap<>();
-        Map<String, ArrayList<StopTime>> stopTimes = gtfsStore.getTripStopTimes();
-        for (String stopTime : stopTimes.keySet()) {
-            if (tripsOfRoute.contains(stopTimes.get(stopTime).get(0).getTrip())) {
-                schedulesOfRoute.put(stopTime, stopTimes.get(stopTime));
+        Map<String, ArrayList<StopTime>> tripStopTimes = gtfsStore.getTripStopTimes();
+        for (String tripId : tripStopTimes.keySet()) {
+            if (tripsOfRoute.contains(tripStopTimes.get(tripId).get(0).getTrip())) {
+                schedulesOfRoute.put(tripId, tripStopTimes.get(tripId));
             }
         }
         return schedulesOfRoute;
     }
 
+
+    /**
+     * Get all trips of a given route
+     * @param route the route
+     * @param gtfsStore GTFS data
+     * @return all trips of a given route
+     */
     public static ArrayList<Trip> getTripsOfRoute(Route route, GtfsStore gtfsStore) {
 
         ArrayList<Trip> trips = new ArrayList<>();
         for(Trip trip: gtfsStore.getGtfsDao().getAllTrips()) {
-            if (trip.getRoute().equals(route)) {
+            if (trip.getRoute().getId().equals(route.getId())) {
                 trips.add(trip);
             }
         }
         return trips;
     }
 
-    // Get the start time and end time for each schedule
+    /**
+     * Get the start time and end time for each scheduled trip
+     * @param stopTimes map from TripId => scheduled stop-times of the trip
+     * @return map from TripId => scheduled start and end time of the trip
+     */
     public static Map<String, ScheduleStartTimeEndTime> getScheduleStartTimeEndTime(
             Map<String, ArrayList<StopTime>> stopTimes) {
 
         Map<String, ScheduleStartTimeEndTime> ScheduleStartTimeEndTime = new HashMap<>();
-        for (String eachStopTime : stopTimes.keySet()) {
-            ScheduleStartTimeEndTime StartTimeEndTime = new ScheduleStartTimeEndTime(stopTimes.get(eachStopTime));
-            ScheduleStartTimeEndTime.put(eachStopTime, StartTimeEndTime);
+        for (String tripId : stopTimes.keySet()) {
+            ScheduleStartTimeEndTime StartTimeEndTime = new ScheduleStartTimeEndTime(stopTimes.get(tripId));
+            ScheduleStartTimeEndTime.put(tripId, StartTimeEndTime);
         }
         return ScheduleStartTimeEndTime;
     }

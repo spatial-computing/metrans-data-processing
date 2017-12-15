@@ -17,18 +17,18 @@ import java.util.Map;
 /**
  * Our own GTFS storage which includes GtfsDaoImpl and other utility mappings,
  * e.g. ShapeId ==> LineString, TripId ==> StopTimes, TripId ==> ShapeId, RouteId ==> Trips mapping
- *
+ * <p>
  * Usage:
- *  - Initialize with a Gtfs directory or a {@link GtfsDaoImpl}
- *  - Prepare mappings {@link #prepareMappings()}
+ * - Initialize with a Gtfs directory or a {@link GtfsDaoImpl}
+ * - Prepare mappings {@link #prepareMappings()}
  */
 public class GtfsStore {
     private static final Logger logger = LoggerFactory.getLogger(GtfsStore.class);
-    private Map<String, LineString> shapeLineStrings = null;
-    private Map<String, ArrayList<StopTime>> tripStopTimes = null;
-    private Map<String, Trip> routeMaxLengthTrip = null;
-    private Map<String, String> tripShape = null;
-    private Map<String, ArrayList<Trip>> routeTrips = null;
+    private Map<String, LineString> shapeLineStrings = null; // ShapeId ==> LineString
+    private Map<String, ArrayList<StopTime>> tripStopTimes = null; // TripId ==> StopTimes
+    private Map<String, Trip> routeMaxLengthTrip = null; // RouteId ==> MaxLengthTrip
+    private Map<String, String> tripShape = null; //TripId ==> ShapeId
+    private Map<String, ArrayList<Trip>> routeTrips = null; // RouteId ==> Trips
     private GtfsDaoImpl gtfsDao = null;
 
 
@@ -41,12 +41,10 @@ public class GtfsStore {
 
 
     public GtfsStore(GtfsDaoImpl gtfsDaoImpl) throws IOException {
-       this.gtfsDao = gtfsDaoImpl;
+        this.gtfsDao = gtfsDaoImpl;
 
-       prepareMappings();
+        prepareMappings();
     }
-
-
 
 
     /**
@@ -76,6 +74,7 @@ public class GtfsStore {
 
     /**
      * For each route, find the trip that has maximum length
+     *
      * @return mapping from route id to the trip that has maximum length
      */
     private Map<String, Trip> prepareMaxLengthTrip() {
@@ -91,6 +90,7 @@ public class GtfsStore {
 
     /**
      * For a {@code route}, find the trip that has maximum length
+     *
      * @param route a route
      * @return the trip that has maximum length
      */

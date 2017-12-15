@@ -3,51 +3,51 @@ package edu.usc.imsc.metrans.delaytime;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
 import org.onebusaway.gtfs.model.StopTime;
-import org.opengis.referencing.operation.TransformException;
 
-import static edu.usc.imsc.metrans.delaytime.DelayTimeMain.line;
 import static edu.usc.imsc.metrans.delaytime.Util.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DelayComputation {
 
     private static double delayTimeThreshold = 15 * 60;
 
+    /**
+     * Calculate estimated arrival time and delay for stop-times of scheduled trips given a GPS run.
+     * We only keep the records with delay within {@link #delayTimeThreshold}
+     * @param run the GPS run
+     * @param closestCandidateSchedules candidate scheduled trips
+     * @return estimated arrival time and delay
+     */
     public static ArrayList<DelayTimeRecord> delayComputation(ArrayList<BusGpsRecord> run,
-                                                              Map<String, ArrayList<StopTime>> closestCandidateSchedules)
-            throws TransformException {
+                                                              Map<String, ArrayList<StopTime>> closestCandidateSchedules) {
 
         int busId = run.get(0).getBusId();
-        ArrayList<DelayTimeRecord> estimatedArrivalTimeResult =  new ArrayList<>();
-        for(String schedule : closestCandidateSchedules.keySet()) {
-            for(int i = 0; i < run.size() - 1; i++) {
+        ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
+        for (String tripId : closestCandidateSchedules.keySet()) {
+            for (int i = 0; i < run.size() - 1; i++) {
                 BusGpsRecord gps1 = run.get(i);
                 BusGpsRecord gps2 = run.get(i + 1);
 
-                int gps1Time = zonedDateTimeToInteger(gps1.getBusLocationTime());
-                int gps2Time = zonedDateTimeToInteger(gps2.getBusLocationTime());
+                int gps1Time = getNumSecondsFromMidnight(gps1.getBusLocationTime());
+                int gps2Time = getNumSecondsFromMidnight(gps2.getBusLocationTime());
 
-                ArrayList<StopTime> inBetweenStops = findInBetweenStops(gps1, gps2, closestCandidateSchedules.get(schedule));
+                ArrayList<StopTime> inBetweenStops = findInBetweenStops(gps1, gps2, closestCandidateSchedules.get(tripId));
 
-                if (inBetweenStops != null) {
-                    for (int j = 0; j < inBetweenStops.size(); j++) {
+                for (int j = 0; j < inBetweenStops.size(); j++) {
 
-                        StopTime stop = inBetweenStops.get(j);
-                        double estimatedTime = calEstimatedArrivalTime(gps1, gps2, gps1Time, gps2Time, stop);
-                        double delay = estimatedTime - stop.getArrivalTime();
+                    StopTime stop = inBetweenStops.get(j);
+                    double estimatedTime = calEstimatedArrivalTime(gps1, gps2, gps1Time, gps2Time, stop);
+                    double delay = estimatedTime - stop.getArrivalTime();
 
-                        // Filter the one that delay too much or arrival too early
-                        if (delay >= -delayTimeThreshold && delay <= delayTimeThreshold) {
-                            ZonedDateTime estimatedArrivalZDT
-                                    = doubleToZonedDateTime(estimatedTime, gps1.getBusLocationTime());
-                            DelayTimeRecord tmp = new DelayTimeRecord(stop, estimatedArrivalZDT, busId, delay);
-                            estimatedArrivalTimeResult.add(tmp);
-                        }
+                    // Filter the one that delay too much or arrival too early
+                    if (delay >= -delayTimeThreshold && delay <= delayTimeThreshold) {
+                        ZonedDateTime estimatedArrivalZDT
+                                = convertDoubleToZonedDateTime(estimatedTime, gps1.getBusLocationTime());
+                        DelayTimeRecord tmp = new DelayTimeRecord(stop, estimatedArrivalZDT, busId, delay);
+                        estimatedArrivalTimeResult.add(tmp);
                     }
                 }
             }
@@ -55,18 +55,37 @@ public class DelayComputation {
         return estimatedArrivalTimeResult;
     }
 
+    /**
+     * Calculate estimated arrival time at a stop that lies in between 2 GPS records
+     *
+     * @param gps1          GPS record 1
+     * @param gps2          GPS record 2
+     * @param gps1Time      the time in seconds from midnight of GPS record 1
+     * @param gps2Time      the time in seconds from midnight of GPS record 2
+     * @param inBetweenStop a stop that lies in between 2 GPS records
+     * @return estimated arrival time at the stop
+     */
     public static Double calEstimatedArrivalTime(BusGpsRecord gps1, BusGpsRecord gps2,
-                                        int gps1Time, int gps2Time, StopTime inBetweenStop) throws TransformException {
+                                                 int gps1Time, int gps2Time, StopTime inBetweenStop) {
 
 
-        double d0 = getDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat());
-        double d1 = getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(),
+        double d0 = calDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat());
+        double d1 = calDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(),
                 inBetweenStop.getStop().getLat());
 
         double estimatedArrivalTime = d1 / (d0 / (gps2Time - gps1Time)) + gps1Time;
         return estimatedArrivalTime;
     }
 
+
+    /**
+     * Get stop-time of stops that are in between 2 GPS records
+     *
+     * @param gps1      GPS record 1
+     * @param gps2      GPS record 2
+     * @param stopTimes list of stop times
+     * @return stop-times of stops that are in between 2 GPS records
+     */
     public static ArrayList<StopTime> findInBetweenStops(BusGpsRecord gps1, BusGpsRecord gps2, ArrayList<StopTime> stopTimes) {
 
         ArrayList<StopTime> inBetweenStops = new ArrayList<>();
