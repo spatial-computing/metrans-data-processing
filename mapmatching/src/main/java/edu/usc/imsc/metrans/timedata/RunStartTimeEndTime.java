@@ -6,9 +6,6 @@ import org.onebusaway.gtfs.model.StopTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-/**
- * Start time and End time of a GPS run
- */
 public class RunStartTimeEndTime {
 
     private int startTime;

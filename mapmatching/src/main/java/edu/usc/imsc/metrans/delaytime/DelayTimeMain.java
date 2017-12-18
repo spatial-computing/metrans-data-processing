@@ -1,5 +1,6 @@
 package edu.usc.imsc.metrans.delaytime;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.connection.DatabaseIO;
@@ -17,62 +18,78 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static edu.usc.imsc.metrans.delaytime.DelayComputation.*;
-import static edu.usc.imsc.metrans.delaytime.DistanceOnPolyline.readShapeFile;
+import static edu.usc.imsc.metrans.delaytime.PolylineUtil.getRunCoord;
 import static edu.usc.imsc.metrans.delaytime.SchedulePreprocessing.*;
 import static edu.usc.imsc.metrans.delaytime.ClosestSchedules.*;
 
 public class DelayTimeMain {
     private static final Logger logger = LoggerFactory.getLogger(DelayTimeMain.class);
-//    public static LineString line;
 
-    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
+    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore)
+            throws TransformException, IOException {
 
         logger.info("BUS DELAY ESTIMATION START");
         ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
         if (allRuns.size() == 0) return;
 
-        // Read the shape file as a polyline
-//        String routeShapeFilename = "data/metrans/shape-10.csv";
-//        line = readShapeFile(routeShapeFilename);
-
         // Get routeId
         Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(allRuns.get(0).get(0).getRouteId()));
 
         // Get all trips for that route
-        ArrayList<Trip> tripsOfRoute = getTripsOfRoute(route, gtfsStore);
-        logger.info("Total " + tripsOfRoute.size() + " trips");
+        ArrayList<Trip> trips = getTrips(route, gtfsStore);
+        logger.info("Total " + trips.size() + " trips");
+
+        // Get all shapes for trips
+        Map<String, LineString> shapes = getShapes(trips, gtfsStore);
 
         // Get all schedules (stop times) for that route
-        Map<String, ArrayList<StopTime>> schedulesOfRoute = getSchedulesOfRoute(tripsOfRoute, gtfsStore);
+        Map<String, ArrayList<StopTime>> schedules = getSchedules(trips, gtfsStore);
+
         Integer scheduleTimes = 0;
-        for (String schedule: schedulesOfRoute.keySet()) {
-            scheduleTimes += schedulesOfRoute.get(schedule).size();
+        for (String schedule: schedules.keySet()) {
+            scheduleTimes += schedules.get(schedule).size();
         }
         logger.info("Total " + scheduleTimes + " scheduleTimes");
 
         // Get start time and end time of all schedules
-        Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(schedulesOfRoute);
+        Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(schedules);
 
-        for (ArrayList<BusGpsRecord> eachRun : allRuns) {
+        for (int i = 0; i < allRuns.size(); i++) {
+
+            ArrayList<BusGpsRecord> run = allRuns.get(i);
 
             // Filter on time interval
             Map<String, ArrayList<StopTime>> candidateSchedules
-                    = getCandidateSchedules(eachRun, schedulesOfRoute, scheduleStartTimeEndTime);
+                    = getCandidateSchedulesByTime(run, schedules, scheduleStartTimeEndTime);
+
+            if (candidateSchedules.size() == 0)
+                continue;
+
+            // Transform Gps into Coordinate
+            List<Coordinate> runCoord = getRunCoord(run);
+
+            // Compute sum distance for candidates
+            Map<String, Double> candidateSumDistance
+                    = getCandidateSumDistance(run, runCoord, candidateSchedules, shapes);
+
+            if (candidateSumDistance.size() == 0)
+                continue;
 
             // Detect top n closest schedule candidates based on distance
-            Map<String, ArrayList<StopTime>> closestCandidateSchedules
-                    = findClosestSchedules(eachRun, candidateSchedules);
+            Map<String, ArrayList<StopTime>> closestSchedules
+                    = findClosestSchedules(candidateSchedules, candidateSumDistance);
 
-            if (closestCandidateSchedules.size() != 0) {
+            if (closestSchedules.size() == 0)
+                continue;
 
-                ArrayList<DelayTimeRecord> estimatedArrivalTime
-                        = delayComputation(eachRun, closestCandidateSchedules);
-                estimatedArrivalTimeResult.addAll(estimatedArrivalTime);
+            ArrayList<DelayTimeRecord> estimatedArrivalTime
+                    = delayComputation(i, run, runCoord, closestSchedules, shapes);
 
-            }
+            estimatedArrivalTimeResult.addAll(estimatedArrivalTime);
         }
 
         logger.info("WRITE BEGIN");

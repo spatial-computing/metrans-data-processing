@@ -33,15 +33,19 @@ public class FileIO {
                 file.createNewFile();
                 o = new FileOutputStream(file);
 
+                o.write(("routeId, runId, stopId, tripId, busId, scheduleTime, estimatedTime, delay\n").getBytes("GBK"));
+
                 for (DelayTimeRecord busDelay : estimatedArrivalTimeResult) {
                     String stop = busDelay.getStopTime().getStop().getId().getId();
-                    AgencyAndId trip = busDelay.getStopTime().getTrip().getId();
+                    String trip = busDelay.getStopTime().getTrip().getId().getId();
+                    Integer runId = busDelay.getRunId();
                     Integer busId = busDelay.getBusId();
                     Integer arrivalTime = busDelay.getStopTime().getArrivalTime();
                     ZonedDateTime estimatedTime = busDelay.getEstimatedTime();
 
                     Double delay = busDelay.getDelayTime();
-                    o.write((route.getId() + "," + stop + "," + trip + "," + busId + "," + arrivalTime + "," + estimatedTime + "," + delay + "\n").getBytes("GBK"));
+                    o.write((runId + "," + route.getId() + "," + stop + "," + trip + "," + busId + "," +
+                            arrivalTime + "," + estimatedTime + "," + delay + "\n").getBytes("GBK"));
                 }
                 o.close();
                 flag = true;

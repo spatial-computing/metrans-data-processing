@@ -1,91 +1,100 @@
 package edu.usc.imsc.metrans.delaytime;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.linearref.LinearLocation;
+import com.vividsolutions.jts.linearref.LocationIndexedLine;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
+import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
+import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
+import org.opengis.referencing.operation.TransformException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static edu.usc.imsc.metrans.delaytime.Util.calDistance;
-import static edu.usc.imsc.metrans.delaytime.Util.sortScheduledTripsByAvgDist;
+import static edu.usc.imsc.metrans.delaytime.PolylineUtil.distanceToLine;
+import static edu.usc.imsc.metrans.delaytime.PolylineUtil.isDirection;
+import static edu.usc.imsc.metrans.delaytime.Util.*;
 
 public class ClosestSchedules {
 
-    private static double DIST_THRESHOLD = 5.0; //filter the closest schedules
+    private static double DIS_THRESHOLD = 5.0; //filter the closest schedules
 
+    public static Map<String, ArrayList<StopTime>> findClosestSchedules(
+            Map<String, ArrayList<StopTime>> candidateSchedules, Map<String, Double> candidateSumDistance)
+            throws TransformException {
 
-    /**
-     * Find closest scheduled trips to a run.
-     * Those trips should have the average of the shortest distance from a GPS record of the run to a stop
-     * not too much bigger compared to the closest one.
-     * @param run a GPS run
-     * @param candidateSchedules candidate scheduled trips
-     * @return the closest scheduled trips to a run
-     */
-    public static Map<String, ArrayList<StopTime>> findClosestSchedules(ArrayList<BusGpsRecord> run,
-            Map<String, ArrayList<StopTime>> candidateSchedules) {
-
-        Map<String, Double> candidateAvgDistance = new HashMap<>();
-        for (String tripId : candidateSchedules.keySet()) {
-            ArrayList<StopTime> schedule = candidateSchedules.get(tripId);
-            double avgDistance = calAverageDistanceFromStops(run, schedule);
-            candidateAvgDistance.put(tripId, avgDistance);
-        }
-
-        List<Map.Entry<String, Double>> sortedSchedules = sortScheduledTripsByAvgDist(candidateAvgDistance);
+        List<Map.Entry<String, Double>> sortedSchedules
+                = sortSchedules(candidateSumDistance, candidateSchedules);
 
         Map<String, ArrayList<StopTime>> closestSchedules = new HashMap<>();
-        if (sortedSchedules.size() == 0)
-            return  closestSchedules;
 
-        /*
-         * Get trips having avg distance <= avg_dist_of_the_closest_trip + thres_hold
-         */
-        double leastDist = sortedSchedules.get(0).getValue();
+        double leastDis = sortedSchedules.get(0).getValue();
         for (int i = 0; i < sortedSchedules.size(); i++) {
-            String key = sortedSchedules.get(i).getKey();
-            if (sortedSchedules.get(i).getValue() <= (leastDist + DIST_THRESHOLD)) {
-                closestSchedules.put(key, candidateSchedules.get(key));
+            String tripId = sortedSchedules.get(i).getKey();
+            if (sortedSchedules.get(i).getValue() <= (leastDis + DIS_THRESHOLD)) {
+                closestSchedules.put(tripId, candidateSchedules.get(tripId));
             }
-            else
-                break;
+            else break;
         }
 
         return closestSchedules;
     }
 
+    public static Map<String, Double> getCandidateSumDistance (ArrayList<BusGpsRecord> run, List<Coordinate> runCoord,
+            Map<String, ArrayList<StopTime>> candidateSchedules, Map<String, LineString> shapes)
+            throws TransformException{
 
-    /**
-     * Calculate average of the shortest distance from a GPS record to a stop of the scheduled trip
-     * @param run GPS records
-     * @param schedule stops of the scheduled trip
-     * @return average of the shortest distance from a GPS record to a stop of the scheduled trip
-     */
-    public static Double calAverageDistanceFromStops(ArrayList<BusGpsRecord> run, ArrayList<StopTime> schedule) {
+        Map<String, Double> candidateSumDistance = new HashMap<>();
+
+        for (String candidateSchedule : candidateSchedules.keySet()) {
+
+            LineString line = shapes.get(candidateSchedule);
+            LocationIndexedLine indexedLine = new LocationIndexedLine(line);
+
+            if (!isDirection(runCoord.get(0), runCoord.get(1), indexedLine))
+                continue;
+
+            ArrayList<StopTime> schedule = candidateSchedules.get(candidateSchedule);
+//            double sumDistance = sumDistanceToStops(run, schedule, line);
+            double sumDistance = sumDistanceToLine(runCoord, indexedLine);
+            candidateSumDistance.put(candidateSchedule, sumDistance);
+        }
+        return candidateSumDistance;
+    }
+
+    private static Double sumDistanceToLine(List<Coordinate> runCoord, LocationIndexedLine indexedLine)
+            throws TransformException {
+
+        double sumDistance = 0.0;
+        for (int i = 0; i < runCoord.size(); i++) {
+            sumDistance += distanceToLine(runCoord.get(i), indexedLine);
+        }
+        return sumDistance;
+    }
+
+    private static Double sumDistanceToStops(ArrayList<BusGpsRecord> run, ArrayList<StopTime> schedule,
+            LineString line) throws TransformException {
 
         double sumDistance = 0.0;
         for (int i = 0; i < run.size(); i++) {
-            sumDistance += shortestDistanceFromStops(schedule, run.get(i));
+            sumDistance += shortestDistanceToStop(schedule, run.get(i), line);
         }
-        return sumDistance / run.size();
+        return sumDistance;
     }
 
-    /**
-     * Calculate the shortest distance from a GPS record to a stop of the scheduled trip
-     * @param schedule stops of the scheduled trip
-     * @param gps a GPS record
-     * @return the shortest distance from a GPS record to a stop of the scheduled trip
-     */
-    public static Double shortestDistanceFromStops(ArrayList<StopTime> schedule, BusGpsRecord gps){
-        double gpsLon = gps.getLon();
-        double gpsLat = gps.getLat();
-        double shortestDistance = calDistance(gpsLon, gpsLat, schedule.get(0).getStop().getLon(),
+    private static Double shortestDistanceToStop(ArrayList<StopTime> schedule, BusGpsRecord gps,
+            LineString line) throws TransformException {
+
+        double gpsLon = gps.getLon(); double gpsLat = gps.getLat();
+        double shortestDistance = getDistance(gpsLon, gpsLat, schedule.get(0).getStop().getLon(),
                 schedule.get(0).getStop().getLat());
 
+//        double shortestDistance = getDistance(gpsLon, gpsLat, schedule.get(0).getStop().getLon(),
+//                schedule.get(0).getStop().getLat(), line);
+
         for (int i = 1; i < schedule.size(); i++) {
-            double distance = calDistance(gpsLon, gpsLat, schedule.get(i).getStop().getLon(),
+            double distance = getDistance(gpsLon, gpsLat, schedule.get(i).getStop().getLon(),
                     schedule.get(i).getStop().getLat());
             if (distance < shortestDistance)
                 shortestDistance = distance;

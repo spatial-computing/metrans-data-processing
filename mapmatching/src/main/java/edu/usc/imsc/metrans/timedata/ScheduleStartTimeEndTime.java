@@ -7,9 +7,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Start time and End time of a scheduled trip
- */
 public class ScheduleStartTimeEndTime {
 
     private int startTime;
