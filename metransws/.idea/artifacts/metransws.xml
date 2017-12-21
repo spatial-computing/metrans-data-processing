@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="metransws">
+    <output-path>$PROJECT_DIR$/out/artifacts/metransws</output-path>
+    <root id="archive" name="metransws.war">
+      <element id="artifact" artifact-name="metransws:war exploded" />
+    </root>
+  </artifact>
+</component>
