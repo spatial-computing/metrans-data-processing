@@ -10,9 +10,6 @@
           <element id="file-copy" path="$PROJECT_DIR$/lib/ojdbc6.jar" />
         </element>
       </element>
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/metransws-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
-      </element>
       <element id="javaee-facet-resources" facet="metransws/web/Web" />
     </root>
   </artifact>
