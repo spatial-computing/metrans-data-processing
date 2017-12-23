@@ -4,7 +4,7 @@
     <root id="archive" name="metransws.war">
       <element id="artifact" artifact-name="metransws:war exploded" />
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/web/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>
