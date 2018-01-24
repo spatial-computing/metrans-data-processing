@@ -1,4 +1,4 @@
-package edu.usc.imsc.metrans.ws.generalinfo;
+package edu.usc.imsc.metrans.ws;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

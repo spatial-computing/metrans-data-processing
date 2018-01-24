@@ -1,4 +1,4 @@
-package edu.usc.imsc.metrans.ws.generalinfo;
+package edu.usc.imsc.metrans.ws;
 
 
 import edu.usc.imsc.metrans.database.OracleDbHelper;

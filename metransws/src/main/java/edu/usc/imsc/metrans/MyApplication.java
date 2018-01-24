@@ -1,7 +1,9 @@
 package edu.usc.imsc.metrans;
 
 import edu.usc.imsc.metrans.demo.HelloWorld;
-import edu.usc.imsc.metrans.ws.generalinfo.GeneralInfoWS;
+import edu.usc.imsc.metrans.ws.GeneralInfoWS;
+import edu.usc.imsc.metrans.ws.MetransMainWs;
+import edu.usc.imsc.metrans.ws.basicinfo.BasicInfoWs;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -18,6 +20,8 @@ public class MyApplication extends Application {
         HashSet h = new HashSet<Class<?>>();
         h.add(HelloWorld.class);
         h.add(GeneralInfoWS.class);
+        h.add(MetransMainWs.class);
+        h.add(BasicInfoWs.class);
         h.add(CORSResponseFilter.class);
         return h;
     }
