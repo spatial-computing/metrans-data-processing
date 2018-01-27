@@ -1,6 +1,6 @@
 package edu.usc.imsc.metrans.ws;
 
-import edu.usc.imsc.metrans.database.OracleDbHelper;
+import edu.usc.imsc.metrans.Config;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,7 +17,7 @@ public class MetransMainWs {
     @Path("shape/all")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getFile() {
-        File file = new File("/opt/glassfish5/metransws-data/shape.csv");
+        File file = new File(Config.dataShapeFile);
         return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
                 .build();

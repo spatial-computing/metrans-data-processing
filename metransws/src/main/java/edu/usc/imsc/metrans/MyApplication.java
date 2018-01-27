@@ -17,6 +17,8 @@ public class MyApplication extends Application {
     //The method returns a non-empty collection with classes, that must be included in the published JAX-RS application
     @Override
     public Set<Class<?>> getClasses() {
+        Config.load();
+
         HashSet h = new HashSet<Class<?>>();
         h.add(HelloWorld.class);
         h.add(GeneralInfoWS.class);
