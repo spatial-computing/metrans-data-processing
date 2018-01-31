@@ -3,7 +3,9 @@ package edu.usc.imsc.metrans;
 import edu.usc.imsc.metrans.demo.HelloWorld;
 import edu.usc.imsc.metrans.ws.GeneralInfoWS;
 import edu.usc.imsc.metrans.ws.MetransMainWs;
+import edu.usc.imsc.metrans.ws.TripsOfStopsWs;
 import edu.usc.imsc.metrans.ws.basicinfo.BasicInfoWs;
+import edu.usc.imsc.metrans.ws.stats.StatsDeviationWs;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -24,6 +26,8 @@ public class MyApplication extends Application {
         h.add(GeneralInfoWS.class);
         h.add(MetransMainWs.class);
         h.add(BasicInfoWs.class);
+        h.add(TripsOfStopsWs.class);
+        h.add(StatsDeviationWs.class);
         h.add(CORSResponseFilter.class);
         return h;
     }
