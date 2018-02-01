@@ -44,7 +44,7 @@ public class FileIO {
                     ZonedDateTime estimatedTime = busDelay.getEstimatedTime();
 
                     Double delay = busDelay.getDelayTime();
-                    o.write((runId + "," + route.getId() + "," + stop + "," + trip + "," + busId + "," +
+                    o.write((route.getId() + "," + stop + "," + trip + "," + busId + "," +
                             arrivalTime + "," + estimatedTime + "," + delay + "\n").getBytes("GBK"));
                 }
                 o.close();

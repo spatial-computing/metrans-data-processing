@@ -31,7 +31,7 @@ public class MapMatchingDemo {
         MapMatchingUtil.removeTooFewRecordsRun(allRuns, 5);
         BusDataUtil.printRunsStatistics(allRuns);
 
-        String gtfsDir = "data/gtfs_bus_160617";
+        String gtfsDir = "data/160618_gtfs_bus";
         GtfsStore gtfsStore = new GtfsStore(gtfsDir);
 
         int splitCount = 0;

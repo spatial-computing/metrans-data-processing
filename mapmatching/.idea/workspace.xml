@@ -7,11 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ca12d5a-bd29-4f44-bc5a-b55d598219d5" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../metransws/src/main/java/edu/usc/imsc/metrans/ws/TripsOfStopsWs.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../metransws/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../metransws/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../metransws/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../metransws/src/main/java/edu/usc/imsc/metrans/MyApplication.java" afterPath="$PROJECT_DIR$/../metransws/src/main/java/edu/usc/imsc/metrans/MyApplication.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,15 +24,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="MapMatchingDemo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileIO.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="40" column="36" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DelayTimeMain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayTimeMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1602">
-              <caret line="89" column="28" lean-forward="false" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="28" />
+            <state relative-caret-position="330">
+              <caret line="46" column="47" lean-forward="false" selection-start-line="46" selection-start-column="47" selection-end-line="46" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1513624200659" expanded="true" signature="3741:4029" ph="{...}" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DelayComputation.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayComputation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5">
+              <caret line="49" column="42" lean-forward="false" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InBetweenStops.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/InBetweenStops.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,7 +79,7 @@
       <file leaf-file-name="SchedulePreprocessing.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/SchedulePreprocessing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
+            <state relative-caret-position="825">
               <caret line="65" column="60" lean-forward="false" selection-start-line="65" selection-start-column="60" selection-end-line="65" selection-end-column="60" />
               <folding />
             </state>
@@ -52,8 +89,8 @@
       <file leaf-file-name="ClosestSchedules.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/ClosestSchedules.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="70" column="36" lean-forward="false" selection-start-line="70" selection-start-column="36" selection-end-line="70" selection-end-column="36" />
+            <state relative-caret-position="915">
+              <caret line="75" column="5" lean-forward="false" selection-start-line="75" selection-start-column="5" selection-end-line="75" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -62,68 +99,8 @@
       <file leaf-file-name="PolylineUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/PolylineUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1206">
-              <caret line="83" column="35" lean-forward="false" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DelayComputation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayComputation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
-              <caret line="93" column="48" lean-forward="false" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GtfsStore.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsStore.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="61" column="46" lean-forward="false" selection-start-line="61" selection-start-column="46" selection-end-line="61" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GtfsUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="140" column="18" lean-forward="false" selection-start-line="140" selection-start-column="18" selection-end-line="140" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StopTime.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/StopTime.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Trip.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/Trip.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="29" column="18" lean-forward="false" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AgencyAndId.java" pinned="false" current-in-tab="true">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/AgencyAndId.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="30" column="24" lean-forward="false" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+            <state relative-caret-position="960">
+              <caret line="80" column="5" lean-forward="false" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -150,7 +127,6 @@
       <find>distance</find>
       <find>line</find>
       <find>equa</find>
-      <find>+</find>
     </findStrings>
     <replaceStrings>
       <replace>logger.info</replace>
@@ -204,22 +180,22 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayTimeUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/BusDelayComputation.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/SchedulesDetection.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/infolab/usc/geo/demo/MetransBusMatching.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DistanceOnPolyline.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/RunStartTimeEndTime.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/ScheduleStartTimeEndTime.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/SchedulePreprocessing.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/ClosestSchedules.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsStore.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayComputation.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/Util.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/DelayTimeRecord.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayTimeMain.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/OracleIO.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/DatabaseIO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/ClosestSchedules.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java" />
       </list>
     </option>
   </component>
@@ -253,11 +229,9 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="54" />
-    <option name="y" value="27" />
-    <option name="width" value="1866" />
-    <option name="height" value="1020" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -275,13 +249,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
               <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
@@ -308,6 +286,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="metrans" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="metrans" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
@@ -334,66 +321,16 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="metrans" type="462c0819:PsiDirectoryNode" />
-              <item name="gtfsutil" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="metrans" type="462c0819:PsiDirectoryNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="metrans" type="462c0819:PsiDirectoryNode" />
               <item name="timedata" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="geo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="geo" type="462c0819:PsiDirectoryNode" />
-              <item name="demo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="geo" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mapmatching" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mapmatching" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -838,10 +775,8 @@
       <workItem from="1513292124335" duration="10162000" />
       <workItem from="1513809590782" duration="66000" />
       <workItem from="1513809698099" duration="498000" />
-      <workItem from="1517011111133" duration="264000" />
-      <workItem from="1517011545501" duration="69000" />
-      <workItem from="1517342050705" duration="4013000" />
-      <workItem from="1517436848391" duration="1323000" />
+      <workItem from="1516227422629" duration="2884000" />
+      <workItem from="1517519189072" duration="598000" />
     </task>
     <task id="LOCAL-00001" summary="gtfs reader + map matching refactoring">
       <created>1508379732910</created>
@@ -982,7 +917,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16395000" />
+    <option name="totallyTimeSpent" value="14208000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -994,38 +929,39 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298122" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.66784036" sideWeight="0.5081967" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17895299" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48446602" sideWeight="0.4918033" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43453723" sideWeight="0.4918033" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286385" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23985043" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.24893162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.398" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3227991" sideWeight="0.49718308" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3226087" sideWeight="0.49718308" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32527474" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32599118" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1073,6 +1009,8 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/BusDelayUtil.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/DelayUtil.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/BusDelayPreprocess.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timematching/BusDelayMain.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/DelayTimeUtil.java" />
@@ -1153,6 +1091,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/infolab/usc/geo/demo/DistanceOnPolyline.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-671">
+          <caret line="23" column="75" lean-forward="false" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/infolab/usc/geo/util/WGS2MetricTransformer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1757">
@@ -1175,7 +1120,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/BusDataIOMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/Trip.java" />
+    <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/AgencyAndId.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/Route.java" />
+    <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/StopTime.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/RunStartTimeEndTime.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1202,21 +1157,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <marker date="1513624200675" expanded="true" signature="829:831" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/estimatedArrivalTime.txt" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/InBetweenStops.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/Util.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="22" column="34" lean-forward="false" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-          <folding>
-            <marker date="1513624200659" expanded="true" signature="3563:3806" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1224,13 +1173,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
           <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="39" column="38" lean-forward="false" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -1239,124 +1181,87 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-10">
           <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/config.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1458">
-          <caret line="95" column="17" lean-forward="false" selection-start-line="95" selection-start-column="17" selection-end-line="95" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/infolab/usc/geo/demo/DistanceOnPolyline.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-226">
-          <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/BusDataIOMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/config/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/PolylineUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1206">
-          <caret line="83" column="35" lean-forward="false" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/ClosestSchedules.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="70" column="36" lean-forward="false" selection-start-line="70" selection-start-column="36" selection-end-line="70" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/SchedulePreprocessing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="65" column="60" lean-forward="false" selection-start-line="65" selection-start-column="60" selection-end-line="65" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayTimeMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1602">
-          <caret line="89" column="28" lean-forward="false" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1513624200659" expanded="true" signature="3741:4029" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayComputation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="93" column="48" lean-forward="false" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsStore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="61" column="46" lean-forward="false" selection-start-line="61" selection-start-column="46" selection-end-line="61" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="140" column="18" lean-forward="false" selection-start-line="140" selection-start-column="18" selection-end-line="140" selection-end-column="18" />
+        <state relative-caret-position="581">
+          <caret line="86" column="87" lean-forward="false" selection-start-line="86" selection-start-column="78" selection-end-line="86" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsStore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="58" column="48" lean-forward="true" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/estimatedArrivalTime.txt" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/FileIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="40" column="36" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/StopTime.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/SchedulePreprocessing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        <state relative-caret-position="825">
+          <caret line="65" column="60" lean-forward="false" selection-start-line="65" selection-start-column="60" selection-end-line="65" selection-end-column="60" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/Trip.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/ClosestSchedules.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="29" column="18" lean-forward="false" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+        <state relative-caret-position="915">
+          <caret line="75" column="5" lean-forward="false" selection-start-line="75" selection-start-column="5" selection-end-line="75" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/onebusaway/onebusaway-gtfs/1.3.4/onebusaway-gtfs-1.3.4-sources.jar!/org/onebusaway/gtfs/model/AgencyAndId.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/PolylineUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="30" column="24" lean-forward="false" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+        <state relative-caret-position="960">
+          <caret line="80" column="5" lean-forward="false" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayTimeMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="46" column="47" lean-forward="false" selection-start-line="46" selection-start-column="47" selection-end-line="46" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/InBetweenStops.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/DelayComputation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5">
+          <caret line="49" column="42" lean-forward="false" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="42" />
           <folding />
         </state>
       </provider>
