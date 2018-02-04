@@ -1,5 +1,6 @@
 package edu.usc.imsc.metrans.busdata;
 
+import edu.usc.imsc.metrans.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +19,8 @@ public class BusDataIO {
     public static final String BUS_DATA_CSV_HEADER = "DATE_AND_TIME,BUS_ID,LINE_ID,RUN_ID,ROUTE_ID,ROUTE_DESCRIPTION,BUS_DIRECTION,LAT,LON,BUS_LOCATION_TIME,SCHEDULE_DEVIATION,ARRIVAL_AT_NEXT_TIME_POINT,NEXT_TIME_POINT_LOCATION,TIME_POINT";
     public static final String BUS_GPS_CSV_SEPARATOR = ",";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final ZoneId LOS_ANGELES_ZONE_ID = ZoneId.of("America/Los_Angeles");
     public static DateTimeFormatter defaultDateTimeParser =
-            DateTimeFormatter.ofPattern(DATE_TIME_FORMAT).withZone(LOS_ANGELES_ZONE_ID);
+            DateTimeFormatter.ofPattern(DATE_TIME_FORMAT).withZone(Config.zoneId);
 
     private static final Logger logger = LoggerFactory.getLogger(BusDataIO.class);
 
@@ -73,7 +73,7 @@ public class BusDataIO {
         try {
             String[] rawRecord = line.split(BUS_GPS_CSV_SEPARATOR);
 
-            ZonedDateTime dateAndTime = ZonedDateTime.parse(rawRecord[0], defaultDateTimeParser);
+            long dateAndTime = ZonedDateTime.parse(rawRecord[0], defaultDateTimeParser).toEpochSecond();
             int busId = Integer.valueOf(rawRecord[1]);
             int lineId = Integer.valueOf(rawRecord[2]);
             int runId = Integer.valueOf(rawRecord[3]);
@@ -81,7 +81,7 @@ public class BusDataIO {
             int busDirection = Integer.valueOf(rawRecord[6]);
             double lat = Double.valueOf(rawRecord[7]);
             double lon = Double.valueOf(rawRecord[8]);
-            ZonedDateTime busLocationTime = ZonedDateTime.parse(rawRecord[9], defaultDateTimeParser);
+            long busLocationTime = ZonedDateTime.parse(rawRecord[9], defaultDateTimeParser).toEpochSecond();
 
             return new BusGpsRecord(dateAndTime, busId, lineId, runId, routeId, busDirection, lat, lon, busLocationTime);
         } catch (Exception e) {

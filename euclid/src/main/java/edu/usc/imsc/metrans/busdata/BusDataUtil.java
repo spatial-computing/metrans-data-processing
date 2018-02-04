@@ -1,5 +1,6 @@
 package edu.usc.imsc.metrans.busdata;
 
+import edu.usc.imsc.metrans.delaytime.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,18 +20,35 @@ public class BusDataUtil {
     private static Comparator<BusGpsRecord> busGpsRecordLocationTimeComparator = new Comparator<BusGpsRecord>() {
         @Override
         public int compare(BusGpsRecord o1, BusGpsRecord o2) {
-            return o1.getBusLocationTime().compareTo(o2.getBusLocationTime());
+            return Long.signum(o1.getBusLocationTime() - o2.getBusLocationTime());
         }
     };
 
 
     /**
      * Convert a time to a single Integer formatted as YYYYMMDD
-     * @param aTime
+     * @param aTime a time to convert
      * @return the integer value
      */
     public static Integer convertTimeToIntegerFormat(ZonedDateTime aTime) {
         return aTime.getYear() * 10000 + aTime.getMonthValue() * 100 + aTime.getDayOfMonth();
+    }
+
+
+    /**
+     * Add a record to the map. If the list as the value of the key does not exist, create it
+     * @param key key
+     * @param record record
+     * @param map the map to add to
+     */
+    public static void addRecordToMap(Integer key, BusGpsRecord record, Map<Integer, ArrayList<BusGpsRecord>> map) {
+        if (map.containsKey(key)) {
+            map.get(key).add(record);
+        } else {
+            ArrayList<BusGpsRecord> busIdRecords = new ArrayList<>();
+            busIdRecords.add(record);
+            map.put(key, busIdRecords);
+        }
     }
 
     /**
@@ -43,13 +61,7 @@ public class BusDataUtil {
 
         for (BusGpsRecord record : records) {
             Integer key = record.getBusId();
-            if (busIdRecordsMaps.containsKey(key)) {
-                busIdRecordsMaps.get(key).add(record);
-            } else {
-                ArrayList<BusGpsRecord> busIdRecords = new ArrayList<>();
-                busIdRecords.add(record);
-                busIdRecordsMaps.put(key, busIdRecords);
-            }
+            addRecordToMap(key, record, busIdRecordsMaps);
         }
 
         for (Map.Entry<Integer, ArrayList<BusGpsRecord>> entry : busIdRecordsMaps.entrySet()) {
@@ -58,6 +70,7 @@ public class BusDataUtil {
 
         return busIdRecordsMaps;
     }
+
 
     /**
      * Get a map from a day to records of that day, sorted by BUS_LOCATION_TIME.
@@ -71,14 +84,9 @@ public class BusDataUtil {
         Map<Integer, ArrayList<BusGpsRecord>> dayRecordsMaps = new HashMap<>();
 
         for (BusGpsRecord record : records) {
-            Integer key = convertTimeToIntegerFormat(record.getBusLocationTime());
-            if (dayRecordsMaps.containsKey(key)) {
-                dayRecordsMaps.get(key).add(record);
-            } else {
-                ArrayList<BusGpsRecord> busIdRecords = new ArrayList<>();
-                busIdRecords.add(record);
-                dayRecordsMaps.put(key, busIdRecords);
-            }
+            ZonedDateTime timeTmp = Util.convertSecondsToZonedDateTime(record.getBusLocationTime());
+            Integer key = convertTimeToIntegerFormat(timeTmp);
+            addRecordToMap(key, record, dayRecordsMaps);
         }
 
         for (Map.Entry<Integer, ArrayList<BusGpsRecord>> entry : dayRecordsMaps.entrySet()) {
@@ -277,6 +285,6 @@ public class BusDataUtil {
                 && a.getBusDirection() == b.getBusDirection()
                 && (Math.abs(a.getLat() - b.getLat()) <= EPSILON)
                 && (Math.abs(a.getLon() - b.getLon()) <= EPSILON)
-                && a.getBusLocationTime().isEqual(b.getBusLocationTime());
+                && a.getBusLocationTime() == b.getBusLocationTime();
     }
 }

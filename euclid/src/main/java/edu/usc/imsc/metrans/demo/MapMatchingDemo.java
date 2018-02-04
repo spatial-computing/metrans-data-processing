@@ -4,9 +4,13 @@ import edu.usc.imsc.metrans.busdata.BusDataIO;
 import edu.usc.imsc.metrans.busdata.BusDataPreprocessing;
 import edu.usc.imsc.metrans.busdata.BusDataUtil;
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
+import edu.usc.imsc.metrans.connection.FileIO;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
+import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
 import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
+import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
+import org.onebusaway.gtfs.model.Route;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +25,7 @@ public class MapMatchingDemo {
 
     public static void main(String[] args) throws IOException, TransformException {
         logger.info("Getting data from CSV file");
-        String busDataFile = "data/metrans/gps-10.csv";
+        String busDataFile = "../../data_160101_171010/Bus10.csv";
         ArrayList<BusGpsRecord> records = BusDataIO.readBusGpsRecordsFromFile(busDataFile);
         logger.info(records.size() + " records");
 
@@ -31,7 +35,7 @@ public class MapMatchingDemo {
         MapMatchingUtil.removeTooFewRecordsRun(allRuns, 5);
         BusDataUtil.printRunsStatistics(allRuns);
 
-        String gtfsDir = "data/160618_gtfs_bus";
+        String gtfsDir = "data/gtfs_bus_171212";
         GtfsStore gtfsStore = new GtfsStore(gtfsDir);
 
         int splitCount = 0;
@@ -93,6 +97,15 @@ public class MapMatchingDemo {
         logger.info("DONE");
 
 //        BusDelayMain.busDelayMain(allRuns, gtfsStore);
-        delayTimeMain(allRuns, gtfsStore);
+        // Get routeId
+        Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(allRuns.get(0).get(0).getRouteId()));
+        ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = delayTimeMain(route, allRuns, gtfsStore);
+
+        logger.info("WRITE BEGIN");
+        String outDir = "./data/estimated_data_160101_171010/";
+        String fileName = outDir + "estimatedArrivalTime." + route.getId().getId() + ".csv";
+        FileIO.writeFile(route, estimatedArrivalTimeResult, fileName);
+//        DatabaseIO.writeDatabase(route, estimatedArrivalTimeResult);
+        logger.info("FINISHED");
     }
 }

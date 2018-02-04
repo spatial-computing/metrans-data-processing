@@ -1,13 +1,13 @@
 package edu.usc.imsc.metrans.busdata;
 
-import java.time.ZonedDateTime;
+import edu.usc.imsc.metrans.delaytime.Util;
 
 /**
  * A simplified bus GPS record
  */
 public class BusGpsRecord {
 
-    private ZonedDateTime dateAndTime;
+    private long dateAndTime; //epoch timestamp
     private int busId;
     private int lineId;
     private int runId;
@@ -15,12 +15,12 @@ public class BusGpsRecord {
     private int busDirection;
     private double lat;
     private double lon;
-    private ZonedDateTime busLocationTime;
+    private long busLocationTime; //epoch timestamp
 
     public BusGpsRecord() {
     }
 
-    public BusGpsRecord(ZonedDateTime dateAndTime, int busId, int lineId, int runId, int routeId, int busDirection, double lat, double lon, ZonedDateTime busLocationTime) {
+    public BusGpsRecord(long dateAndTime, int busId, int lineId, int runId, int routeId, int busDirection, double lat, double lon, long busLocationTime) {
         this.dateAndTime = dateAndTime;
         this.busId = busId;
         this.lineId = lineId;
@@ -33,11 +33,11 @@ public class BusGpsRecord {
     }
 
 
-    public ZonedDateTime getDateAndTime() {
+    public long getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(ZonedDateTime dateAndTime) {
+    public void setDateAndTime(long dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 
@@ -97,18 +97,18 @@ public class BusGpsRecord {
         this.lon = lon;
     }
 
-    public ZonedDateTime getBusLocationTime() {
+    public long getBusLocationTime() {
         return busLocationTime;
     }
 
-    public void setBusLocationTime(ZonedDateTime busLocationTime) {
+    public void setBusLocationTime(long busLocationTime) {
         this.busLocationTime = busLocationTime;
     }
 
     @Override
     public String toString() {
         return "BusGpsRecord{" +
-                "dateAndTime=" + dateAndTime.format(BusDataIO.defaultDateTimeParser) +
+                "dateAndTime=" + Util.convertSecondsToZonedDateTime(dateAndTime).format(BusDataIO.defaultDateTimeParser) +
                 ", busId=" + busId +
                 ", lineId=" + lineId +
                 ", runId=" + runId +
@@ -116,7 +116,7 @@ public class BusGpsRecord {
                 ", busDirection=" + busDirection +
                 ", lat=" + lat +
                 ", lon=" + lon +
-                ", busLocationTime=" + busLocationTime.format(BusDataIO.defaultDateTimeParser) +
+                ", busLocationTime=" + Util.convertSecondsToZonedDateTime(busLocationTime).format(BusDataIO.defaultDateTimeParser) +
                 '}';
     }
 }

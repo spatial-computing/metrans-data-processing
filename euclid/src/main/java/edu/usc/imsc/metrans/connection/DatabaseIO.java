@@ -7,6 +7,7 @@ import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.Trip;
 
 import java.sql.*;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.function.DoubleBinaryOperator;
@@ -33,7 +34,7 @@ public class DatabaseIO {
                 AgencyAndId tripId = estimatedArrivalTimeResult.get(i).getStopTime().getTrip().getId();
                 Integer busId = estimatedArrivalTimeResult.get(i).getBusId();
                 Integer scheduleTime = estimatedArrivalTimeResult.get(i).getStopTime().getArrivalTime();
-                ZonedDateTime time = estimatedArrivalTimeResult.get(i).getEstimatedTime();
+                long estimatedArrivalTime = estimatedArrivalTimeResult.get(i).getEstimatedTime();
                 Double delay = estimatedArrivalTimeResult.get(i).getDelayTime();
 
                 PreparedStatement psql;
@@ -47,10 +48,10 @@ public class DatabaseIO {
                 psql.setString(3, tripId.toString());
                 psql.setInt(4, busId);
                 psql.setInt(5, scheduleTime);
-                psql.setTimestamp(6, Timestamp.valueOf(time.toLocalDateTime()));
+                psql.setTimestamp(6, Timestamp.from(Instant.ofEpochSecond(estimatedArrivalTime)));
                 psql.setDouble(7, delay);
 
-                System.out.println(time);
+//                System.out.println(time);
                 psql.executeUpdate();
 
             }

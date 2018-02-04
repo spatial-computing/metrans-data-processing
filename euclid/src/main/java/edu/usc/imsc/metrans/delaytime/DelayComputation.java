@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class DelayComputation {
 
-    private static double delayTimeThreshold = 15 * 60;
+    private static long delayTimeThreshold = 15 * 60;
 
     public static ArrayList<DelayTimeRecord> delayComputation(ArrayList<BusGpsRecord> run,
                                                               Map<String, ArrayList<StopTime>> closestCandidateSchedules) {
@@ -43,16 +43,21 @@ public class DelayComputation {
                     if (dis1 > dis2) gpsId2 = gpsId + 1;
                 }
 
-                int gps1Time = zonedDateTimeToInteger(run.get(gpsId).getBusLocationTime());
-                int gps2Time = zonedDateTimeToInteger(run.get(gpsId2).getBusLocationTime());
-                double estimatedTime = calEstimatedArrivalTime(run.get(gpsId), run.get(gpsId2), gps1Time, gps2Time, stopTime);
-                double delay = estimatedTime - stopTime.getArrivalTime();
+                long gps1Time = Util.getSecondsFromNoonMinus12Hours(run.get(gpsId).getBusLocationTime());
+                long gps2Time = Util.getSecondsFromNoonMinus12Hours(run.get(gpsId2).getBusLocationTime());
+                long estimatedTime = calEstimatedArrivalTime(
+                        run.get(gpsId), run.get(gpsId2), gps1Time, gps2Time, stopTime.getStop());
+                long delay = estimatedTime - stopTime.getArrivalTime();
 
                 // Filter the one that delay too much or arrival too early
                 if (delay >= -delayTimeThreshold && delay <= delayTimeThreshold) {
-                    ZonedDateTime estimatedArrivalZDT
-                            = doubleToZonedDateTime(estimatedTime, run.get(gpsId).getBusLocationTime());
-                    DelayTimeRecord tmp = new DelayTimeRecord(stopTime, estimatedArrivalZDT, busId, delay);
+//                    ZonedDateTime estimatedArrivalZDT
+//                            = doubleToZonedDateTime(estimatedTime, run.get(gpsId).getBusLocationTime());
+
+                    long epochEstimatedTime = Util.getEpochTimestampFromSecondsFromNoonMinus12Hours(
+                            estimatedTime,
+                            Util.convertSecondsToZonedDateTime(run.get(gpsId).getBusLocationTime()));
+                    DelayTimeRecord tmp = new DelayTimeRecord(stopTime, epochEstimatedTime, busId, delay);
                     estimatedArrivalTimeResult.add(tmp);
                 }
             }
@@ -91,14 +96,14 @@ public class DelayComputation {
         return estimatedArrivalTimeResult;
     }
 
-    public static Double calEstimatedArrivalTime(BusGpsRecord gps1, BusGpsRecord gps2,
-                                        int gps1Time, int gps2Time, StopTime inBetweenStop) {
+    public static long calEstimatedArrivalTime(BusGpsRecord gps1, BusGpsRecord gps2,
+                                        long gps1Time, long gps2Time, Stop inBetweenStop) {
 
         double d0 = getDistance(gps1.getLon(), gps1.getLat(), gps2.getLon(), gps2.getLat());
-        double d1 = getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getStop().getLon(), inBetweenStop.getStop().getLat());
+        double d1 = getDistance(gps1.getLon(), gps1.getLat(), inBetweenStop.getLon(), inBetweenStop.getLat());
 
         double estimatedArrivalTime = d1 / (d0 / (gps2Time - gps1Time)) + gps1Time;
-        return estimatedArrivalTime;
+        return (long)estimatedArrivalTime;
     }
 
     public static int findClosestGPS(ArrayList<BusGpsRecord> run, StopTime stopTime) {

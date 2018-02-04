@@ -29,10 +29,10 @@ public class SchedulePreprocessing {
         for (String schedule : scheduleStartTimeEndTime.keySet()) {
 
             ScheduleStartTimeEndTime stopTimes = scheduleStartTimeEndTime.get(schedule);
-            int runStartTime = runStartTimeEndTime.getRunStartTime();
-            int runEndTime = runStartTimeEndTime.getRunEndTime();
-            int scheduleStartTime = stopTimes.getScheduleStartTime();
-            int scheduleEndTime = stopTimes.getScheduleEndTime();
+            long runStartTime = runStartTimeEndTime.getRunStartTime();
+            long runEndTime = runStartTimeEndTime.getRunEndTime();
+            long scheduleStartTime = stopTimes.getScheduleStartTime();
+            long scheduleEndTime = stopTimes.getScheduleEndTime();
 
             if (runStartTime > runEndTime) {
                 System.out.println("Attention: runStartTime > runEndTime");

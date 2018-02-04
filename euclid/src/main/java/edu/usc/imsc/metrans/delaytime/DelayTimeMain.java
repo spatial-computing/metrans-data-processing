@@ -22,14 +22,12 @@ import static edu.usc.imsc.metrans.delaytime.ClosestSchedules.*;
 public class DelayTimeMain {
     private static final Logger logger = LoggerFactory.getLogger(DelayTimeMain.class);
 
-    public static void delayTimeMain(ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
+    public static ArrayList<DelayTimeRecord> delayTimeMain(Route route, ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
 
         logger.info("BUS DELAY ESTIMATION START");
         ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
-        if (allRuns.size() == 0) return;
-
-        // Get routeId
-        Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(allRuns.get(0).get(0).getRouteId()));
+        if (allRuns.size() == 0)
+            return estimatedArrivalTimeResult;
 
         // Get all trips for that route
         ArrayList<Trip> tripsOfRoute = getTripsOfRoute(route, gtfsStore);
@@ -66,10 +64,7 @@ public class DelayTimeMain {
             }
         }
 
-        logger.info("WRITE BEGIN");
-        FileIO.writeFile(route, estimatedArrivalTimeResult);
-//        DatabaseIO.writeDatabase(route, estimatedArrivalTimeResult);
-        logger.info("FINISHED");
+        return estimatedArrivalTimeResult;
 
     }
 }

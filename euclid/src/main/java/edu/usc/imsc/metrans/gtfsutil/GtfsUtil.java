@@ -175,10 +175,19 @@ public class GtfsUtil {
      */
     public static Map<String, String> getTripShapeMapping(GtfsDaoImpl store) {
         Map<String, String> tripShapeMap = new HashMap<>();
-
         for (Trip trip : store.getAllTrips()) {
-            tripShapeMap.put(trip.getId().getId(), trip.getShapeId().getId());
+
+            try {
+                tripShapeMap.put(trip.getId().getId(), trip.getShapeId().getId());
+            } catch (Exception ex) {
+                logger.error("Error get TripId ==> ShapeId mapping", ex);
+                logger.error(trip.getId().toString());
+                logger.error(trip.getShapeId().toString());
+                throw ex;
+            }
         }
+
+
 
         return tripShapeMap;
     }

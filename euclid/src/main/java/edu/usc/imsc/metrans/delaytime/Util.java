@@ -1,8 +1,11 @@
 package edu.usc.imsc.metrans.delaytime;
 
 
+import edu.usc.imsc.metrans.config.Config;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.onebusaway.gtfs.model.StopTime;
+
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -65,6 +68,43 @@ public class Util {
 
     public static int zonedDateTimeToInteger(ZonedDateTime time) {
         return time.getHour() * 3600 + time.getMinute() * 60 + time.getSecond();
+    }
+
+    public static ZonedDateTime convertSecondsToZonedDateTime(long nSeconds) {
+        return ZonedDateTime.ofInstant(Instant.ofEpochSecond(nSeconds), Config.zoneId);
+    }
+
+
+    /**
+     * Get number of seconds from "noon minus 12 hours" to a specific time
+     * @param time the specific time
+     * @return number of seconds from "noon minus 12 hours" to a specific time
+     */
+    public static long getSecondsFromNoonMinus12Hours(ZonedDateTime time) {
+        ZonedDateTime noonTime = time.withHour(12).withMinute(0).withSecond(0);
+        return time.toEpochSecond() - noonTime.minusHours(12).toEpochSecond();
+    }
+
+    /**
+     * Get number of seconds from "noon minus 12 hours" to a specific time
+     * @param timestamp the specific time
+     * @return number of seconds from "noon minus 12 hours" to a specific time
+     */
+    public static long getSecondsFromNoonMinus12Hours(long timestamp) {
+        ZonedDateTime time = convertSecondsToZonedDateTime(timestamp);
+        return getSecondsFromNoonMinus12Hours(time);
+    }
+
+
+    /**
+     * Get the epoch timestamp for {@code nSeconds} from "noon minus 12 hours" of same {@code theDay}
+     * @param nSeconds number of seconds from "noon minus 12 hours"
+     * @param theDay the day
+     * @return the epoch timestamp
+     */
+    public static long getEpochTimestampFromSecondsFromNoonMinus12Hours(long nSeconds, ZonedDateTime theDay) {
+        ZonedDateTime noonTime = theDay.withHour(12).withMinute(0).withSecond(0);
+        return noonTime.minusHours(12).toEpochSecond() + nSeconds;
     }
 
     public static ZonedDateTime doubleToZonedDateTime(double estimatedArrivalTime, ZonedDateTime gpsTime) {

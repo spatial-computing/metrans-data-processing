@@ -1,6 +1,7 @@
 package edu.usc.imsc.metrans.timedata;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
+import edu.usc.imsc.metrans.delaytime.Util;
 import org.onebusaway.gtfs.model.StopTime;
 
 import java.time.ZonedDateTime;
@@ -8,22 +9,21 @@ import java.util.ArrayList;
 
 public class RunStartTimeEndTime {
 
-    private int startTime;
-    private int endTime;
+    private long startTime;
+    private long endTime;
 
     public RunStartTimeEndTime(ArrayList<BusGpsRecord> run) {
-        ZonedDateTime busLocationStartTime = run.get(0).getBusLocationTime();
-        ZonedDateTime busLocationEndTime = run.get(run.size() - 1).getBusLocationTime();
-        this.startTime = busLocationStartTime.getHour() * 3600 + busLocationStartTime.getMinute() * 60 +
-                busLocationStartTime.getSecond();
-        this.endTime = busLocationEndTime.getHour() * 3600 + busLocationEndTime.getMinute() * 60 +
-                busLocationEndTime.getSecond();
+        ZonedDateTime startTimeZoned = Util.convertSecondsToZonedDateTime(run.get(0).getBusLocationTime());
+        this.startTime = Util.getSecondsFromNoonMinus12Hours(startTimeZoned);
+
+        ZonedDateTime endTimeZoned = Util.convertSecondsToZonedDateTime(run.get(run.size() - 1).getBusLocationTime());
+        this.endTime = Util.getSecondsFromNoonMinus12Hours(endTimeZoned);;
     }
 
-    public int getRunStartTime() {
+    public long getRunStartTime() {
         return startTime;
     }
-    public int getRunEndTime() { return endTime; }
+    public long getRunEndTime() { return endTime; }
 
 
 }
