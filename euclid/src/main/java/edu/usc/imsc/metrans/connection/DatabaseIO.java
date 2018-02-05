@@ -18,13 +18,13 @@ public class DatabaseIO {
 
         Connection con;
         String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/METRANS";
-        String user = "root";
-        String password = "123456";
+        String url = "jdbc:postgresql://dsicloud2.usc.edu:5432/metrans";
+        String user = "metrans";
+        String password = "Bg86526Us";
         try {
 
             Class.forName(driver);
-            con = DriverManager.getConnection(url,user,password);
+            con = DriverManager.getConnection(url, user, password);
             if(!con.isClosed())
                 System.out.println("Succeeded connecting to the Database!");
 
@@ -39,17 +39,18 @@ public class DatabaseIO {
 
                 PreparedStatement psql;
 
-                psql = con.prepareStatement("insert into estimatedArrivalTime "
-                        + "values(?, ?, ?, ?, ?, ?, ?)");
+                psql = con.prepareStatement("insert into metrans.estimated_arrival_time" +
+                        " (route_id, stop_id, trip_id, bus_id, estimated_time, delay_time, schedule_time) " +
+                        " values(?, ?, ?, ?, ?, ?, ?)");
 
 //                psql.setInt(1, i);
                 psql.setString(1, route.getId().toString());
                 psql.setString(2, stopId.toString());
                 psql.setString(3, tripId.toString());
                 psql.setInt(4, busId);
-                psql.setInt(5, scheduleTime);
-                psql.setTimestamp(6, Timestamp.from(Instant.ofEpochSecond(estimatedArrivalTime)));
-                psql.setDouble(7, delay);
+                psql.setTimestamp(5, Timestamp.from(Instant.ofEpochSecond(estimatedArrivalTime)));
+                psql.setDouble(6, delay);
+                psql.setInt(7, scheduleTime);
 
 //                System.out.println(time);
                 psql.executeUpdate();
