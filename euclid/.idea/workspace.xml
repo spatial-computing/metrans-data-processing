@@ -7,14 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ca12d5a-bd29-4f44-bc5a-b55d598219d5" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/EstimatedArrivalTimePusher.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/data/gtfs_bus_161211" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/data/gtfs_bus_171212" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/mapmatching.iml" afterPath="$PROJECT_DIR$/mapmatching.iml" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/DatabaseIO.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/DatabaseIO.java" />
+      <change beforePath="$PROJECT_DIR$/NOTE.txt" afterPath="$PROJECT_DIR$/NOTE.txt" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -29,12 +23,22 @@
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="MapMatchingDemo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1981">
-              <caret line="153" column="25" lean-forward="false" selection-start-line="153" selection-start-column="25" selection-end-line="153" selection-end-column="25" />
+            <state relative-caret-position="451">
+              <caret line="62" column="46" lean-forward="false" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NOTE.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/NOTE.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -109,7 +113,6 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/ClosestSchedules.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java" />
         <option value="$PROJECT_DIR$/src/main/resources/config.properties" />
-        <option value="$PROJECT_DIR$/NOTE.txt" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/config/Config.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/busdata/BusGpsRecord.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/timedata/ScheduleStartTimeEndTime.java" />
@@ -126,6 +129,7 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/connection/DatabaseIO.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/EstimatedArrivalTimePusher.java" />
         <option value="$APPLICATION_CONFIG_DIR$/idea.properties" />
+        <option value="$PROJECT_DIR$/NOTE.txt" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java" />
       </list>
     </option>
@@ -182,8 +186,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -300,7 +302,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -588,7 +592,8 @@
       <workItem from="1517782188693" duration="7878000" />
       <workItem from="1517859356977" duration="127000" />
       <workItem from="1517859553116" duration="177000" />
-      <workItem from="1517859755195" duration="151000" />
+      <workItem from="1517859755195" duration="403000" />
+      <workItem from="1517887364598" duration="104000" />
     </task>
     <task id="LOCAL-00001" summary="gtfs reader + map matching refactoring">
       <created>1508379732910</created>
@@ -695,7 +700,14 @@
       <option name="project" value="LOCAL" />
       <updated>1509500212801</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update delay computation">
+      <created>1517859950914</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1517859950914</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -722,7 +734,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31385000" />
+    <option name="totallyTimeSpent" value="31741000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -741,17 +753,17 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.66784036" sideWeight="0.5081967" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17895299" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2962963" sideWeight="0.4918033" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2962963" sideWeight="0.4918033" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286385" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26903263" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27246708" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.24893162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39730638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39730638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -799,7 +811,8 @@
     <MESSAGE value="run split:&#10;- save one 0-trend records at the beginning of a run&#10;- remove run with small number of records&#10;&#10;update maven project to use external properties files after packaging" />
     <MESSAGE value="remove run with small number of records" />
     <MESSAGE value="update statistics code in demo" />
-    <option name="LAST_COMMIT_MESSAGE" value="update statistics code in demo" />
+    <MESSAGE value="update delay computation" />
+    <option name="LAST_COMMIT_MESSAGE" value="update delay computation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -828,13 +841,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/delaytime/SchedulesDetection.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/lang/Double.java" />
     <entry file="file://$PROJECT_DIR$/data/estimatedArrivalTime.txt" />
-    <entry file="file://$PROJECT_DIR$/NOTE.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/config.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -891,13 +897,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="272" column="30" lean-forward="false" selection-start-line="272" selection-start-column="16" selection-end-line="272" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/mapmatching/MapProjector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="33">
@@ -916,13 +915,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="75" column="53" lean-forward="false" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsStore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1050,10 +1042,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="37" column="57" lean-forward="false" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
-          <folding>
-            <marker date="1517789493957" expanded="true" signature="1727:1878" ph="insert into estimatedArrivalTime... " />
-            <marker date="1517789493957" expanded="true" signature="1727:1936" ph="insert into estimatedArrivalTime... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1061,7 +1049,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="5" column="30" lean-forward="false" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1069,14 +1056,35 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="11" column="44" lean-forward="false" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9">
+          <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsStore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="36" column="34" lean-forward="false" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NOTE.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/demo/MapMatchingDemo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1981">
-          <caret line="153" column="25" lean-forward="false" selection-start-line="153" selection-start-column="25" selection-end-line="153" selection-end-column="25" />
+        <state relative-caret-position="451">
+          <caret line="62" column="46" lean-forward="false" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
           <folding />
         </state>
       </provider>

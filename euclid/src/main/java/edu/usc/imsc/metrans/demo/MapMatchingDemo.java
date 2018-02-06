@@ -60,7 +60,7 @@ public class MapMatchingDemo {
         ArrayList<String> files = getFilesWithExtInFolder(gpsDir, ".csv");
         Collections.sort(files);
 
-        String startFileName = gpsDir + "Bus14.csv";
+        String startFileName = gpsDir + "Bus51.csv";
 
         ArrayList<BusGpsRecord> records = new ArrayList<>();
         ArrayList<ArrayList<BusGpsRecord>> allRuns =  new ArrayList<>();
