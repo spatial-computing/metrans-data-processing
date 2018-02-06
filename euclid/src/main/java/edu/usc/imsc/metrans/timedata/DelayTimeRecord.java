@@ -20,5 +20,4 @@ public class DelayTimeRecord {
     public long getEstimatedTime() {return estimatedTime;}
     public int getBusId() {return busId;}
     public double getDelayTime() {return delayTime;}
-
 }
