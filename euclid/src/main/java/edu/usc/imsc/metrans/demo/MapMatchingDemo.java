@@ -15,8 +15,6 @@ import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,29 +24,6 @@ import static edu.usc.imsc.metrans.delaytime.DelayTimeMain.delayTimeMain;
 public class MapMatchingDemo {
     private static final Logger logger = LoggerFactory.getLogger(MapMatchingDemo.class);
 
-    public static ArrayList<String> getFilesWithExtInFolder(String folderPath, String extention) {
-        File f = new File(folderPath);
-
-        FilenameFilter extFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.toLowerCase().endsWith(extention);
-            }
-        };
-
-        File[] files = f.listFiles(extFilter);
-
-        ArrayList<String> res = new ArrayList<>();
-
-        for (File file : files) {
-            if (!file.isDirectory()) {
-                res.add(file.getPath());
-            }
-        }
-
-
-        return res;
-    }
-
     public static void main(String[] args) throws IOException, TransformException {
 
         String dataDir = "../../";
@@ -57,7 +32,7 @@ public class MapMatchingDemo {
         GtfsStore gtfsStore = new GtfsStore(gtfsDir);
 
         String gpsDir = dataDir + "data_160101_171010/";
-        ArrayList<String> files = getFilesWithExtInFolder(gpsDir, ".csv");
+        ArrayList<String> files = Utils.getFilesWithExtInFolder(gpsDir, ".csv");
         Collections.sort(files);
 
         String startFileName = gpsDir + "Bus51.csv";

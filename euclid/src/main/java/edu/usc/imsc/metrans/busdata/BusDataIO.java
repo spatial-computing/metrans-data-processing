@@ -1,6 +1,7 @@
 package edu.usc.imsc.metrans.busdata;
 
 import edu.usc.imsc.metrans.config.Config;
+import edu.usc.imsc.metrans.timedata.DelayTimeRawRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +85,34 @@ public class BusDataIO {
             long busLocationTime = ZonedDateTime.parse(rawRecord[9], defaultDateTimeParser).toEpochSecond();
 
             return new BusGpsRecord(dateAndTime, busId, lineId, runId, routeId, busDirection, lat, lon, busLocationTime);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Convert a raw line CSV estimated arrival time into a record
+     * @param line raw line CSV
+     * @return a record or {@code null} if error occurred
+     */
+    public static DelayTimeRawRecord convertCsvEstimatedTimeToRecord(String line) {
+        try {
+            String[] rawRecord = line.split(BUS_GPS_CSV_SEPARATOR);
+
+            DelayTimeRawRecord record = new DelayTimeRawRecord();
+
+            record.setRouteId(rawRecord[0]);
+            record.setStopId(rawRecord[1]);
+            record.setTripId(rawRecord[2]);
+            record.setBusId(Integer.valueOf(rawRecord[3]));
+            record.setScheduleTime(Integer.valueOf(rawRecord[4]));
+            record.setEstimatedTime(Long.valueOf(rawRecord[5]));
+            record.setDelayTime(Double.valueOf(rawRecord[6]));
+
+
+
+            return record;
         } catch (Exception e) {
             logger.error(e.getMessage());
             return null;

@@ -65,7 +65,7 @@ public class DatabaseIO {
 
                 if ( (i + 1) % batchSize == 0) {
                     psql.executeBatch();
-                    logger.info("Inserted " + (i + 1) + " records");
+//                    logger.info("Inserted " + (i + 1) + " records");
                 }
             }
 
