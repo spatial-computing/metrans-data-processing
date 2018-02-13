@@ -253,6 +253,7 @@ public class GtfsUtil {
             for (int i = 0 ; i < routeId.length(); i++) {
                 if (routeId.charAt(i) == '-') {
                     shortName = routeId.substring(0, i);
+                    break;
                 }
             }
         } else

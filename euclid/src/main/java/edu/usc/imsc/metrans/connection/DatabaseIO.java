@@ -1,5 +1,6 @@
 package edu.usc.imsc.metrans.connection;
 
+import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import edu.usc.imsc.metrans.timedata.DelayTimeRawRecord;
 import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
 import org.onebusaway.gtfs.model.AgencyAndId;
@@ -53,9 +54,12 @@ public class DatabaseIO {
 
             for (int i = 0; i < records.size(); i++) {
                 DelayTimeRawRecord record = records.get(i);
-                psql.setString(1, record.getRouteId());
-                psql.setString(2, record.getStopId());
-                psql.setString(3, record.getTripId());
+//                psql.setString(1, record.getRouteId());
+//                psql.setString(2, record.getStopId());
+//                psql.setString(3, record.getTripId());
+                psql.setLong(1, Long.valueOf(GtfsUtil.toShortRouteId(record.getRouteId())));
+                psql.setLong(2, Long.valueOf(record.getStopId()));
+                psql.setLong(3, Long.valueOf(record.getTripId()));
                 psql.setInt(4, record.getBusId());
                 psql.setTimestamp(5, Timestamp.from(Instant.ofEpochSecond(record.getEstimatedTime())));
                 psql.setDouble(6, record.getDelayTime());
