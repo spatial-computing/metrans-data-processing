@@ -1,14 +1,13 @@
 package edu.usc.imsc.metrans.busdata;
 
 import edu.usc.imsc.metrans.config.Config;
-import edu.usc.imsc.metrans.timedata.DelayTimeRawRecord;
+import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRawRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -96,11 +95,11 @@ public class BusDataIO {
      * @param line raw line CSV
      * @return a record or {@code null} if error occurred
      */
-    public static DelayTimeRawRecord convertCsvEstimatedTimeToRecord(String line) {
+    public static ArrivalTimeEstRawRecord convertCsvEstimatedTimeToRecord(String line) {
         try {
             String[] rawRecord = line.split(BUS_GPS_CSV_SEPARATOR);
 
-            DelayTimeRawRecord record = new DelayTimeRawRecord();
+            ArrivalTimeEstRawRecord record = new ArrivalTimeEstRawRecord();
 
             record.setRouteId(rawRecord[0]);
             record.setStopId(rawRecord[1]);

@@ -1,6 +1,6 @@
 package edu.usc.imsc.metrans.busdata;
 
-import edu.usc.imsc.metrans.delaytime.Util;
+import edu.usc.imsc.metrans.arrivaltimeestimators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

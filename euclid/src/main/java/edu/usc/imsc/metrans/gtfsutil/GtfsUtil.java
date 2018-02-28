@@ -250,12 +250,11 @@ public class GtfsUtil {
         String shortName = "";
         if (Character.isDigit(routeId.charAt(0))) {
             // start with a number
-            for (int i = 0 ; i < routeId.length(); i++) {
-                if (routeId.charAt(i) == '-') {
-                    shortName = routeId.substring(0, i);
-                    break;
-                }
-            }
+            int sepPos = routeId.indexOf("-");
+            if (0 <= sepPos)
+                shortName = routeId.substring(0, sepPos);
+            else
+                shortName = routeId;
         } else
             shortName = routeId;
 

@@ -9,7 +9,7 @@ import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import edu.usc.imsc.metrans.mapmatching.GpsRunTripMatcher;
 import edu.usc.imsc.metrans.mapmatching.MapMatchingUtil;
-import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
+import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRecord;
 import org.onebusaway.gtfs.model.Route;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static edu.usc.imsc.metrans.delaytime.DelayTimeMain.delayTimeMain;
+import static edu.usc.imsc.metrans.arrivaltimeestimators.ArrivalTimeEstimator.estimateArrivalTime;
 
-public class MapMatchingDemo {
-    private static final Logger logger = LoggerFactory.getLogger(MapMatchingDemo.class);
+public class BusDataPreprocessor {
+    private static final Logger logger = LoggerFactory.getLogger(BusDataPreprocessor.class);
 
     public static void main(String[] args) throws IOException, TransformException {
 
@@ -44,7 +44,7 @@ public class MapMatchingDemo {
         ArrayList<ArrayList<BusGpsRecord>> beSplitRuns;
         ArrayList<ArrayList<BusGpsRecord>> orgNonSplitRuns;
         ArrayList<ArrayList<BusGpsRecord>> orgBeSplitRuns;
-        ArrayList<DelayTimeRecord> estimatedArrivalTimeResult = new ArrayList<>();
+        ArrayList<ArrivalTimeEstRecord> estimatedArrivalTimeResult = new ArrayList<>();
 
         for (String busDataFile: files) {
             if (busDataFile.compareTo(startFileName) < 0)
@@ -131,7 +131,7 @@ public class MapMatchingDemo {
 //          BusDelayMain.busDelayMain(allRuns, gtfsStore);
             // Get routeId
             Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(allRuns.get(0).get(0).getRouteId()));
-            estimatedArrivalTimeResult = delayTimeMain(route, allRuns, gtfsStore);
+            estimatedArrivalTimeResult = estimateArrivalTime(route, allRuns, gtfsStore);
 
             logger.info("WRITE BEGIN");
             String outDir = dataDir + "estimated_data_160101_171010/";

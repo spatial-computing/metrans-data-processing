@@ -1,12 +1,10 @@
-package edu.usc.imsc.metrans.delaytime;
+package edu.usc.imsc.metrans.arrivaltimeestimators;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
-import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import edu.usc.imsc.metrans.timedata.RunStartTimeEndTime;
 import edu.usc.imsc.metrans.timedata.ScheduleStartTimeEndTime;
 import org.onebusaway.gtfs.model.Route;
-import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 

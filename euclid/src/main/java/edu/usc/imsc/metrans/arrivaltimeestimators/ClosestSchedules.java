@@ -1,12 +1,10 @@
-package edu.usc.imsc.metrans.delaytime;
+package edu.usc.imsc.metrans.arrivaltimeestimators;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
-import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
-import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 
 import java.util.*;
-import static edu.usc.imsc.metrans.delaytime.Util.*;
+import static edu.usc.imsc.metrans.arrivaltimeestimators.Util.*;
 
 public class ClosestSchedules {
 

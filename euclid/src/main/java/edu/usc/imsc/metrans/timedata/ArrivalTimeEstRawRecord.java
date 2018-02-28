@@ -1,6 +1,6 @@
 package edu.usc.imsc.metrans.timedata;
 
-public class DelayTimeRawRecord {
+public class ArrivalTimeEstRawRecord {
     private String routeId;
     private String stopId;
     private String tripId;
@@ -10,10 +10,10 @@ public class DelayTimeRawRecord {
     private int scheduleTime;
 
 
-    public DelayTimeRawRecord() {
+    public ArrivalTimeEstRawRecord() {
     }
 
-    public DelayTimeRawRecord(String routeId, String stopId, String tripId, int busId, long estimatedTime, double delayTime, int scheduleTime) {
+    public ArrivalTimeEstRawRecord(String routeId, String stopId, String tripId, int busId, long estimatedTime, double delayTime, int scheduleTime) {
         this.routeId = routeId;
         this.stopId = stopId;
         this.tripId = tripId;
@@ -77,5 +77,18 @@ public class DelayTimeRawRecord {
 
     public void setScheduleTime(int scheduleTime) {
         this.scheduleTime = scheduleTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ArrivalTimeEstRawRecord{" +
+                "routeId='" + routeId + '\'' +
+                ", stopId='" + stopId + '\'' +
+                ", tripId='" + tripId + '\'' +
+                ", busId=" + busId +
+                ", estimatedTime=" + estimatedTime +
+                ", delayTime=" + delayTime +
+                ", scheduleTime=" + scheduleTime +
+                '}';
     }
 }

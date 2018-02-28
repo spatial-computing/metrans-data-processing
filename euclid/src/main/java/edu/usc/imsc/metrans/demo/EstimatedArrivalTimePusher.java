@@ -3,7 +3,7 @@ package edu.usc.imsc.metrans.demo;
 
 import edu.usc.imsc.metrans.busdata.BusDataIO;
 import edu.usc.imsc.metrans.connection.DatabaseIO;
-import edu.usc.imsc.metrans.timedata.DelayTimeRawRecord;
+import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRawRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class EstimatedArrivalTimePusher {
 
         for (String busDataFile: files) {
             logger.info("STARTED: " + busDataFile);
-            ArrayList<DelayTimeRawRecord> records = new ArrayList<>();
+            ArrayList<ArrivalTimeEstRawRecord> records = new ArrayList<>();
 
             BufferedReader reader = null;
 
@@ -38,13 +38,13 @@ public class EstimatedArrivalTimePusher {
                 String line;
 
                 while ((line = reader.readLine()) != null) {
-                    DelayTimeRawRecord record = BusDataIO.convertCsvEstimatedTimeToRecord(line);
+                    ArrivalTimeEstRawRecord record = BusDataIO.convertCsvEstimatedTimeToRecord(line);
 
                     if (record != null)
                         records.add(record);
 
                     if (records.size() >= readingBatchSize) {
-                        boolean isInserted = DatabaseIO.insertBatch(records);
+                        boolean isInserted = DatabaseIO.insertBatchEstimatedArrivalTime(records);
                         if (isInserted) {
                             records.clear();
                         }
@@ -52,7 +52,7 @@ public class EstimatedArrivalTimePusher {
                 }
 
                 while (!records.isEmpty()) {
-                    boolean isInserted = DatabaseIO.insertBatch(records);
+                    boolean isInserted = DatabaseIO.insertBatchEstimatedArrivalTime(records);
                     if (isInserted) {
                         records.clear();
                     }

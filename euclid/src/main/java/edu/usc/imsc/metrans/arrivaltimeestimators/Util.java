@@ -1,19 +1,18 @@
-package edu.usc.imsc.metrans.delaytime;
+package edu.usc.imsc.metrans.arrivaltimeestimators;
 
 
 import edu.usc.imsc.metrans.config.Config;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.onebusaway.gtfs.model.StopTime;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-
-
 public class Util {
 
     private static final double EARTH_RADIUS = 6378137;
+    public static long DELAY_TIME_THRESHOLD = 15 * 60; // time buffer for delay estimation
+
     private static double rad(double d){
         return d * Math.PI / 180.0;
     }

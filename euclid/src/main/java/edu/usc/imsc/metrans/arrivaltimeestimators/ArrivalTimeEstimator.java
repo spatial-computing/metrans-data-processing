@@ -1,28 +1,31 @@
-package edu.usc.imsc.metrans.delaytime;
+package edu.usc.imsc.metrans.arrivaltimeestimators;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
-import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
-import org.onebusaway.gtfs.impl.StopTimeArray;
+import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
+import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRecord;
+import edu.usc.imsc.metrans.timedata.ScheduleStartTimeEndTime;
+import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
+import org.onebusaway.gtfs.model.Trip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static edu.usc.imsc.metrans.delaytime.Util.*;
+import static edu.usc.imsc.metrans.arrivaltimeestimators.ClosestSchedules.findClosestSchedules;
+import static edu.usc.imsc.metrans.arrivaltimeestimators.SchedulePreprocessing.*;
+import static edu.usc.imsc.metrans.arrivaltimeestimators.Util.*;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class DelayComputation {
+public class ArrivalTimeEstimator {
+    private static final Logger logger = LoggerFactory.getLogger(ArrivalTimeEstimator.class);
 
-    private static long delayTimeThreshold = 15 * 60;
-
-    public static ArrayList<DelayTimeRecord> delayComputation(ArrayList<BusGpsRecord> run,
-                                                              Map<String, ArrayList<StopTime>> closestCandidateSchedules) {
+    public static ArrayList<ArrivalTimeEstRecord> estimateArrivalTimeForARun(ArrayList<BusGpsRecord> run,
+                                                                             Map<String, ArrayList<StopTime>> closestCandidateSchedules) {
 
         int busId = run.get(0).getBusId();
-        ArrayList<DelayTimeRecord> estimatedArrivalTimeResult =  new ArrayList<>();
+        ArrayList<ArrivalTimeEstRecord> estimatedArrivalTimeResult =  new ArrayList<>();
         // Compute for all stop time
         for(String schedule : closestCandidateSchedules.keySet()) {
             ArrayList<StopTime> stopTimes = closestCandidateSchedules.get(schedule);
@@ -50,14 +53,14 @@ public class DelayComputation {
                 long delay = estimatedTime - stopTime.getArrivalTime();
 
                 // Filter the one that delay too much or arrival too early
-                if (delay >= -delayTimeThreshold && delay <= delayTimeThreshold) {
+                if (delay >= -DELAY_TIME_THRESHOLD && delay <= DELAY_TIME_THRESHOLD) {
 //                    ZonedDateTime estimatedArrivalZDT
 //                            = doubleToZonedDateTime(estimatedTime, run.get(gpsId).getBusLocationTime());
 
                     long epochEstimatedTime = Util.getEpochTimestampFromSecondsFromNoonMinus12Hours(
                             estimatedTime,
                             Util.convertSecondsToZonedDateTime(run.get(gpsId).getBusLocationTime()));
-                    DelayTimeRecord tmp = new DelayTimeRecord(stopTime, epochEstimatedTime, busId, delay);
+                    ArrivalTimeEstRecord tmp = new ArrivalTimeEstRecord(stopTime, epochEstimatedTime, busId, delay);
                     estimatedArrivalTimeResult.add(tmp);
                 }
             }
@@ -83,10 +86,10 @@ public class DelayComputation {
 //                        double delay = estimatedTime - stop.getArrivalTime();
 //
 //                        // Filter the one that delay too much or arrival too early
-//                        if (delay >= -delayTimeThreshold && delay <= delayTimeThreshold) {
+//                        if (delay >= -DELAY_TIME_THRESHOLD && delay <= DELAY_TIME_THRESHOLD) {
 //                            ZonedDateTime estimatedArrivalZDT
 //                                    = doubleToZonedDateTime(estimatedTime, gps1.getBusLocationTime());
-//                            DelayTimeRecord tmp = new DelayTimeRecord(stop, estimatedArrivalZDT, busId, delay);
+//                            ArrivalTimeEstRecord tmp = new ArrivalTimeEstRecord(stop, estimatedArrivalZDT, busId, delay);
 //                            estimatedArrivalTimeResult.add(tmp);
 //                        }
 //                    }
@@ -140,5 +143,51 @@ public class DelayComputation {
             }
         }
         return inBetweenStops;
+    }
+
+    public static ArrayList<ArrivalTimeEstRecord> estimateArrivalTime(Route route, ArrayList<ArrayList<BusGpsRecord>> allRuns, GtfsStore gtfsStore) {
+
+        logger.info("Arrival Time Estimation starts");
+        ArrayList<ArrivalTimeEstRecord> estimatedArrivalTimeResult = new ArrayList<>();
+        if (allRuns.size() == 0)
+            return estimatedArrivalTimeResult;
+
+        // Get all trips for that route
+        ArrayList<Trip> tripsOfRoute = getTripsOfRoute(route, gtfsStore);
+        logger.info("Total " + tripsOfRoute.size() + " trips");
+
+        // Get all schedules (stop times) for that route
+        Map<String, ArrayList<StopTime>> schedulesOfRoute = getSchedulesOfRoute(tripsOfRoute, gtfsStore);
+
+        Integer scheduleTimes = 0;
+        for (String schedule: schedulesOfRoute.keySet()) {
+            scheduleTimes += schedulesOfRoute.get(schedule).size();
+        }
+        logger.info("Total " + scheduleTimes + " scheduleTimes");
+
+        // Get start time and end time of all schedules
+        Map<String, ScheduleStartTimeEndTime> scheduleStartTimeEndTime = getScheduleStartTimeEndTime(schedulesOfRoute);
+
+        for (ArrayList<BusGpsRecord> run : allRuns) {
+
+            // Filter on time interval
+            Map<String, ArrayList<StopTime>> candidateSchedules
+                    = getCandidateSchedules(run, schedulesOfRoute, scheduleStartTimeEndTime);
+
+            // Detect top n closest schedule candidates based on distance
+            Map<String, ArrayList<StopTime>> closestCandidateSchedules
+                    = findClosestSchedules(run, candidateSchedules);
+
+            if (closestCandidateSchedules.size() != 0) {
+
+                ArrayList<ArrivalTimeEstRecord> estimatedArrivalTime
+                        = estimateArrivalTimeForARun(run, closestCandidateSchedules);
+                estimatedArrivalTimeResult.addAll(estimatedArrivalTime);
+
+            }
+        }
+
+        return estimatedArrivalTimeResult;
+
     }
 }

@@ -2,14 +2,17 @@ package edu.usc.imsc.metrans.timedata;
 
 import org.onebusaway.gtfs.model.StopTime;
 
-public class DelayTimeRecord {
+/**
+ * Arrival Time Estimation Record
+ */
+public class ArrivalTimeEstRecord {
 
     private StopTime stopTime;
     private long estimatedTime;
     private int busId;
     private double delayTime;
 
-    public DelayTimeRecord(StopTime stopTime, long estimatedTime, int busId, double delayTime){
+    public ArrivalTimeEstRecord(StopTime stopTime, long estimatedTime, int busId, double delayTime){
         this.stopTime = stopTime;
         this.estimatedTime = estimatedTime;
         this.busId = busId;

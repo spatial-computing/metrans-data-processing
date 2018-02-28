@@ -1,6 +1,6 @@
 package edu.usc.imsc.metrans.connection;
 
-import edu.usc.imsc.metrans.timedata.DelayTimeRecord;
+import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRecord;
 import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Route;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class FileIO {
     private static final Logger logger = LoggerFactory.getLogger(FileIO.class);
 
-    public static boolean writeFile(Route route, ArrayList<DelayTimeRecord> estimatedArrivalTimeResult, String fileName){
+    public static boolean writeFile(Route route, ArrayList<ArrivalTimeEstRecord> estimatedArrivalTimeResult, String fileName){
         boolean flag = false;
         BufferedWriter writer = null;
 
@@ -21,7 +21,7 @@ public class FileIO {
             writer = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(fileName, true), StandardCharsets.UTF_8));
 
-            for (DelayTimeRecord busDelay : estimatedArrivalTimeResult) {
+            for (ArrivalTimeEstRecord busDelay : estimatedArrivalTimeResult) {
                 AgencyAndId stop = busDelay.getStopTime().getStop().getId();
                 AgencyAndId trip = busDelay.getStopTime().getTrip().getId();
                 Integer busId = busDelay.getBusId();

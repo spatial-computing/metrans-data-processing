@@ -1,8 +1,7 @@
 package edu.usc.imsc.metrans.timedata;
 
 import edu.usc.imsc.metrans.busdata.BusGpsRecord;
-import edu.usc.imsc.metrans.delaytime.Util;
-import org.onebusaway.gtfs.model.StopTime;
+import edu.usc.imsc.metrans.arrivaltimeestimators.Util;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
