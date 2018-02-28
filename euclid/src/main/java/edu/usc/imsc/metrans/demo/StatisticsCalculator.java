@@ -2,9 +2,12 @@ package edu.usc.imsc.metrans.demo;
 
 import edu.usc.imsc.metrans.arrivaltimeestimators.Util;
 import edu.usc.imsc.metrans.connection.DatabaseIO;
+import edu.usc.imsc.metrans.statcalculators.BusBunchingCalculator;
 import edu.usc.imsc.metrans.statcalculators.DelayCalculator;
+import edu.usc.imsc.metrans.statcalculators.TravelTimeCalculator;
 import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRawRecord;
 import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRawRecordComparator;
+import edu.usc.imsc.metrans.timedata.BusBunchingRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +19,17 @@ public class StatisticsCalculator {
 
     private static final Logger logger = LoggerFactory.getLogger(StatisticsCalculator.class);
     private static ArrayList<ArrivalTimeEstRawRecord> delayRecords;
+    private static ArrayList<BusBunchingRecord> busBunchingRecords;
+    private static ArrayList<ArrivalTimeEstRawRecord> travelRecords;
+
+    private static boolean shouldCalDelayTime = false;
+    private static boolean shouldCalBusBunching = false;
+    private static boolean shouldCalTravelTime = true;
 
     public static void main(String[] args) {
         long startTimestamp = Long.valueOf(args[0]);
         long endTimestamp = Long.valueOf(args[1]);
+
 
         logger.info("Start calculating statistics from " + startTimestamp + " to " + (endTimestamp - 1));
 
@@ -29,14 +39,28 @@ public class StatisticsCalculator {
             logger.info("Date: " + currTime.getYear() + "-" + currTime.getMonth() + "-" + currTime.getDayOfMonth());
 
             delayRecords = new ArrayList<>();
+            busBunchingRecords = new ArrayList<>();
+            travelRecords = new ArrayList<>();
 
             ArrayList<ArrivalTimeEstRawRecord> records = DatabaseIO.getEstimatedDelayByDay(time);
 
             if (!records.isEmpty()) {
                 calStats(records);
 
-                logger.info("Inserting " + delayRecords.size() + " delay records");
-                DatabaseIO.insertBatchEstimatedDelayTime(delayRecords);
+                if (shouldCalDelayTime) {
+                    logger.info("Inserting " + delayRecords.size() + " delay records");
+                    DatabaseIO.insertBatchEstimatedDelayTime(delayRecords);
+                }
+
+                if (shouldCalBusBunching) {
+                    logger.info("Inserting " + busBunchingRecords.size() + " bus bunching records");
+                    DatabaseIO.insertBatchBusBunching(busBunchingRecords);
+                }
+
+                if (shouldCalTravelTime) {
+                    logger.info("Inserting " + travelRecords.size() + " travel records");
+                    DatabaseIO.insertBatchTravelTime(travelRecords);
+                }
             }
 
             time += SECONDS_IN_DAY;
@@ -73,7 +97,31 @@ public class StatisticsCalculator {
         }
     }
 
-    public static void calStatsCombo(ArrayList<ArrivalTimeEstRawRecord> aCombo) {
-        delayRecords.add(DelayCalculator.findDelayTimeRecord(aCombo));
+    /**
+     * Calculate statistics for a list of records with the same (route, stop, trip)
+     * @param records a list of records with the same (route, stop, trip)
+     */
+    public static void calStatsCombo(ArrayList<ArrivalTimeEstRawRecord> records) {
+        if (shouldCalDelayTime) {
+            // Calculate delay
+            ArrivalTimeEstRawRecord delayRecord = DelayCalculator.findDelayTimeRecord(records);
+            if (delayRecord != null)
+                delayRecords.add(delayRecord);
+        }
+
+
+        if (shouldCalBusBunching) {
+            // Calculate bus bunching
+            BusBunchingRecord busBunchingRecord = BusBunchingCalculator.calBusBunching(records);
+            if (busBunchingRecord != null)
+                busBunchingRecords.add(busBunchingRecord);
+        }
+
+        if (shouldCalTravelTime) {
+            // Calculate travel
+            ArrivalTimeEstRawRecord travelRecord = TravelTimeCalculator.findTravelTimeRecord(records);
+            if (travelRecord != null)
+                travelRecords.add(travelRecord);
+        }
     }
 }

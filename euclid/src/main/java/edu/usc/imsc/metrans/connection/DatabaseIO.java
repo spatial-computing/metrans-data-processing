@@ -3,6 +3,7 @@ package edu.usc.imsc.metrans.connection;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRawRecord;
 import edu.usc.imsc.metrans.timedata.ArrivalTimeEstRecord;
+import edu.usc.imsc.metrans.timedata.BusBunchingRecord;
 import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Route;
 import org.slf4j.Logger;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 public class DatabaseIO {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseIO.class);
 
+    private static final int DEFAULT_BATCH_SIZE = 1000;
+
     private static final String INSERT_ESTIMATED_ARRIVAL_TIME_STMT = "INSERT INTO estimated_arrival_time" +
             " (route_id, stop_id, trip_id, estimated_time, delay_time, schedule_time, date_estimated_time) " +
             " VALUES(?, ?, ?, ?, ?, ?, DATE(?))" +
@@ -23,6 +26,16 @@ public class DatabaseIO {
     private static final String INSERT_ESTIMATED_DELAY_TIME_STMT = "INSERT INTO estimated_delay_time" +
             " (route_id, stop_id, trip_id, estimated_time, delay_time, schedule_time, date_estimated_time) " +
             " VALUES(?, ?, ?, ?, ?, ?, DATE(?))" +
+            " ON CONFLICT DO NOTHING";
+
+    private static final String INSERT_ESTIMATED_ARRIVAL_TIME_MIN_POS_STMT = "INSERT INTO estimated_arrival_time_min_pos" +
+            " (route_id, stop_id, trip_id, estimated_time, delay_time, schedule_time, date_estimated_time) " +
+            " VALUES(?, ?, ?, ?, ?, ?, DATE(?))" +
+            " ON CONFLICT DO NOTHING";
+
+    private static final String INSERT_BUS_BUNCHING_STMT = "INSERT INTO bus_bunching" +
+            " (route_id, stop_id, trip_id, date_estimated_time, schedule_time, num_buses) " +
+            " VALUES(?, ?, ?, DATE(?), ?, ?)" +
             " ON CONFLICT DO NOTHING";
 
     private static final String SELECT_BY_DATE_STMT = "SELECT * " +
@@ -51,6 +64,10 @@ public class DatabaseIO {
         return insertBatchEstimatedTime(records, INSERT_ESTIMATED_DELAY_TIME_STMT);
     }
 
+    public static boolean insertBatchTravelTime(ArrayList<ArrivalTimeEstRawRecord> records) {
+        return insertBatchEstimatedTime(records, INSERT_ESTIMATED_ARRIVAL_TIME_MIN_POS_STMT);
+    }
+
     private static boolean insertBatchEstimatedTime(ArrayList<ArrivalTimeEstRawRecord> records, String stmt) {
         Connection connection = getConnection();
         if (connection == null) {
@@ -59,7 +76,7 @@ public class DatabaseIO {
         }
         PreparedStatement psql;
 
-        int batchSize = 1000;
+        int batchSize = DEFAULT_BATCH_SIZE;
 
         try {
             psql = connection.prepareStatement(stmt);
@@ -73,6 +90,50 @@ public class DatabaseIO {
                 psql.setDouble(5, record.getDelayTime());
                 psql.setInt(6, record.getScheduleTime());
                 psql.setTimestamp(7, Timestamp.from(Instant.ofEpochSecond(record.getEstimatedTime())));
+
+                psql.addBatch();
+
+                if ( (i + 1) % batchSize == 0) {
+                    psql.executeBatch();
+//                    logger.info("Inserted " + (i + 1) + " records");
+                }
+            }
+
+            psql.executeBatch();
+            logger.info("Inserted " + records.size() + " records");
+
+            connection.close();
+
+            return true;
+        } catch (SQLException e) {
+            logger.error("Error inserting into database", e);
+        }
+
+        return false;
+    }
+
+
+    public static boolean insertBatchBusBunching(ArrayList<BusBunchingRecord> records) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            logger.error("No database connection");
+            return false;
+        }
+        PreparedStatement psql;
+
+        int batchSize = DEFAULT_BATCH_SIZE;
+
+        try {
+            psql = connection.prepareStatement(INSERT_BUS_BUNCHING_STMT);
+
+            for (int i = 0; i < records.size(); i++) {
+                BusBunchingRecord record = records.get(i);
+                psql.setLong(1, Long.valueOf(GtfsUtil.toShortRouteId(record.getRouteId())));
+                psql.setLong(2, Long.valueOf(record.getStopId()));
+                psql.setLong(3, Long.valueOf(record.getTripId()));
+                psql.setTimestamp(4, Timestamp.from(Instant.ofEpochSecond(record.getEstimatedTime())));
+                psql.setInt(5, record.getScheduleTime());
+                psql.setInt(6, record.getNumBusBunching());
 
                 psql.addBatch();
 
