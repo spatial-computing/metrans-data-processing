@@ -22,9 +22,9 @@ public class StatisticsCalculator {
     private static ArrayList<BusBunchingRecord> busBunchingRecords;
     private static ArrayList<ArrivalTimeEstRawRecord> travelRecords;
 
-    private static boolean shouldCalDelayTime = false;
+    private static boolean shouldCalDelayTime = true;
     private static boolean shouldCalBusBunching = false;
-    private static boolean shouldCalTravelTime = true;
+    private static boolean shouldCalTravelTime = false;
 
     public static void main(String[] args) {
         long startTimestamp = Long.valueOf(args[0]);
@@ -36,7 +36,8 @@ public class StatisticsCalculator {
         long time = startTimestamp;
         while (time < endTimestamp) {
             ZonedDateTime currTime = Util.convertSecondsToZonedDateTime(time);
-            logger.info("Date: " + currTime.getYear() + "-" + currTime.getMonth() + "-" + currTime.getDayOfMonth());
+            logger.info("Date: " + currTime.getYear() + "-" + currTime.getMonth() + "-" + currTime.getDayOfMonth()
+                    + " :: epoch " + currTime.toEpochSecond());
 
             delayRecords = new ArrayList<>();
             busBunchingRecords = new ArrayList<>();

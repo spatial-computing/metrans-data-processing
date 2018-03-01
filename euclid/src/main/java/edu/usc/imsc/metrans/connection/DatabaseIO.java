@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DatabaseIO {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseIO.class);
 
-    private static final int DEFAULT_BATCH_SIZE = 1000;
+    private static final int DEFAULT_BATCH_SIZE = 1024;
 
     private static final String INSERT_ESTIMATED_ARRIVAL_TIME_STMT = "INSERT INTO estimated_arrival_time" +
             " (route_id, stop_id, trip_id, estimated_time, delay_time, schedule_time, date_estimated_time) " +
@@ -74,11 +74,14 @@ public class DatabaseIO {
             logger.error("No database connection");
             return false;
         }
-        PreparedStatement psql;
+        PreparedStatement psql = null;
 
         int batchSize = DEFAULT_BATCH_SIZE;
 
+        boolean ok = false;
+
         try {
+            connection.setAutoCommit(false);
             psql = connection.prepareStatement(stmt);
 
             for (int i = 0; i < records.size(); i++) {
@@ -102,11 +105,26 @@ public class DatabaseIO {
             psql.executeBatch();
             logger.info("Inserted " + records.size() + " records");
 
-            connection.close();
-
-            return true;
+            connection.commit();
         } catch (SQLException e) {
             logger.error("Error inserting into database", e);
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                if (psql != null)
+                    psql.close();
+                if (connection != null)
+                    connection.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;
