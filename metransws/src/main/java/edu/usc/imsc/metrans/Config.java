@@ -11,10 +11,11 @@ public class Config {
 
     public static final String KEY_DATA_DIR = "data.dir";
     public static final String KEY_DATA_SHAPE_FILE = "data.shapefile";
+    public static final String KEY_GTFS_DIR = "data.gtfs.dir";
 
     public static String dataDir = "";
-
     public static String dataShapeFile = "";
+    public static String gtfsDir = "";
 
 
     /**
@@ -33,8 +34,11 @@ public class Config {
                 dataShapeFile = Paths.get(dataDir, fileName).toAbsolutePath().toString();
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            if (properties.containsKey(KEY_GTFS_DIR)) {
+                String dirName = properties.getProperty(KEY_GTFS_DIR);
+                gtfsDir = Paths.get(dataDir, dirName).toAbsolutePath().toString();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

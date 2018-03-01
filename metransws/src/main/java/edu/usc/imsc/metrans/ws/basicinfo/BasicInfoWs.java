@@ -56,6 +56,7 @@ public class BasicInfoWs {
 
         info.setAvgDeviationRank(76);
         info.setStopName("Figueroa/Exposition");
+        info.setWaitingTimeEstimation(3.2);
 
         return Response.status(200).entity(info).build();
     }

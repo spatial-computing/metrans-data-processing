@@ -21,6 +21,7 @@ public class MyApplication extends Application {
     public Set<Class<?>> getClasses() {
         Config.load();
 
+
         HashSet h = new HashSet<Class<?>>();
         h.add(HelloWorld.class);
         h.add(GeneralInfoWS.class);
