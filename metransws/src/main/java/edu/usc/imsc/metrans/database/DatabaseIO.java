@@ -22,6 +22,11 @@ public class DatabaseIO {
                     " WHERE route_id = ?" +
                     " GROUP BY stop_id";
 
+    private static final String SELECT_AVG_DEVIATION_OF_A_TRIP_OF_STOP_OF_ROUTE =
+            "SELECT SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " WHERE route_id = ? AND stop_id = ? AND trip_id = ?";
+
     private static final String SELECT_AVG_MIN_POS_DELAY_PER_ROUTE =
             "SELECT route_id, SUM((avg_min_pos_delay * num_estimations)) / SUM(num_estimations) as avg_min_pos_delay " +
                     " FROM empd_avg_mpd_month_mv " +
@@ -55,6 +60,11 @@ public class DatabaseIO {
             "SELECT SUM(num_ontime_estimations)::BIGINT AS sum_ontimes, SUM(num_estimations)::BIGINT AS sum_estimations " +
                     " FROM etd_ontime_count_mv " +
                     " WHERE route_id=? AND stop_id=?";
+
+    private static final String SELECT_ONTIME_COUNT_FOR_ROUTE_AND_STOP_AND_TRIP =
+            "SELECT SUM(num_ontime_estimations)::BIGINT AS sum_ontimes, SUM(num_estimations)::BIGINT AS sum_estimations " +
+                    " FROM etd_ontime_count_mv " +
+                    " WHERE route_id=? AND stop_id=? AND trip_id=?";
 
     private static Connection getConnection() {
         Connection con = null;
@@ -147,7 +157,7 @@ public class DatabaseIO {
 
     /**
      * Get list of average arrival time deviation of stops of a route
-     * @return list of average arrival time deviation of all routes or empty list if error occur
+     * @return list of average arrival time deviation of stops of a route or empty list if error occur
      */
     public static ArrayList<DbItemInfo> getAvgDeviationOfStopsOfRoute(Long routeId) {
         ArrayList<DbItemInfo> results = new ArrayList<>();
@@ -182,6 +192,45 @@ public class DatabaseIO {
         }
 
         return results;
+    }
+
+
+    /**
+     * Get average arrival time deviation of a trip of a stop of a route
+     * @return list of average arrival time deviation of a trip of a stop of a route or {@code null} if error occurred
+     */
+    public static DbItemInfo getAvgDeviationOfTripOfStopOfRoute(long routeId, long stopId, long tripId) {
+        DbItemInfo result = null;
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return result;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_OF_A_TRIP_OF_STOP_OF_ROUTE);
+            psql.setLong(1, routeId);
+            psql.setLong(2, stopId);
+            psql.setLong(3, tripId);
+
+            ResultSet rs = psql.executeQuery();
+
+            while(rs.next()){
+                result = new DbItemInfo();
+                result.setTimeDiff(rs.getDouble("avg_deviation"));
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting list of average arrival time deviation of a trip of a stop of a route " + routeId
+                    + ":"  + e.getMessage());
+            e.printStackTrace();
+            result = null;
+        }
+
+        return result;
     }
 
 
@@ -362,7 +411,7 @@ public class DatabaseIO {
     }
 
     /**
-     * Get reliability for route
+     * Get reliability for a route
      * @param routeId route id
      * @return overall reliability or -1 if error occur
      */
@@ -384,7 +433,7 @@ public class DatabaseIO {
             connection.close();
 
         } catch (SQLException e) {
-            System.err.println("Error selecting overall reliability:"  + e.getMessage());
+            System.err.println("Error selecting reliability for a route:"  + e.getMessage());
             e.printStackTrace();
         }
 
@@ -392,7 +441,7 @@ public class DatabaseIO {
     }
 
     /**
-     * Get reliability for route
+     * Get reliability for a stop of a route
      * @param routeId route id
      * @param stopId stop id
      * @return overall reliability or -1 if error occur
@@ -416,13 +465,52 @@ public class DatabaseIO {
             connection.close();
 
         } catch (SQLException e) {
-            System.err.println("Error selecting overall reliability:"  + e.getMessage());
+            System.err.println("Error selecting reliability for a stop of a route:"  + e.getMessage());
             e.printStackTrace();
         }
 
         return result;
     }
 
+    /**
+     * Get reliability for a trip of a stop of a route
+     * @param routeId route id
+     * @param stopId stop id
+     * @param tripId trip id
+     * @return overall reliability or -1 if error occur
+     */
+    public static double getReliability(long routeId, long stopId, long tripId) {
+        double result = -1;
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return result;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(SELECT_ONTIME_COUNT_FOR_ROUTE_AND_STOP_AND_TRIP);
+            psql.setLong(1, routeId);
+            psql.setLong(2, stopId);
+            psql.setLong(3, tripId);
+
+            result = getReliabilityResult(psql);
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting reliability for a trip of a stop of a route:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * Retrieve a parse DB item to get reliability
+     * @param psql statement
+     * @return reliability or -1 if error occurred
+     */
     private static double getReliabilityResult(PreparedStatement psql) {
         double result = -1;
         try {
@@ -435,7 +523,7 @@ public class DatabaseIO {
                 result = ontimes / estimations;
             }
         } catch (Exception e) {
-            System.err.println("Error selecting overall reliability:"  + e.getMessage());
+            System.err.println("Error a parse DB item to get reliability:"  + e.getMessage());
             e.printStackTrace();
         }
 

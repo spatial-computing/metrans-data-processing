@@ -52,8 +52,8 @@ public class DataCache {
     }
 
     /**
-     * Get average deviation objects of a route
-     * @return average deviation objects of routes or empty list if error occurred
+     * Get average deviation objects of stops of a route
+     * @return average deviation objects of stops of a route or empty list if error occurred
      */
     public static ArrayList<DbItemInfo> getAvgDeviationsOfStopsOfRoute(Long routeId) {
         if (stopAvgDeviationsCache == null) {

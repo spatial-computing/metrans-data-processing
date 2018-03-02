@@ -137,8 +137,16 @@ public class BasicInfoWs {
                                               @PathParam("tripId") int tripId) {
         RouteStopTripBasicInfo info = new RouteStopTripBasicInfo();
 
-        info.setAvgDeviation(23.5);
-        info.setReliability(0.9);
+        DbItemInfo avgDeviation = DatabaseIO.getAvgDeviationOfTripOfStopOfRoute(routeId, stopId, tripId);
+        if (avgDeviation != null) {
+            info.setAvgDeviation(avgDeviation.getTimeDiff());
+            info.setReliability(DatabaseIO.getReliability(routeId, stopId, tripId));
+        } else {
+            info.setAvgDeviation(Utils.ERROR_VALUE);
+            System.err.println("Unable to find average deviation for route " + routeId
+                    + ", stop " + stopId + ", trip " + tripId);
+        }
+
 
         return Response.status(200).entity(info).build();
     }
