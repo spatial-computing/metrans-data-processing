@@ -2,6 +2,11 @@ package edu.usc.imsc.metrans.ws.basicinfo;
 
 import edu.usc.imsc.metrans.database.DatabaseIO;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStoreProvider;
+import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
+import edu.usc.imsc.metrans.ws.storage.AvgDeviation;
+import edu.usc.imsc.metrans.ws.storage.DataCache;
+import org.onebusaway.gtfs.model.Route;
+import org.onebusaway.gtfs.model.Trip;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 @Path("/main/basicinfo")
 public class BasicInfoWs {
@@ -18,11 +24,11 @@ public class BasicInfoWs {
     public Response getOverallBasicInfo() {
         OverallBasicInfo info = new OverallBasicInfo();
 
-        Double avgDeviation = DatabaseIO.getAvgDeviationAllRoutes();
-        if (avgDeviation == Double.NEGATIVE_INFINITY)
-            avgDeviation = -99999999999.0;
+        AvgDeviation avgDeviation = DatabaseIO.getAvgDeviationAllRoutes();
+        if (avgDeviation == null)
+            avgDeviation.setAvgDeviation(-99999999999.0);
 
-        info.setAvgDeviation(avgDeviation);
+        info.setAvgDeviation(avgDeviation.getAvgDeviation());
         info.setReliability(DatabaseIO.getReliabilityOverall());
 
         info.setNumBusRoutes(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllRoutes().size());
@@ -41,12 +47,36 @@ public class BasicInfoWs {
     public Response getRouteBasicInfo(@PathParam("routeId") int routeId) {
         RouteBasicInfo info = new RouteBasicInfo();
 
-        info.setAvgDeviation(55.5);
-        info.setReliability(0.91);
+        ArrayList<AvgDeviation> avgDeviations = DataCache.getAvgDeviationsOfAllRoutes();
+        AvgDeviation avgDeviation = null;
+        for (AvgDeviation obj: avgDeviations) {
+            if (obj.getRouteId() == routeId) {
+                avgDeviation = obj;
+                break;
+            }
+        }
+        if (avgDeviation != null) {
+            info.setAvgDeviation(avgDeviation.getAvgDeviation());
+            info.setReliability(DatabaseIO.getReliabilityForRoute(routeId));
 
-        info.setAvgDeviationRank(7);
-        info.setNumTripsPerDay(45);
-        info.setNumDataPointsPerDay(1500);
+            info.setAvgDeviationRank(avgDeviation.getRank());
+
+            //get num trips of this route
+            try {
+                Route route = GtfsUtil.getRouteFromShortId(GtfsStoreProvider.getGtfsStore(), String.valueOf(routeId));
+                if (route != null) {
+                    ArrayList<Trip> tripsOfRoute = GtfsStoreProvider.getGtfsStore().getRouteTrips().get(route.getId().getId());
+                    info.setNumTripsPerDay(tripsOfRoute.size());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            info.setNumDataPointsPerDay(-1);
+        } else {
+            System.err.println("Unable to find route average deviation for route " + routeId);
+        }
 
         return Response.status(200).entity(info).build();
     }

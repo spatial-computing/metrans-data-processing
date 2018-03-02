@@ -1,12 +1,21 @@
 package edu.usc.imsc.metrans.database;
 
 
+import edu.usc.imsc.metrans.ws.storage.AvgDeviation;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseIO {
     private static final String SELECT_AVG_DEVIATION_ALL_ROUTES =
             " SELECT SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation_all_routes " +
             " FROM etd_avg_deviation_month_mv ";
+
+    private static final String SELECT_AVG_DEVIATION_PER_ROUTE =
+            "SELECT route_id, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " GROUP BY route_id " +
+                    " ORDER BY route_id";
 
     private static final String SELECT_MIN_MAX_DATE =
             "SELECT MIN(date_estimated_time) AS min_date, MAX(date_estimated_time) AS max_date " +
@@ -19,6 +28,11 @@ public class DatabaseIO {
     private static final String SELECT_ONTIME_COUNT_OVERALL =
             "SELECT SUM(num_ontime_estimations)::BIGINT AS sum_ontimes, SUM(num_estimations)::BIGINT AS sum_estimations " +
             " FROM etd_ontime_count_mv";
+
+    private static final String SELECT_ONTIME_COUNT_FOR_ROUTE =
+            "SELECT SUM(num_ontime_estimations)::BIGINT AS sum_ontimes, SUM(num_estimations)::BIGINT AS sum_estimations " +
+            " FROM etd_ontime_count_mv " +
+            " WHERE route_id=?";
 
     private static Connection getConnection() {
         Connection con = null;
@@ -39,10 +53,10 @@ public class DatabaseIO {
 
     /**
      * Get average arrival time deviation of all routes
-     * @return average arrival time deviation of all routes or {@code NEGATIVE_INFINITY} if error occur
+     * @return average arrival time deviation of all routes or {@code null} if error occur
      */
-    public static Double getAvgDeviationAllRoutes() {
-        Double result = Double.NEGATIVE_INFINITY;
+    public static AvgDeviation getAvgDeviationAllRoutes() {
+        AvgDeviation result = null;
         Connection connection = getConnection();
         if (connection == null) {
             System.err.println("No database connection");
@@ -56,7 +70,8 @@ public class DatabaseIO {
             ResultSet rs = psql.executeQuery();
 
             while(rs.next()){
-                result = rs.getDouble("avg_deviation_all_routes");
+                result = new AvgDeviation();
+                result.setAvgDeviation(rs.getDouble("avg_deviation_all_routes"));
             }
 
             connection.close();
@@ -67,6 +82,44 @@ public class DatabaseIO {
         }
 
         return result;
+    }
+
+
+    /**
+     * Get list of average arrival time deviation of all routes
+     * @return list of average arrival time deviation of all routes or empty list if error occur
+     */
+    public static ArrayList<AvgDeviation> getAvgDeviationPerRoutes() {
+        ArrayList<AvgDeviation> results = new ArrayList<>();
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return results;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_PER_ROUTE);
+
+            ResultSet rs = psql.executeQuery();
+
+            while(rs.next()){
+                AvgDeviation avgDeviation = new AvgDeviation();
+                avgDeviation.setRouteId(rs.getLong("route_id"));
+                avgDeviation.setAvgDeviation(rs.getDouble("avg_deviation"));
+
+                results.add(avgDeviation);
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting average arrival time deviation of all routes:"  + e.getMessage());
+            e.printStackTrace();
+            results = new ArrayList<>();
+        }
+
+        return results;
     }
 
 
@@ -156,6 +209,51 @@ public class DatabaseIO {
         try {
             psql = connection.prepareStatement(SELECT_ONTIME_COUNT_OVERALL);
 
+            result = getOntimeResult(psql);
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting overall reliability:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get reliability for route
+     * @param routeId route id
+     * @return overall reliability or -1 if error occur
+     */
+    public static double getReliabilityForRoute(long routeId) {
+        double result = -1;
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return result;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(SELECT_ONTIME_COUNT_FOR_ROUTE);
+            psql.setLong(1, routeId);
+
+            result = getOntimeResult(psql);
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting overall reliability:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    private static double getOntimeResult(PreparedStatement psql) {
+        double result = -1;
+        try {
             ResultSet rs = psql.executeQuery();
 
             while(rs.next()){
@@ -164,10 +262,7 @@ public class DatabaseIO {
 
                 result = ontimes / estimations;
             }
-
-            connection.close();
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Error selecting overall reliability:"  + e.getMessage());
             e.printStackTrace();
         }
