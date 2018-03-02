@@ -9,8 +9,6 @@ import org.onebusaway.csv_entities.EntityHandler;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.*;
 import org.onebusaway.gtfs.serialization.GtfsReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +20,6 @@ import java.util.*;
  * Utilities for GTFS data
  */
 public class GtfsUtil {
-    private static final Logger logger = LoggerFactory.getLogger(GtfsUtil.class);
-
     /**
      * Read GTFS data from {@code inputDir}
      * @param inputDir gtfs input directory with extracted files
@@ -89,7 +85,8 @@ public class GtfsUtil {
                 shapeLineStrings.put(entry.getKey(), lineString);
             }
         } catch (Exception ex) {
-            logger.error("Unable to get shape to LineString mapping: ", ex);
+            System.err.println("Unable to get shape to LineString mapping: " + ":" + ex.getMessage());
+            ex.printStackTrace();
         }
 
         return shapeLineStrings;
@@ -181,9 +178,9 @@ public class GtfsUtil {
             try {
                 tripShapeMap.put(trip.getId().getId(), trip.getShapeId().getId());
             } catch (Exception ex) {
-                logger.error("Error get TripId ==> ShapeId mapping", ex);
-                logger.error(trip.getId().toString());
-                logger.error(trip.getShapeId().toString());
+                System.err.println("Error get TripId ==> ShapeId mapping" + ":" + ex.getMessage());
+                System.err.println(trip.getId().toString());
+                System.err.println(trip.getShapeId().toString());
                 throw ex;
             }
         }
@@ -233,7 +230,8 @@ public class GtfsUtil {
             LineString lineString = store.getShapeLineStrings().get(shapeId);
             len = lineString.getLength();
         } catch (Exception ex) {
-            logger.error("Error calculating length of trip " + trip.toString(), ex);
+            System.err.println("Error calculating length of trip " + trip.toString() + ":" + ex.getMessage());
+            ex.printStackTrace();
         }
 
         return len;

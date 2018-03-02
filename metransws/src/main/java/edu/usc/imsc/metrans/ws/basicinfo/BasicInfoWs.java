@@ -1,5 +1,8 @@
 package edu.usc.imsc.metrans.ws.basicinfo;
 
+import edu.usc.imsc.metrans.database.DatabaseIO;
+import edu.usc.imsc.metrans.gtfsutil.GtfsStoreProvider;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,14 +18,18 @@ public class BasicInfoWs {
     public Response getOverallBasicInfo() {
         OverallBasicInfo info = new OverallBasicInfo();
 
-        info.setAvgDeviation(34.5);
-        info.setReliability(0.81);
+        Double avgDeviation = DatabaseIO.getAvgDeviationAllRoutes();
+        if (avgDeviation == Double.NEGATIVE_INFINITY)
+            avgDeviation = -99999999999.0;
 
-        info.setNumBusRoutes(144);
-        info.setNumBusStops(10000);
-        info.setNumDataPoints(1534545);
-        info.setStartTime(1451635200);
-        info.setEndTime(1514793600);
+        info.setAvgDeviation(avgDeviation);
+        info.setReliability(DatabaseIO.getReliabilityOverall());
+
+        info.setNumBusRoutes(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllRoutes().size());
+        info.setNumBusStops(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllStops().size());
+        info.setNumDataPoints(DatabaseIO.getEstimatedDataPoints());
+        info.setStartTime(DatabaseIO.getMinMaxTime(true));
+        info.setEndTime(DatabaseIO.getMinMaxTime(false));
 
 
         return Response.status(200).entity(info).build();

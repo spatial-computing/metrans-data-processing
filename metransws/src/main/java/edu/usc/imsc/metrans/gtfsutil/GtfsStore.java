@@ -5,8 +5,6 @@ import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ import java.util.Map;
  *  - Prepare mappings {@link #prepareMappings()}
  */
 public class GtfsStore {
-    private static final Logger logger = LoggerFactory.getLogger(GtfsStore.class);
     private Map<String, LineString> shapeLineStrings = null;
     private Map<String, ArrayList<StopTime>> tripStopTimes = null;
     private Map<String, Trip> routeMaxLengthTrip = null;
@@ -33,7 +30,7 @@ public class GtfsStore {
 
 
     public GtfsStore(String gtfsDir) throws IOException {
-        logger.info("Start reading gtfs data from " + gtfsDir);
+        System.out.println("Start reading gtfs data from " + gtfsDir);
         gtfsDao = GtfsUtil.readGtfsFromDir(gtfsDir);
 
         prepareMappings();
@@ -57,19 +54,19 @@ public class GtfsStore {
      * - RouteId ==> Trips
      */
     public void prepareMappings() {
-        logger.info("Preparing ShapeId ==> LineString:...");
+        System.out.println("Preparing ShapeId ==> LineString:...");
         shapeLineStrings = GtfsUtil.getShapeLineStringsMapping(gtfsDao);
 
-        logger.info("Preparing TripId ==> StopTimes:...");
+        System.out.println("Preparing TripId ==> StopTimes:...");
         tripStopTimes = GtfsUtil.getTripStopTimesMapping(gtfsDao);
 
-        logger.info("Preparing TripId ==> ShapeId:...");
+        System.out.println("Preparing TripId ==> ShapeId:...");
         tripShape = GtfsUtil.getTripShapeMapping(gtfsDao);
 
-        logger.info("Preparing RouteId ==> Trips:...");
+        System.out.println("Preparing RouteId ==> Trips:...");
         routeTrips = GtfsUtil.getRouteTripsMapping(gtfsDao);
 
-        logger.info("Preparing RouteId ==> MaxLengthTrip:...");
+        System.out.println("Preparing RouteId ==> MaxLengthTrip:...");
         routeMaxLengthTrip = prepareMaxLengthTrip();
     }
 

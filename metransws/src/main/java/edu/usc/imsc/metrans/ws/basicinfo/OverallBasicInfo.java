@@ -9,7 +9,7 @@ public class OverallBasicInfo {
 
     int numBusRoutes = 0;
     int numBusStops = 0;
-    int numDataPoints = 0;
+    long numDataPoints = 0;
     long startTime = 0;
     long endTime = 0;
 
@@ -33,11 +33,11 @@ public class OverallBasicInfo {
         this.numBusStops = numBusStops;
     }
 
-    public int getNumDataPoints() {
+    public long getNumDataPoints() {
         return numDataPoints;
     }
 
-    public void setNumDataPoints(int numDataPoints) {
+    public void setNumDataPoints(long numDataPoints) {
         this.numDataPoints = numDataPoints;
     }
 
