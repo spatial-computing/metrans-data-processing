@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -273,5 +275,57 @@ public class GtfsUtil {
                 return route;
         }
         return null;
+    }
+
+
+    /**
+     * Get service day from service id.
+     * e.g. DEC17-D01CAR-1_Weekday-99 => Weekday
+     * @param serviceId service id
+     * @return service day or empty string if not found
+     */
+    public static String getServiceDay(String serviceId) {
+        String serviceDay = "";
+
+        int start = serviceId.length();
+        int end = serviceId.length();
+        for (int i = serviceId.length()-1; 0 <= i; i--) {
+            if (Character.isLetter(serviceId.charAt(i))) {
+                end = i;
+                break;
+            }
+        }
+
+        if (end == serviceId.length())
+            return serviceDay;
+
+        for (int i = end; 0 <= i; i--) {
+            if (!Character.isLetter(serviceId.charAt(i))) {
+                start = i;
+                break;
+            }
+        }
+
+        if (start == serviceId.length())
+            return serviceDay;
+
+        return serviceId.substring(start + 1, end + 1);
+    }
+
+    /**
+     * Get representation of a arrival time
+     * @param arrivalTime arrival time
+     * @param pattern format patter
+     * @return "HH:mm:ss" representation of a arrival time
+     */
+    public static String getHourMinSec(int arrivalTime, String pattern) {
+        ZonedDateTime time = ZonedDateTime.now();
+
+        //set time to noon
+        time = time.withHour(12).withMinute(0).withSecond(0).withNano(0);
+
+        time = time.plusSeconds(arrivalTime);
+
+        return time.format(DateTimeFormatter.ofPattern(pattern));
     }
 }

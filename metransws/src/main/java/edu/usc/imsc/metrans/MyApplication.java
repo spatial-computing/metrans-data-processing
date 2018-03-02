@@ -1,10 +1,12 @@
 package edu.usc.imsc.metrans;
 
 import edu.usc.imsc.metrans.demo.HelloWorld;
+import edu.usc.imsc.metrans.gtfsutil.GtfsStoreProvider;
 import edu.usc.imsc.metrans.ws.GeneralInfoWS;
 import edu.usc.imsc.metrans.ws.MetransMainWs;
 import edu.usc.imsc.metrans.ws.TripsOfStopsWs;
 import edu.usc.imsc.metrans.ws.basicinfo.BasicInfoWs;
+import edu.usc.imsc.metrans.ws.list.ListingWs;
 import edu.usc.imsc.metrans.ws.stats.StatsDeviationWs;
 
 import javax.ws.rs.ApplicationPath;
@@ -20,7 +22,7 @@ public class MyApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Config.load();
-
+        GtfsStoreProvider.getGtfsStore();
 
         HashSet h = new HashSet<Class<?>>();
         h.add(HelloWorld.class);
@@ -29,6 +31,7 @@ public class MyApplication extends Application {
         h.add(BasicInfoWs.class);
         h.add(TripsOfStopsWs.class);
         h.add(StatsDeviationWs.class);
+        h.add(ListingWs.class);
         h.add(CORSResponseFilter.class);
         return h;
     }
