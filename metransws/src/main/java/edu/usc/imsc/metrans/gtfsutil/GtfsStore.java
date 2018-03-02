@@ -3,6 +3,7 @@ package edu.usc.imsc.metrans.gtfsutil;
 import com.vividsolutions.jts.geom.LineString;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.Route;
+import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 
@@ -26,6 +27,7 @@ public class GtfsStore {
     private Map<String, Trip> routeMaxLengthTrip = null;
     private Map<String, String> tripShape = null;
     private Map<String, ArrayList<Trip>> routeTrips = null;
+    private Map<String, Stop> stopMap = null;
     private GtfsDaoImpl gtfsDao = null;
 
 
@@ -68,6 +70,9 @@ public class GtfsStore {
 
         System.out.println("Preparing RouteId ==> MaxLengthTrip:...");
         routeMaxLengthTrip = prepareMaxLengthTrip();
+
+        System.out.println("Preparing StopId ==> Stop:...");
+        stopMap = GtfsUtil.getStopMap(gtfsDao);
     }
 
 
@@ -85,6 +90,7 @@ public class GtfsStore {
 
         return tmp;
     }
+
 
     /**
      * For a {@code route}, find the trip that has maximum length
@@ -131,5 +137,9 @@ public class GtfsStore {
 
     public Map<String, Trip> getRouteMaxLengthTrip() {
         return routeMaxLengthTrip;
+    }
+
+    public Map<String, Stop> getStopMap() {
+        return stopMap;
     }
 }

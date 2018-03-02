@@ -3,9 +3,11 @@ package edu.usc.imsc.metrans.ws.basicinfo;
 import edu.usc.imsc.metrans.database.DatabaseIO;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStoreProvider;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
-import edu.usc.imsc.metrans.ws.storage.AvgDeviation;
+import edu.usc.imsc.metrans.utils.Utils;
+import edu.usc.imsc.metrans.ws.storage.DbItemInfo;
 import edu.usc.imsc.metrans.ws.storage.DataCache;
 import org.onebusaway.gtfs.model.Route;
+import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.Trip;
 
 import javax.ws.rs.GET;
@@ -24,12 +26,12 @@ public class BasicInfoWs {
     public Response getOverallBasicInfo() {
         OverallBasicInfo info = new OverallBasicInfo();
 
-        AvgDeviation avgDeviation = DatabaseIO.getAvgDeviationAllRoutes();
+        DbItemInfo avgDeviation = DatabaseIO.getAvgDeviationAllRoutes();
         if (avgDeviation == null)
-            avgDeviation.setAvgDeviation(-99999999999.0);
+            avgDeviation.setTimeDiff(Utils.ERROR_VALUE);
 
-        info.setAvgDeviation(avgDeviation.getAvgDeviation());
-        info.setReliability(DatabaseIO.getReliabilityOverall());
+        info.setAvgDeviation(avgDeviation.getTimeDiff());
+        info.setReliability(DatabaseIO.getReliability());
 
         info.setNumBusRoutes(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllRoutes().size());
         info.setNumBusStops(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllStops().size());
@@ -47,17 +49,19 @@ public class BasicInfoWs {
     public Response getRouteBasicInfo(@PathParam("routeId") int routeId) {
         RouteBasicInfo info = new RouteBasicInfo();
 
-        ArrayList<AvgDeviation> avgDeviations = DataCache.getAvgDeviationsOfAllRoutes();
-        AvgDeviation avgDeviation = null;
-        for (AvgDeviation obj: avgDeviations) {
+        // avg deviation
+        ArrayList<DbItemInfo> avgDeviations = DataCache.getAvgDeviationsOfAllRoutes();
+        DbItemInfo avgDeviation = null;
+        for (DbItemInfo obj: avgDeviations) {
             if (obj.getRouteId() == routeId) {
                 avgDeviation = obj;
                 break;
             }
         }
+
         if (avgDeviation != null) {
-            info.setAvgDeviation(avgDeviation.getAvgDeviation());
-            info.setReliability(DatabaseIO.getReliabilityForRoute(routeId));
+            info.setAvgDeviation(avgDeviation.getTimeDiff());
+            info.setReliability(DatabaseIO.getReliability(routeId));
 
             info.setAvgDeviationRank(avgDeviation.getRank());
 
@@ -88,12 +92,39 @@ public class BasicInfoWs {
                                           @PathParam("stopId") int stopId) {
         RouteStopBasicInfo info = new RouteStopBasicInfo();
 
-        info.setAvgDeviation(66.5);
-        info.setReliability(0.86);
+        // avg deviation
+        ArrayList<DbItemInfo> avgDeviations = DataCache.getAvgDeviationsOfStopsOfRoute(Long.valueOf(routeId));
+        DbItemInfo avgDeviation = null;
+        for (DbItemInfo obj: avgDeviations) {
+            if (obj.getStopId() == stopId) {
+                avgDeviation = obj;
+                break;
+            }
+        }
+        if (avgDeviation != null) {
+            info.setAvgDeviation(avgDeviation.getTimeDiff());
+            info.setReliability(DatabaseIO.getReliability(routeId, stopId));
 
-        info.setAvgDeviationRank(76);
-        info.setStopName("Figueroa/Exposition");
-        info.setWaitingTimeEstimation(3.2);
+            info.setAvgDeviationRank(avgDeviation.getRank());
+            Stop stop = GtfsStoreProvider.getGtfsStore().getStopMap().get(String.valueOf(stopId));
+            if (stop != null) {
+                info.setStopName(stop.getName());
+            }
+
+            //waiting time
+            info.setWaitingTimeEstimation(Utils.ERROR_VALUE);
+            ArrayList<DbItemInfo> avgMinPosDelays = DataCache.getAvgMinPosDelaysOfStopsOfRoute(Long.valueOf(routeId));
+            for (DbItemInfo avgMinPosDelay : avgMinPosDelays) {
+                if (avgMinPosDelay.getStopId() == stopId) {
+                    info.setWaitingTimeEstimation(avgMinPosDelay.getTimeDiff());
+                    break;
+                }
+            }
+
+        } else {
+            System.err.println("Unable to find route average deviation for route " + routeId + ", stop " + stopId);
+        }
+
 
         return Response.status(200).entity(info).build();
     }

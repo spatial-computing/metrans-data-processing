@@ -218,6 +218,19 @@ public class GtfsUtil {
 
 
     /**
+     * Preparing StopId ==> Stop:... map
+     * @return Preparing StopId ==> Stop:..." map
+     */
+    public static Map<String, Stop> getStopMap(GtfsDaoImpl store) {
+        Map<String, Stop> tmp = new HashMap<>();
+        for (Stop stop : store.getAllStops()) {
+            tmp.put(stop.getId().getId(), stop);
+        }
+
+        return tmp;
+    }
+
+    /**
      * Calculate length of a trip based on its shape
      * @param trip the trip
      * @return length of a trip based on its shape
