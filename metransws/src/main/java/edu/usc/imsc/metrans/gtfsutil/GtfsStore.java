@@ -2,10 +2,7 @@ package edu.usc.imsc.metrans.gtfsutil;
 
 import com.vividsolutions.jts.geom.LineString;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
-import org.onebusaway.gtfs.model.Route;
-import org.onebusaway.gtfs.model.Stop;
-import org.onebusaway.gtfs.model.StopTime;
-import org.onebusaway.gtfs.model.Trip;
+import org.onebusaway.gtfs.model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +25,7 @@ public class GtfsStore {
     private Map<String, String> tripShape = null;
     private Map<String, ArrayList<Trip>> routeTrips = null;
     private Map<String, Stop> stopMap = null;
+    private Map<String, ArrayList<ShapePoint>> shapeShapePoints = null;
     private GtfsDaoImpl gtfsDao = null;
 
 
@@ -56,6 +54,9 @@ public class GtfsStore {
      * - RouteId ==> Trips
      */
     public void prepareMappings() {
+        System.out.println("Preparing ShapeId ==> ShapePoints:...");
+        shapeShapePoints = GtfsUtil.getShapeShapePointsMapping(gtfsDao);
+
         System.out.println("Preparing ShapeId ==> LineString:...");
         shapeLineStrings = GtfsUtil.getShapeLineStringsMapping(gtfsDao);
 
@@ -141,5 +142,9 @@ public class GtfsStore {
 
     public Map<String, Stop> getStopMap() {
         return stopMap;
+    }
+
+    public Map<String, ArrayList<ShapePoint>> getShapeShapePoints() {
+        return shapeShapePoints;
     }
 }
