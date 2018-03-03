@@ -11,12 +11,19 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class DataCache {
-    private static final Integer DEFAULT_ONLY_ONE_KEY = 1;
-    private static  LoadingCache<Integer, ArrayList<DbItemInfo>> routeAvgDeviationsCache = null;
+    public static final String DEFAULT_ONLY_ONE_KEY = "DEFAULT_ONLY_ONE_KEY";
+
+    public static final String AVG_DEVIATION_BY_MONTH_OVERALL = "AVG_DEVIATION_BY_MONTH_OVERALL";
+    public static final String AVG_DEVIATION_BY_DOW_OVERALL = "AVG_DEVIATION_BY_DOW_OVERALL";
+    public static final String AVG_DEVIATION_BY_HOUR_OVERALL = "AVG_DEVIATION_BY_HOUR_OVERALL";
+
+    private static  LoadingCache<String, ArrayList<DbItemInfo>> routeAvgDeviationsCache = null;
     private static  LoadingCache<Long, ArrayList<DbItemInfo>> stopAvgDeviationsCache = null;
 
-    private static  LoadingCache<Integer, ArrayList<DbItemInfo>> routeAvgMinPosDelaysCache = null;
+    private static  LoadingCache<String, ArrayList<DbItemInfo>> routeAvgMinPosDelaysCache = null;
     private static  LoadingCache<Long, ArrayList<DbItemInfo>> stopAvgMinPosDelaysCache = null;
+
+    private static  LoadingCache<String, ArrayList<Double>> avgDeviationsByDatePartCache = null;
 
     /**
      * Get average deviation objects of routes
@@ -30,9 +37,9 @@ public class DataCache {
                             .maximumSize(10000)
                             .expireAfterWrite(1, TimeUnit.HOURS)
                             .build(
-                                    new CacheLoader<Integer, ArrayList<DbItemInfo>>() {
+                                    new CacheLoader<String, ArrayList<DbItemInfo>>() {
                                         @Override
-                                        public ArrayList<DbItemInfo> load(Integer key) {
+                                        public ArrayList<DbItemInfo> load(String key) {
                                             ArrayList<DbItemInfo> avgDeviations = DatabaseIO.getAvgDeviationPerRoutes();
                                             Utils.rankTimeDiff(avgDeviations);
 
@@ -96,9 +103,9 @@ public class DataCache {
                             .maximumSize(10000)
                             .expireAfterWrite(1, TimeUnit.HOURS)
                             .build(
-                                    new CacheLoader<Integer, ArrayList<DbItemInfo>>() {
+                                    new CacheLoader<String, ArrayList<DbItemInfo>>() {
                                         @Override
-                                        public ArrayList<DbItemInfo> load(Integer key) {
+                                        public ArrayList<DbItemInfo> load(String key) {
                                             ArrayList<DbItemInfo> avgMinPosDelays = DatabaseIO.getAvgMinPosDelayPerRoutes();
                                             Utils.rankTimeDiff(avgMinPosDelays);
 
@@ -148,5 +155,62 @@ public class DataCache {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+
+    /**
+     * Get average arrival time deviation of all routes by date part (month, day of week, hour)
+     * @return average deviation objects of routes or empty list if error occurred
+     */
+    public static ArrayList<Double> getAvgDeviationsByDatePart(String datePart) {
+        if (avgDeviationsByDatePartCache == null) {
+            synchronized (DataCache.class) {
+                if (avgDeviationsByDatePartCache == null) {
+                    avgDeviationsByDatePartCache = CacheBuilder.newBuilder()
+                            .maximumSize(10000)
+                            .expireAfterWrite(1, TimeUnit.HOURS)
+                            .build(
+                                    new CacheLoader<String, ArrayList<Double>>() {
+                                        @Override
+                                        public ArrayList<Double> load(String key) {
+                                            ArrayList<Double> avgDeviations;
+                                            switch (key) {
+                                                case AVG_DEVIATION_BY_MONTH_OVERALL:
+                                                    avgDeviations = DatabaseIO.getAvgDeviationByMonth();
+                                                    break;
+                                                case AVG_DEVIATION_BY_DOW_OVERALL:
+                                                    avgDeviations = DatabaseIO.getAvgDeviationByDayOfWeek();
+                                                    break;
+                                                case AVG_DEVIATION_BY_HOUR_OVERALL:
+                                                    avgDeviations = DatabaseIO.getAvgDeviationByHourOfDay();
+                                                    break;
+                                                default:
+                                                    avgDeviations = new ArrayList<>();
+                                            }
+
+                                            return avgDeviations;
+                                        }
+                                    });
+                }
+            }
+        }
+
+        try {
+            return avgDeviationsByDatePartCache.get(datePart);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Prepare values of caches that uses constant keys
+     */
+    public static void prepareConstantKeyCache() {
+        getAvgDeviationsOfAllRoutes();
+        getAvgMinPosDelaysOfAllRoutes();
+        DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_MONTH_OVERALL);
+        DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_HOUR_OVERALL);
+        DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_DOW_OVERALL);
     }
 }

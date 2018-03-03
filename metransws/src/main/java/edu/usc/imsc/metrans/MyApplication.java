@@ -8,6 +8,7 @@ import edu.usc.imsc.metrans.ws.TripsOfStopsWs;
 import edu.usc.imsc.metrans.ws.basicinfo.BasicInfoWs;
 import edu.usc.imsc.metrans.ws.list.ListingWs;
 import edu.usc.imsc.metrans.ws.stats.StatsDeviationWs;
+import edu.usc.imsc.metrans.ws.storage.DataCache;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -23,6 +24,7 @@ public class MyApplication extends Application {
     public Set<Class<?>> getClasses() {
         Config.load();
         GtfsStoreProvider.getGtfsStore();
+        DataCache.prepareConstantKeyCache();
 
         HashSet h = new HashSet<Class<?>>();
         h.add(HelloWorld.class);

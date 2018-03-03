@@ -48,6 +48,78 @@ public class DatabaseIO {
                     " GROUP BY date_hour " +
                     " ORDER BY date_hour ";
 
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_ROUTE =
+            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " WHERE route_id = ?" +
+                    " GROUP BY date_month " +
+                    " ORDER BY date_month ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_ROUTE =
+            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_dow_mv " +
+                    " WHERE route_id = ?" +
+                    " GROUP BY date_dow " +
+                    " ORDER BY date_dow ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_ROUTE =
+            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_hour_mv " +
+                    " WHERE route_id = ?" +
+                    " GROUP BY date_hour " +
+                    " ORDER BY date_hour ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_STOP_OF_ROUTE =
+            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " WHERE route_id = ? " +
+                    " AND stop_id = ? " +
+                    " GROUP BY date_month " +
+                    " ORDER BY date_month ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_STOP_OF_ROUTE =
+            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_dow_mv " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " GROUP BY date_dow " +
+                    " ORDER BY date_dow ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_STOP_OF_ROUTE =
+            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_hour_mv " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " GROUP BY date_hour " +
+                    " ORDER BY date_hour ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE =
+            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " WHERE route_id = ? " +
+                    " AND stop_id = ? " +
+                    " AND trip_id = ? " +
+                    " GROUP BY date_month " +
+                    " ORDER BY date_month ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE =
+            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_dow_mv " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " AND trip_id = ? " +
+                    " GROUP BY date_dow " +
+                    " ORDER BY date_dow ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE =
+            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_hour_mv " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " AND trip_id = ? " +
+                    " GROUP BY date_hour " +
+                    " ORDER BY date_hour ";
+
 
 
     private static final String SELECT_AVG_MIN_POS_DELAY_OF_ROUTES =
@@ -260,24 +332,146 @@ public class DatabaseIO {
      * Get average arrival time deviation of all routes by month
      * @return list of average arrival time deviation or empty list if error occur
      */
-    public static ArrayList<Double> getAvgDeviationByMonthOverall() {
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH);
+    public static ArrayList<Double> getAvgDeviationByMonth() {
+        ArrayList<Long> params = new ArrayList<>();
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH, params);
     }
 
     /**
      * Get average arrival time deviation of all routes by day of week
      * @return list of average arrival time deviation or empty list if error occur
      */
-    public static ArrayList<Double> getAvgDeviationByDayOfWeekOverall() {
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW);
+    public static ArrayList<Double> getAvgDeviationByDayOfWeek() {
+        ArrayList<Long> params = new ArrayList<>();
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW, params);
     }
 
     /**
      * Get average arrival time deviation of all routes by hour of day
      * @return list of  average arrival time deviation or empty list if error occur
      */
-    public static ArrayList<Double> getAvgDeviationByHourOfDayOverall() {
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR);
+    public static ArrayList<Double> getAvgDeviationByHourOfDay() {
+        ArrayList<Long> params = new ArrayList<>();
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR, params);
+    }
+
+
+    /**
+     * Get average arrival time deviation of a route by month
+     * @param routeId route id
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByMonth(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a route by day of week
+     * @param routeId route id
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByDayOfWeek(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a route by hour of day
+     * @param routeId route id
+     * @return list of  average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByHourOfDay(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_ROUTE, params);
+    }
+
+
+    /**
+     * Get average arrival time deviation of a stop of a route by month
+     * @param routeId route id
+     * @param stopId stop id
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByMonth(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_STOP_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a stop of a route by day of week
+     * @param routeId route id
+     * @param stopId stop id
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByDayOfWeek(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_STOP_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a stop of a route by hour of day
+     * @param routeId route id
+     * @param stopId stop id
+     * @return list of  average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByHourOfDay(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_STOP_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a trip of a stop of a route by month
+     * @param routeId route id
+     * @param stopId stop id
+     * @param tripId trip id
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByMonth(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a trip of a stop of a route by day of week
+     * @param routeId route id
+     * @param stopId stop id
+     * @param tripId trip id
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByDayOfWeek(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE, params);
+    }
+
+    /**
+     * Get average arrival time deviation of a trip of a stop of a route by hour of day
+     * @param routeId route id
+     * @param stopId stop id
+     * @param tripId trip id
+     * @return list of  average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByHourOfDay(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE, params);
     }
 
 
@@ -285,7 +479,7 @@ public class DatabaseIO {
      * Get average arrival time deviation of all routes by date part
      * @return average arrival time deviation of all routes or empty list if error occur
      */
-    private static ArrayList<Double> getAvgDeviationByDatePart(String sqlStatement) {
+    private static ArrayList<Double> getAvgDeviationByDatePart(String sqlStatement, ArrayList<Long> params) {
         ArrayList<Double> results = new ArrayList<>();
         Connection connection = getConnection();
         if (connection == null) {
@@ -296,6 +490,9 @@ public class DatabaseIO {
 
         try {
             psql = connection.prepareStatement(sqlStatement);
+            if (params != null)
+                for (int i = 0; i < params.size(); i++)
+                    psql.setLong(i + 1, params.get(i));
 
             results = getAvgDeviationByDatePart(psql);
 

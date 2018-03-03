@@ -1,6 +1,7 @@
 package edu.usc.imsc.metrans.ws.stats;
 
 import edu.usc.imsc.metrans.database.DatabaseIO;
+import edu.usc.imsc.metrans.ws.storage.DataCache;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,9 +18,9 @@ public class StatsDeviationWs {
     public Response getOverallBasicInfo() {
         StatsDeviationInfo info = new StatsDeviationInfo();
 
-        info.setMonth(DatabaseIO.getAvgDeviationByMonthOverall());
-        info.setDay(DatabaseIO.getAvgDeviationByHourOfDayOverall());
-        info.setWeek(DatabaseIO.getAvgDeviationByDayOfWeekOverall());
+        info.setMonth(DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_MONTH_OVERALL));
+        info.setDay(DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_HOUR_OVERALL));
+        info.setWeek(DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_DOW_OVERALL));
 
         return Response.status(200).entity(info).build();
     }
@@ -28,9 +29,13 @@ public class StatsDeviationWs {
     @Path("route/{routeId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRouteBasicInfo(@PathParam("routeId") int routeId) {
-        String sampleRes = "{ \"year\": { \"2015\": 20, \"2016\": 20, \"2017\": 20, \"2018\": 20 }, \"month\": [1,1,1,1,5,1,1,1,1,10,1,12], \"week\": [1,2,3,4,5,6,7], \"day\": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] }";
+        StatsDeviationInfo info = new StatsDeviationInfo();
 
-        return Response.status(200).entity(sampleRes).build();
+        info.setMonth(DatabaseIO.getAvgDeviationByMonth(routeId));
+        info.setDay(DatabaseIO.getAvgDeviationByHourOfDay(routeId));
+        info.setWeek(DatabaseIO.getAvgDeviationByDayOfWeek(routeId));
+
+        return Response.status(200).entity(info).build();
     }
 
     @GET
@@ -38,9 +43,13 @@ public class StatsDeviationWs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRouteStopBasicInfo(@PathParam("routeId") int routeId,
                                           @PathParam("stopId") int stopId) {
-        String sampleRes = "{ \"year\": { \"2015\": 20, \"2016\": 20, \"2017\": 20, \"2018\": 20 }, \"month\": [1,1,1,1,5,1,1,1,1,10,1,12], \"week\": [1,2,3,4,5,6,7], \"day\": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] }";
+        StatsDeviationInfo info = new StatsDeviationInfo();
 
-        return Response.status(200).entity(sampleRes).build();
+        info.setMonth(DatabaseIO.getAvgDeviationByMonth(routeId, stopId));
+        info.setDay(DatabaseIO.getAvgDeviationByHourOfDay(routeId, stopId));
+        info.setWeek(DatabaseIO.getAvgDeviationByDayOfWeek(routeId, stopId));
+
+        return Response.status(200).entity(info).build();
     }
 
     @GET
@@ -49,8 +58,12 @@ public class StatsDeviationWs {
     public Response getRouteStopTripBasicInfo(@PathParam("routeId") int routeId,
                                               @PathParam("stopId") int stopId,
                                               @PathParam("tripId") int tripId) {
-        String sampleRes = "{ \"year\": { \"2015\": 20, \"2016\": 20, \"2017\": 20, \"2018\": 20 }, \"month\": [1,1,1,1,5,1,1,1,1,10,1,12], \"week\": [1,2,3,4,5,6,7], \"day\": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] }";
+        StatsDeviationInfo info = new StatsDeviationInfo();
 
-        return Response.status(200).entity(sampleRes).build();
+        info.setMonth(DatabaseIO.getAvgDeviationByMonth(routeId, stopId, tripId));
+        info.setDay(DatabaseIO.getAvgDeviationByHourOfDay(routeId, stopId, tripId));
+        info.setWeek(DatabaseIO.getAvgDeviationByDayOfWeek(routeId, stopId, tripId));
+
+        return Response.status(200).entity(info).build();
     }
 }
