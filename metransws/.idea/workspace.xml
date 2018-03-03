@@ -8,6 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ece9882-86b8-473b-844f-7dbdce1008de" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsBusBunchingWs.java" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/data/metrans/shape-10.csv" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/data/metrans/shape-10.csv" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/pom.xml" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/pom.xml" />
@@ -19,8 +20,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationInfo.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -48,8 +49,8 @@
       <file leaf-file-name="MyApplication.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+            <state relative-caret-position="300">
+              <caret line="34" column="13" lean-forward="true" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -58,9 +59,21 @@
       <file leaf-file-name="StatsDeviationWs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="22" column="99" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="22" selection-end-column="99" />
+            <state relative-caret-position="347">
+              <caret line="40" column="4" lean-forward="false" selection-start-line="40" selection-start-column="4" selection-end-line="52" selection-end-column="5" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StatsBusBunchingWs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsBusBunchingWs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="58" lean-forward="false" selection-start-line="20" selection-start-column="58" selection-end-line="20" selection-end-column="58" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -68,31 +81,31 @@
       <file leaf-file-name="DatabaseIO.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="334" column="34" lean-forward="false" selection-start-line="334" selection-start-column="28" selection-end-line="334" selection-end-column="34" />
+            <state relative-caret-position="202">
+              <caret line="865" column="5" lean-forward="false" selection-start-line="865" selection-start-column="5" selection-end-line="865" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1520053578621" expanded="true" signature="292:446" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="292:8625" ph="SELECT * FRO... estimated_arrival_time" />
-                <marker date="1520053578621" expanded="true" signature="529:726" ph="SELECT route... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="529:728" ph="SELECT route... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="817:1056" ph="SELECT route... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="1155:1375" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="1155:1376" ph="SELECT stop_... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="1465:1722" ph="SELECT date_... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="1676:1678" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="1810:1822" ph="SELECT date_... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="1810:2059" ph="SELECT date_... etd_avg_deviation_dow_mv" />
-                <marker date="1520053578621" expanded="true" signature="6497:6697" ph="SELECT route... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="6792:7034" ph="SELECT stop_... etd_avg_deviation_month_mv" />
-                <marker date="1520053578621" expanded="true" signature="7105:7240" ph="SELECT MIN(d... estimated_arrival_time" />
-                <marker date="1520053578621" expanded="true" signature="7320:7474" ph="SELECT reltu... pg_class" />
-                <marker date="1520053578621" expanded="true" signature="7553:7710" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520053578621" expanded="true" signature="7791:7991" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520053578621" expanded="true" signature="8081:8281" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520053578621" expanded="true" signature="8081:8295" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520053578621" expanded="true" signature="8394:8608" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520053578621" expanded="true" signature="8394:8622" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520061682278" expanded="true" signature="332:486" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="332:9328" ph="SELECT * FRO... estimated_arrival_time" />
+                <marker date="1520061682278" expanded="true" signature="569:766" ph="SELECT route... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="569:768" ph="SELECT route... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="857:1096" ph="SELECT route... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="1193:1413" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="1193:1414" ph="SELECT stop_... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="1504:1761" ph="SELECT date_... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="1715:1717" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="1849:1861" ph="SELECT date_... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="1849:2098" ph="SELECT date_... etd_avg_deviation_dow_mv" />
+                <marker date="1520061682278" expanded="true" signature="6505:6705" ph="SELECT route... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="6800:7042" ph="SELECT stop_... etd_avg_deviation_month_mv" />
+                <marker date="1520061682278" expanded="true" signature="7113:7248" ph="SELECT MIN(d... estimated_arrival_time" />
+                <marker date="1520061682278" expanded="true" signature="7328:7482" ph="SELECT reltu... pg_class" />
+                <marker date="1520061682278" expanded="true" signature="7561:7718" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520061682278" expanded="true" signature="7799:7999" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520061682278" expanded="true" signature="8089:8289" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520061682278" expanded="true" signature="8089:8303" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520061682278" expanded="true" signature="8402:8616" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520061682278" expanded="true" signature="8402:8630" ph="SELECT SUM(n... etd_ontime_count_mv" />
               </folding>
             </state>
           </provider>
@@ -220,11 +233,13 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/utils/Utils.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DbItemInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/basicinfo/BasicInfoWs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/list/ListingWs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsBusBunchingWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java" />
       </list>
     </option>
@@ -574,7 +589,7 @@
       <workItem from="1517615789229" duration="13000" />
       <workItem from="1519929342404" duration="3935000" />
       <workItem from="1519968519949" duration="6416000" />
-      <workItem from="1520015766390" duration="19253000" />
+      <workItem from="1520015766390" duration="20977000" />
     </task>
     <task id="LOCAL-00001" summary="-add API for getting shape.csv">
       <created>1516827929598</created>
@@ -632,11 +647,18 @@
       <option name="project" value="LOCAL" />
       <updated>1520052694044</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="get all /stats/deviation/... from real data">
+      <created>1520054934508</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1520054934508</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54866000" />
+    <option name="totallyTimeSpent" value="56590000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -699,20 +721,14 @@
     <MESSAGE value="get basicinfo/route/{route_id}/stop/{stop} from real data" />
     <MESSAGE value="get basicinfo/route/{route_id}/stop/{stop}/trip/{trip_id} from real data" />
     <MESSAGE value="get /stats/deviation/overview from real data" />
-    <option name="LAST_COMMIT_MESSAGE" value="get /stats/deviation/overview from real data" />
+    <MESSAGE value="get all /stats/deviation/... from real data" />
+    <option name="LAST_COMMIT_MESSAGE" value="get all /stats/deviation/... from real data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/OracleDbHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/OracleDbHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1045,19 +1061,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="52" lean-forward="false" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
-          <folding>
-            <element signature="e#403#404#0" expanded="false" />
-            <element signature="e#430#431#0" expanded="false" />
-            <element signature="e#643#644#0" expanded="false" />
-            <element signature="e#677#678#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/list/ListingWs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -1070,45 +1073,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="334" column="34" lean-forward="false" selection-start-line="334" selection-start-column="28" selection-end-line="334" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1520053578621" expanded="true" signature="292:446" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="292:8625" ph="SELECT * FRO... estimated_arrival_time" />
-            <marker date="1520053578621" expanded="true" signature="529:726" ph="SELECT route... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="529:728" ph="SELECT route... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="817:1056" ph="SELECT route... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="1155:1375" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="1155:1376" ph="SELECT stop_... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="1465:1722" ph="SELECT date_... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="1676:1678" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="1810:1822" ph="SELECT date_... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="1810:2059" ph="SELECT date_... etd_avg_deviation_dow_mv" />
-            <marker date="1520053578621" expanded="true" signature="6497:6697" ph="SELECT route... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="6792:7034" ph="SELECT stop_... etd_avg_deviation_month_mv" />
-            <marker date="1520053578621" expanded="true" signature="7105:7240" ph="SELECT MIN(d... estimated_arrival_time" />
-            <marker date="1520053578621" expanded="true" signature="7320:7474" ph="SELECT reltu... pg_class" />
-            <marker date="1520053578621" expanded="true" signature="7553:7710" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520053578621" expanded="true" signature="7791:7991" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520053578621" expanded="true" signature="8081:8281" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520053578621" expanded="true" signature="8081:8295" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520053578621" expanded="true" signature="8394:8608" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520053578621" expanded="true" signature="8394:8622" ph="SELECT SUM(n... etd_ontime_count_mv" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="22" column="99" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="22" selection-end-column="99" />
           <folding />
         </state>
       </provider>
@@ -1133,10 +1097,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="865" column="5" lean-forward="false" selection-start-line="865" selection-start-column="5" selection-end-line="865" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1520061682278" expanded="true" signature="332:486" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="332:9328" ph="SELECT * FRO... estimated_arrival_time" />
+            <marker date="1520061682278" expanded="true" signature="569:766" ph="SELECT route... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="569:768" ph="SELECT route... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="857:1096" ph="SELECT route... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="1193:1413" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="1193:1414" ph="SELECT stop_... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="1504:1761" ph="SELECT date_... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="1715:1717" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="1849:1861" ph="SELECT date_... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="1849:2098" ph="SELECT date_... etd_avg_deviation_dow_mv" />
+            <marker date="1520061682278" expanded="true" signature="6505:6705" ph="SELECT route... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="6800:7042" ph="SELECT stop_... etd_avg_deviation_month_mv" />
+            <marker date="1520061682278" expanded="true" signature="7113:7248" ph="SELECT MIN(d... estimated_arrival_time" />
+            <marker date="1520061682278" expanded="true" signature="7328:7482" ph="SELECT reltu... pg_class" />
+            <marker date="1520061682278" expanded="true" signature="7561:7718" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520061682278" expanded="true" signature="7799:7999" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520061682278" expanded="true" signature="8089:8289" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520061682278" expanded="true" signature="8089:8303" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520061682278" expanded="true" signature="8402:8616" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520061682278" expanded="true" signature="8402:8630" ph="SELECT SUM(n... etd_ontime_count_mv" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="40" column="4" lean-forward="false" selection-start-line="40" selection-start-column="4" selection-end-line="52" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="15" column="44" lean-forward="true" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsBusBunchingWs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="58" lean-forward="false" selection-start-line="20" selection-start-column="58" selection-end-line="20" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+        <state relative-caret-position="300">
+          <caret line="34" column="13" lean-forward="true" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
           <folding />
         </state>
       </provider>

@@ -3,7 +3,7 @@ package edu.usc.imsc.metrans.ws.stats;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class StatsDeviationInfo {
+public class StatsInfo {
     private TreeMap<String, Double> year = new TreeMap<>();
     private ArrayList<Double> month = new ArrayList<>();
     private ArrayList<Double> week = new ArrayList<>();

@@ -7,6 +7,7 @@ import edu.usc.imsc.metrans.ws.MetransMainWs;
 import edu.usc.imsc.metrans.ws.TripsOfStopsWs;
 import edu.usc.imsc.metrans.ws.basicinfo.BasicInfoWs;
 import edu.usc.imsc.metrans.ws.list.ListingWs;
+import edu.usc.imsc.metrans.ws.stats.StatsBusBunchingWs;
 import edu.usc.imsc.metrans.ws.stats.StatsDeviationWs;
 import edu.usc.imsc.metrans.ws.storage.DataCache;
 
@@ -33,6 +34,7 @@ public class MyApplication extends Application {
         h.add(BasicInfoWs.class);
         h.add(TripsOfStopsWs.class);
         h.add(StatsDeviationWs.class);
+        h.add(StatsBusBunchingWs.class);
         h.add(ListingWs.class);
         h.add(CORSResponseFilter.class);
         return h;

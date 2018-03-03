@@ -16,7 +16,7 @@ public class StatsDeviationWs {
     @Path("overview")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOverallBasicInfo() {
-        StatsDeviationInfo info = new StatsDeviationInfo();
+        StatsInfo info = new StatsInfo();
 
         info.setMonth(DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_MONTH_OVERALL));
         info.setDay(DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_HOUR_OVERALL));
@@ -29,7 +29,7 @@ public class StatsDeviationWs {
     @Path("route/{routeId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRouteBasicInfo(@PathParam("routeId") int routeId) {
-        StatsDeviationInfo info = new StatsDeviationInfo();
+        StatsInfo info = new StatsInfo();
 
         info.setMonth(DatabaseIO.getAvgDeviationByMonth(routeId));
         info.setDay(DatabaseIO.getAvgDeviationByHourOfDay(routeId));
@@ -43,7 +43,7 @@ public class StatsDeviationWs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRouteStopBasicInfo(@PathParam("routeId") int routeId,
                                           @PathParam("stopId") int stopId) {
-        StatsDeviationInfo info = new StatsDeviationInfo();
+        StatsInfo info = new StatsInfo();
 
         info.setMonth(DatabaseIO.getAvgDeviationByMonth(routeId, stopId));
         info.setDay(DatabaseIO.getAvgDeviationByHourOfDay(routeId, stopId));
@@ -58,7 +58,7 @@ public class StatsDeviationWs {
     public Response getRouteStopTripBasicInfo(@PathParam("routeId") int routeId,
                                               @PathParam("stopId") int stopId,
                                               @PathParam("tripId") int tripId) {
-        StatsDeviationInfo info = new StatsDeviationInfo();
+        StatsInfo info = new StatsInfo();
 
         info.setMonth(DatabaseIO.getAvgDeviationByMonth(routeId, stopId, tripId));
         info.setDay(DatabaseIO.getAvgDeviationByHourOfDay(routeId, stopId, tripId));

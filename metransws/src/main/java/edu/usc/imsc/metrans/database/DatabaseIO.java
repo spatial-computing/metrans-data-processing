@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DatabaseIO {
+    /*
+     * Average Deviation
+     */
     private static final String SELECT_AVG_DEVIATION_OVERALL =
             " SELECT SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation_all_routes " +
                     " FROM etd_avg_deviation_month_mv ";
@@ -24,10 +27,11 @@ public class DatabaseIO {
                     " WHERE route_id = ?" +
                     " GROUP BY stop_id";
 
-    private static final String SELECT_AVG_DEVIATION_OF_A_TRIP_OF_STOP_OF_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_OF_TRIP_OF_STOP_OF_ROUTE =
             "SELECT SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_month_mv " +
                     " WHERE route_id = ? AND stop_id = ? AND trip_id = ?";
+
 
 
     private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH =
@@ -48,61 +52,62 @@ public class DatabaseIO {
                     " GROUP BY date_hour " +
                     " ORDER BY date_hour ";
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_ROUTE =
+
+    private static final String SELECT_AVG_DEVIATION_BY_MONTH_OF_ROUTE =
             "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_month_mv " +
                     " WHERE route_id = ?" +
                     " GROUP BY date_month " +
                     " ORDER BY date_month ";
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_BY_DOW_OF_ROUTE =
             "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_dow_mv " +
                     " WHERE route_id = ?" +
                     " GROUP BY date_dow " +
                     " ORDER BY date_dow ";
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_BY_HOUR_OF_ROUTE =
             "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_hour_mv " +
                     " WHERE route_id = ?" +
                     " GROUP BY date_hour " +
                     " ORDER BY date_hour ";
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_STOP_OF_ROUTE =
-            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_month_mv " +
-                    " WHERE route_id = ? " +
-                    " AND stop_id = ? " +
-                    " GROUP BY date_month " +
-                    " ORDER BY date_month ";
-
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_STOP_OF_ROUTE =
-            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_dow_mv " +
-                    " WHERE route_id = ?" +
-                    " AND stop_id = ? " +
-                    " GROUP BY date_dow " +
-                    " ORDER BY date_dow ";
-
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_STOP_OF_ROUTE =
-            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_hour_mv " +
-                    " WHERE route_id = ?" +
-                    " AND stop_id = ? " +
-                    " GROUP BY date_hour " +
-                    " ORDER BY date_hour ";
-
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_BY_MONTH_OF_STOP_OF_ROUTE =
             "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_month_mv " +
                     " WHERE route_id = ? " +
                     " AND stop_id = ? " +
+                    " GROUP BY date_month " +
+                    " ORDER BY date_month ";
+
+    private static final String SELECT_AVG_DEVIATION_BY_DOW_OF_STOP_OF_ROUTE =
+            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_dow_mv " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " GROUP BY date_dow " +
+                    " ORDER BY date_dow ";
+
+    private static final String SELECT_AVG_DEVIATION_BY_HOUR_OF_STOP_OF_ROUTE =
+            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_hour_mv " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " GROUP BY date_hour " +
+                    " ORDER BY date_hour ";
+
+    private static final String SELECT_AVG_DEVIATION_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE =
+            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " WHERE route_id = ? " +
+                    " AND stop_id = ? " +
                     " AND trip_id = ? " +
                     " GROUP BY date_month " +
                     " ORDER BY date_month ";
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE =
             "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_dow_mv " +
                     " WHERE route_id = ?" +
@@ -111,7 +116,7 @@ public class DatabaseIO {
                     " GROUP BY date_dow " +
                     " ORDER BY date_dow ";
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE =
             "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_hour_mv " +
                     " WHERE route_id = ?" +
@@ -121,7 +126,9 @@ public class DatabaseIO {
                     " ORDER BY date_hour ";
 
 
-
+    /*
+     * Min Positive Delay
+     */
     private static final String SELECT_AVG_MIN_POS_DELAY_OF_ROUTES =
             "SELECT route_id, SUM((avg_min_pos_delay * num_estimations)) / SUM(num_estimations) as avg_min_pos_delay " +
                     " FROM empd_avg_mpd_month_mv " +
@@ -161,6 +168,19 @@ public class DatabaseIO {
                     " FROM etd_ontime_count_mv " +
                     " WHERE route_id=? AND stop_id=? AND trip_id=?";
 
+
+    /*
+     * BUS BUNCHING
+     */
+    private static final String SELECT_BUS_BUNCHING_BY_DOW_OF_STOP_OF_ROUTE =
+            "SELECT date_part('dow', date(timezone('America/Los_Angeles'::text, date_estimated_time)))::BIGINT AS d_part, COUNT(CASE WHEN num_buses > 1 THEN 1 END) AS num_bunching, COUNT(*) AS num_estimations  " +
+                    " FROM bus_bunching " +
+                    " WHERE route_id = ?" +
+                    " AND stop_id = ? " +
+                    " GROUP BY date_part('dow', date(timezone('America/Los_Angeles'::text, date_estimated_time))) " +
+                    " ORDER BY date_part('dow', date(timezone('America/Los_Angeles'::text, date_estimated_time))) ";
+
+
     private static Connection getConnection() {
         Connection con = null;
         String url = "jdbc:postgresql://dsicloud2.usc.edu:5432/metrans";
@@ -175,6 +195,75 @@ public class DatabaseIO {
         }
 
         return con;
+    }
+
+    /**
+     * Get min/max date time
+     * @param toGetMin get min (true) or max (false)
+     * @return timestamp of min/ax date time or -1 if error occurred
+     */
+    public static long getMinMaxTime(boolean toGetMin) {
+        long result = -1;
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return result;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(SELECT_MIN_MAX_DATE);
+
+            ResultSet rs = psql.executeQuery();
+
+            while(rs.next()){
+                if (toGetMin)
+                    result = rs.getTimestamp("min_date").getTime() / 1000;
+                else
+                    result = rs.getTimestamp("max_date").getTime() / 1000;
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting min/max date time:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Get estimated data points
+     * @return estimated data points or -1 if error occur
+     */
+    public static long getEstimatedDataPoints() {
+        long result = -1;
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return result;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(SELECT_ESTIMATED_DATA_POINTS);
+
+            ResultSet rs = psql.executeQuery();
+
+            while(rs.next()){
+                result = rs.getLong("estimated_data_points");
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting estimated data points:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 
@@ -304,7 +393,7 @@ public class DatabaseIO {
         PreparedStatement psql;
 
         try {
-            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_OF_A_TRIP_OF_STOP_OF_ROUTE);
+            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_OF_TRIP_OF_STOP_OF_ROUTE);
             psql.setLong(1, routeId);
             psql.setLong(2, stopId);
             psql.setLong(3, tripId);
@@ -364,7 +453,7 @@ public class DatabaseIO {
     public static ArrayList<Double> getAvgDeviationByMonth(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_ROUTE, params);
     }
 
     /**
@@ -375,7 +464,7 @@ public class DatabaseIO {
     public static ArrayList<Double> getAvgDeviationByDayOfWeek(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_ROUTE, params);
     }
 
     /**
@@ -386,7 +475,7 @@ public class DatabaseIO {
     public static ArrayList<Double> getAvgDeviationByHourOfDay(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_ROUTE, params);
     }
 
 
@@ -400,7 +489,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_STOP_OF_ROUTE, params);
     }
 
     /**
@@ -413,7 +502,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_STOP_OF_ROUTE, params);
     }
 
     /**
@@ -426,7 +515,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_STOP_OF_ROUTE, params);
     }
 
     /**
@@ -441,7 +530,7 @@ public class DatabaseIO {
         params.add(routeId);
         params.add(stopId);
         params.add(tripId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE, params);
     }
 
     /**
@@ -456,7 +545,7 @@ public class DatabaseIO {
         params.add(routeId);
         params.add(stopId);
         params.add(tripId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE, params);
     }
 
     /**
@@ -471,7 +560,7 @@ public class DatabaseIO {
         params.add(routeId);
         params.add(stopId);
         params.add(tripId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE, params);
     }
 
 
@@ -609,76 +698,6 @@ public class DatabaseIO {
         }
 
         return results;
-    }
-
-
-    /**
-     * Get min/max date time
-     * @param toGetMin get min (true) or max (false)
-     * @return timestamp of min/ax date time or -1 if error occurred
-     */
-    public static long getMinMaxTime(boolean toGetMin) {
-        long result = -1;
-        Connection connection = getConnection();
-        if (connection == null) {
-            System.err.println("No database connection");
-            return result;
-        }
-        PreparedStatement psql;
-
-        try {
-            psql = connection.prepareStatement(SELECT_MIN_MAX_DATE);
-
-            ResultSet rs = psql.executeQuery();
-
-            while(rs.next()){
-                if (toGetMin)
-                    result = rs.getTimestamp("min_date").getTime() / 1000;
-                else
-                    result = rs.getTimestamp("max_date").getTime() / 1000;
-            }
-
-            connection.close();
-
-        } catch (SQLException e) {
-            System.err.println("Error selecting min/max date time:"  + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-
-    /**
-     * Get estimated data points
-     * @return estimated data points or -1 if error occur
-     */
-    public static long getEstimatedDataPoints() {
-        long result = -1;
-        Connection connection = getConnection();
-        if (connection == null) {
-            System.err.println("No database connection");
-            return result;
-        }
-        PreparedStatement psql;
-
-        try {
-            psql = connection.prepareStatement(SELECT_ESTIMATED_DATA_POINTS);
-
-            ResultSet rs = psql.executeQuery();
-
-            while(rs.next()){
-                result = rs.getLong("estimated_data_points");
-            }
-
-            connection.close();
-
-        } catch (SQLException e) {
-            System.err.println("Error selecting estimated data points:"  + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return result;
     }
 
 
@@ -828,5 +847,81 @@ public class DatabaseIO {
         }
 
         return result;
+    }
+
+
+
+
+    /**
+     * Get bus bunching probability of a stop of a route by day of week
+     * @param routeId route id
+     * @param stopId stop id
+     * @return list of  average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getBusBunchingByDayOfWeek(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        return getBusBunchingByDatePart(SELECT_BUS_BUNCHING_BY_DOW_OF_STOP_OF_ROUTE, params);
+    }
+
+
+    /**
+     * Get bus bunching probability of all routes by date part
+     * @return bus bunching probability of all routes or empty list if error occur
+     */
+    private static ArrayList<Double> getBusBunchingByDatePart(String sqlStatement, ArrayList<Long> params) {
+        ArrayList<Double> results = new ArrayList<>();
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return results;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(sqlStatement);
+            if (params != null)
+                for (int i = 0; i < params.size(); i++)
+                    psql.setLong(i + 1, params.get(i));
+
+            results = getBusBunchingByDatePart(psql);
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting bus bunching probability of all routes by date part:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return results;
+    }
+
+    /**
+     * Get bus bunching probability by date part
+     * @return bus bunching probability by date part or empty list if error occurred
+     */
+    private static ArrayList<Double> getBusBunchingByDatePart(PreparedStatement psql) {
+        ArrayList<Double> results = new ArrayList<>();
+        try {
+            ResultSet rs = psql.executeQuery();
+
+            TreeMap<Long, Double> rows = new TreeMap<>();
+            while(rs.next()){
+                long num_bunching = rs.getLong("num_bunching");
+                long num_estimations = rs.getLong("num_estimations");
+                rows.put(rs.getLong("d_part"), (double) num_bunching / (double) num_estimations);
+            }
+
+            for (Map.Entry<Long, Double> entry : rows.entrySet())
+                results.add(entry.getValue());
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting bus bunching probability by date part:"  + e.getMessage());
+            e.printStackTrace();
+            results = new ArrayList<>();
+        }
+
+        return results;
     }
 }
