@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-@Path("/main/list")
+@Path("/main/shape")
 public class ListingWs {
     @GET
     @Path("routes")

@@ -1,5 +1,7 @@
 package edu.usc.imsc.metrans.ws.stats;
 
+import edu.usc.imsc.metrans.database.DatabaseIO;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,9 +15,13 @@ public class StatsDeviationWs {
     @Path("overview")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOverallBasicInfo() {
-        String sampleRes = "{ \"year\": { \"2015\": 20, \"2016\": 20, \"2017\": 20, \"2018\": 20 }, \"month\": [1,1,1,1,5,1,1,1,1,10,1,12], \"week\": [1,2,3,4,5,6,7], \"day\": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23] }";
+        StatsDeviationInfo info = new StatsDeviationInfo();
 
-        return Response.status(200).entity(sampleRes).build();
+        info.setMonth(DatabaseIO.getAvgDeviationByMonthOverall());
+        info.setDay(DatabaseIO.getAvgDeviationByHourOfDayOverall());
+        info.setWeek(DatabaseIO.getAvgDeviationByDayOfWeekOverall());
+
+        return Response.status(200).entity(info).build();
     }
 
     @GET

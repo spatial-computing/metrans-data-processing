@@ -26,7 +26,7 @@ public class BasicInfoWs {
     public Response getOverallBasicInfo() {
         OverallBasicInfo info = new OverallBasicInfo();
 
-        DbItemInfo avgDeviation = DatabaseIO.getAvgDeviationAllRoutes();
+        DbItemInfo avgDeviation = DatabaseIO.getAvgDeviationOverall();
         if (avgDeviation == null)
             avgDeviation.setTimeDiff(Utils.ERROR_VALUE);
 

@@ -5,13 +5,15 @@ import edu.usc.imsc.metrans.ws.storage.DbItemInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class DatabaseIO {
-    private static final String SELECT_AVG_DEVIATION_ALL_ROUTES =
+    private static final String SELECT_AVG_DEVIATION_OVERALL =
             " SELECT SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation_all_routes " +
                     " FROM etd_avg_deviation_month_mv ";
 
-    private static final String SELECT_AVG_DEVIATION_PER_ROUTE =
+    private static final String SELECT_AVG_DEVIATION_OF_ROUTES =
             "SELECT route_id, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
                     " FROM etd_avg_deviation_month_mv " +
                     " GROUP BY route_id ";
@@ -27,7 +29,28 @@ public class DatabaseIO {
                     " FROM etd_avg_deviation_month_mv " +
                     " WHERE route_id = ? AND stop_id = ? AND trip_id = ?";
 
-    private static final String SELECT_AVG_MIN_POS_DELAY_PER_ROUTE =
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH =
+            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_month_mv " +
+                    " GROUP BY date_month " +
+                    " ORDER BY date_month ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW =
+            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_dow_mv " +
+                    " GROUP BY date_dow " +
+                    " ORDER BY date_dow ";
+
+    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR =
+            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
+                    " FROM etd_avg_deviation_hour_mv " +
+                    " GROUP BY date_hour " +
+                    " ORDER BY date_hour ";
+
+
+
+    private static final String SELECT_AVG_MIN_POS_DELAY_OF_ROUTES =
             "SELECT route_id, SUM((avg_min_pos_delay * num_estimations)) / SUM(num_estimations) as avg_min_pos_delay " +
                     " FROM empd_avg_mpd_month_mv " +
                     " GROUP BY route_id ";
@@ -87,7 +110,7 @@ public class DatabaseIO {
      * Get average arrival time deviation of all routes
      * @return average arrival time deviation of all routes or {@code null} if error occur
      */
-    public static DbItemInfo getAvgDeviationAllRoutes() {
+    public static DbItemInfo getAvgDeviationOverall() {
         DbItemInfo result = null;
         Connection connection = getConnection();
         if (connection == null) {
@@ -97,7 +120,7 @@ public class DatabaseIO {
         PreparedStatement psql;
 
         try {
-            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_ALL_ROUTES);
+            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_OVERALL);
 
             ResultSet rs = psql.executeQuery();
 
@@ -131,7 +154,7 @@ public class DatabaseIO {
         PreparedStatement psql;
 
         try {
-            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_PER_ROUTE);
+            psql = connection.prepareStatement(SELECT_AVG_DEVIATION_OF_ROUTES);
 
             ResultSet rs = psql.executeQuery();
 
@@ -233,6 +256,86 @@ public class DatabaseIO {
         return result;
     }
 
+    /**
+     * Get average arrival time deviation of all routes by month
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByMonthOverall() {
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH);
+    }
+
+    /**
+     * Get average arrival time deviation of all routes by day of week
+     * @return list of average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByDayOfWeekOverall() {
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW);
+    }
+
+    /**
+     * Get average arrival time deviation of all routes by hour of day
+     * @return list of  average arrival time deviation or empty list if error occur
+     */
+    public static ArrayList<Double> getAvgDeviationByHourOfDayOverall() {
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR);
+    }
+
+
+    /**
+     * Get average arrival time deviation of all routes by date part
+     * @return average arrival time deviation of all routes or empty list if error occur
+     */
+    private static ArrayList<Double> getAvgDeviationByDatePart(String sqlStatement) {
+        ArrayList<Double> results = new ArrayList<>();
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return results;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(sqlStatement);
+
+            results = getAvgDeviationByDatePart(psql);
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting average arrival time deviation of all routes by date part:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return results;
+    }
+
+    /**
+     * Get average arrival time deviation by date part
+     * @return average arrival time deviation by date part or empty list if error occurred
+     */
+    private static ArrayList<Double> getAvgDeviationByDatePart(PreparedStatement psql) {
+        ArrayList<Double> results = new ArrayList<>();
+        try {
+            ResultSet rs = psql.executeQuery();
+
+            TreeMap<Long, Double> rows = new TreeMap<>();
+            while(rs.next()){
+                rows.put(rs.getLong("d_part"), rs.getDouble("avg_deviation"));
+            }
+
+            for (Map.Entry<Long, Double> entry : rows.entrySet())
+                results.add(entry.getValue());
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting average arrival time deviation by date part:"  + e.getMessage());
+            e.printStackTrace();
+            results = new ArrayList<>();
+        }
+
+        return results;
+    }
+
+
 
     /**
      * Get list of average min positive delay of all routes
@@ -248,7 +351,7 @@ public class DatabaseIO {
         PreparedStatement psql;
 
         try {
-            psql = connection.prepareStatement(SELECT_AVG_MIN_POS_DELAY_PER_ROUTE);
+            psql = connection.prepareStatement(SELECT_AVG_MIN_POS_DELAY_OF_ROUTES);
 
             ResultSet rs = psql.executeQuery();
 
