@@ -4,6 +4,7 @@ import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStoreProvider;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
 import org.onebusaway.gtfs.model.Route;
+import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.model.Trip;
 
@@ -13,11 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.*;
 
-@Path("/main/shape")
+@Path("/main/list")
 public class ListingWs {
     @GET
     @Path("routes")
@@ -50,7 +49,47 @@ public class ListingWs {
     @Path("route/{routeId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStopsOfRoutes(@PathParam("routeId") int routeId) {
-        ArrayList<String> infos = new ArrayList<>();
+        ArrayList<StopMetadataInfo> infos = new ArrayList<>();
+        Set<String> stopSet = new HashSet<>();
+
+        GtfsStore gtfsStore = GtfsStoreProvider.getGtfsStore();
+
+        Route route = GtfsUtil.getRouteFromShortId(gtfsStore, String.valueOf(routeId));
+
+        ArrayList<Trip> trips = gtfsStore.getRouteTrips().get(route.getId().getId());
+        if (trips != null) {
+            for (Trip trip : trips) {
+                ArrayList<StopTime> stopTimes = gtfsStore.getTripStopTimes().get(trip.getId().getId());
+                if (stopTimes != null) {
+                    for (StopTime stopTime : stopTimes) {
+                        Stop stop = stopTime.getStop();
+                        if (!stopSet.contains(stop.getId().getId())) {
+                            StopMetadataInfo info = new StopMetadataInfo();
+
+                            info.setStopId(Long.valueOf(stop.getId().getId()));
+                            info.setStopName(stop.getName());
+                            info.setLat(stop.getLat());
+                            info.setLon(stop.getLon());
+
+                            infos.add(info);
+
+                            stopSet.add(stop.getId().getId());
+                        }
+                    }
+                } else {
+                    System.err.println("Unable to find stops for trip " + trip.getId().getId());
+                }
+            }
+        } else {
+            System.err.println("Unable to find trips for route " + routeId);
+        }
+
+        infos.sort(new Comparator<StopMetadataInfo>() {
+            @Override
+            public int compare(StopMetadataInfo o1, StopMetadataInfo o2) {
+                return Long.compare(o1.getStopId(), o2.getStopId());
+            }
+        });
 
         return Response.status(200).entity(infos).build();
     }
