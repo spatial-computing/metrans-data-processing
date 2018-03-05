@@ -3,6 +3,7 @@ package edu.usc.imsc.metrans.ws.list;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStore;
 import edu.usc.imsc.metrans.gtfsutil.GtfsStoreProvider;
 import edu.usc.imsc.metrans.gtfsutil.GtfsUtil;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
@@ -118,12 +119,15 @@ public class ListingWs {
                             //found the stop time
                             int arrivalTime = stopTime.getArrivalTime();
                             info.setArrivalTime(GtfsUtil.getHourMinSec(arrivalTime, "HH:mm"));
+                            info.setArrivalTimeSeconds(arrivalTime);
                             stopTimeFound = true;
                         }
                     }
 
-                    if (stopTimeFound)
+                    if (stopTimeFound) {
                         infos.add(info);
+                    }
+
                 }
             } else {
                 System.err.println("Can NOT find route for routeId=" + routeId);
@@ -132,6 +136,16 @@ public class ListingWs {
             System.err.println("Error finding route for routeId=" + routeId + ":" + e.getMessage());
             e.printStackTrace();
         }
+
+        infos.sort(new Comparator<TripMetadataInfo>() {
+            @Override
+            public int compare(TripMetadataInfo o1, TripMetadataInfo o2) {
+                return new CompareToBuilder()
+                        .append(o1.getService(), o2.getService())
+                        .append(o1.getArrivalTimeSeconds(), o2.getArrivalTimeSeconds())
+                        .toComparison();
+            }
+        });
 
         return Response.status(200).entity(infos).build();
     }

@@ -911,7 +911,7 @@ public class DatabaseIO {
             while(rs.next()){
                 long num_bunching = rs.getLong("num_bunching");
                 long num_estimations = rs.getLong("num_estimations");
-                rows.put(rs.getLong("d_part"), (double) num_bunching / (double) num_estimations);
+                rows.put(rs.getLong("d_part"), ((double) num_bunching / (double) num_estimations) * 100.0);
             }
 
             results = parseDataForDatePart(rows, datePartType);

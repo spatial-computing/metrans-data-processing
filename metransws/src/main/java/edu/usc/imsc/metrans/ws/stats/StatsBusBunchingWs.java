@@ -16,7 +16,7 @@ public class StatsBusBunchingWs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRouteStopBasicInfo(@PathParam("routeId") int routeId,
                                           @PathParam("stopId") int stopId) {
-        StatsInfo info = new StatsInfo();
+        StatsInfoBusBunching info = new StatsInfoBusBunching();
 
         info.setWeek(DatabaseIO.getBusBunchingByDayOfWeek(routeId, stopId));
 

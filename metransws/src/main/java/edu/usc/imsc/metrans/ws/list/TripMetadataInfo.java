@@ -7,6 +7,7 @@ public class TripMetadataInfo {
     private String id;
     private String service;
     private String arrivalTime;
+    private int arrivalTimeSeconds;
 
     public String getId() {
         return id;
@@ -30,6 +31,14 @@ public class TripMetadataInfo {
 
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public int getArrivalTimeSeconds() {
+        return arrivalTimeSeconds;
+    }
+
+    public void setArrivalTimeSeconds(int arrivalTimeSeconds) {
+        this.arrivalTimeSeconds = arrivalTimeSeconds;
     }
 
     @Override
