@@ -2,11 +2,9 @@ package edu.usc.imsc.metrans.arrivaltimeestimators;
 
 
 import edu.usc.imsc.metrans.config.Config;
-import org.onebusaway.gtfs.model.StopTime;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.*;
 
 public class Util {
 
@@ -35,6 +33,14 @@ public class Util {
     }
 
 
+    /**
+     * Get distance between 2 GPS coordinates based on the Great Circle Distance
+     * @param lon1 longitude 1
+     * @param lat1 latitude 1
+     * @param lon2 longitude 2
+     * @param lat2 latitude 2
+     * @return the distance
+     */
     public static double getDistance(double lon1, double lat1, double lon2, double lat2){
         double radLat1 = rad(lat1);
         double radLat2 = rad(lat2);
@@ -46,30 +52,11 @@ public class Util {
         return s;
     }
 
-    public static List<Map.Entry<String, Double>> sortSchedules (Map<String, Double> candidateSumDistance,
-                                                                 Map<String, ArrayList<StopTime>> candidateSchedules) {
-
-        List<Map.Entry<String, Double>> candidateSumDistanceList = new ArrayList<Map.Entry<String, Double>>(candidateSumDistance.entrySet());
-        Collections.sort(candidateSumDistanceList, new Comparator<Map.Entry<String, Double>>() {
-            @Override
-            public int compare(Map.Entry<String, Double> o1,
-                               Map.Entry<String, Double> o2) {
-                int flag = o1.getValue().compareTo(o2.getValue());
-                if (flag == 0) {
-                    return o1.getKey().compareTo(o2.getKey());
-                }
-                return flag;
-            }
-        });
-
-        return candidateSumDistanceList;
-    }
-
     public static int zonedDateTimeToInteger(ZonedDateTime time) {
         return time.getHour() * 3600 + time.getMinute() * 60 + time.getSecond();
     }
 
-    public static ZonedDateTime convertSecondsToZonedDateTime(long nSeconds) {
+    public static ZonedDateTime convertEpochSecondsToZonedDateTime(long nSeconds) {
         return ZonedDateTime.ofInstant(Instant.ofEpochSecond(nSeconds), Config.zoneId);
     }
 
@@ -90,7 +77,7 @@ public class Util {
      * @return number of seconds from "noon minus 12 hours" to a specific time
      */
     public static long getSecondsFromNoonMinus12Hours(long timestamp) {
-        ZonedDateTime time = convertSecondsToZonedDateTime(timestamp);
+        ZonedDateTime time = convertEpochSecondsToZonedDateTime(timestamp);
         return getSecondsFromNoonMinus12Hours(time);
     }
 

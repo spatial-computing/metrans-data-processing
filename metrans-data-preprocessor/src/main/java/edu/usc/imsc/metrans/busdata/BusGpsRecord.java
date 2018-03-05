@@ -108,7 +108,7 @@ public class BusGpsRecord {
     @Override
     public String toString() {
         return "BusGpsRecord{" +
-                "dateAndTime=" + Util.convertSecondsToZonedDateTime(dateAndTime).format(BusDataIO.defaultDateTimeParser) +
+                "dateAndTime=" + Util.convertEpochSecondsToZonedDateTime(dateAndTime).format(BusDataIO.defaultDateTimeParser) +
                 ", busId=" + busId +
                 ", lineId=" + lineId +
                 ", runId=" + runId +
@@ -116,7 +116,7 @@ public class BusGpsRecord {
                 ", busDirection=" + busDirection +
                 ", lat=" + lat +
                 ", lon=" + lon +
-                ", busLocationTime=" + Util.convertSecondsToZonedDateTime(busLocationTime).format(BusDataIO.defaultDateTimeParser) +
+                ", busLocationTime=" + Util.convertEpochSecondsToZonedDateTime(busLocationTime).format(BusDataIO.defaultDateTimeParser) +
                 '}';
     }
 }

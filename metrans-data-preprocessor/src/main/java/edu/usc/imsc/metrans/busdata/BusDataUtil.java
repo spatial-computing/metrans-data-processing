@@ -84,7 +84,7 @@ public class BusDataUtil {
         Map<Integer, ArrayList<BusGpsRecord>> dayRecordsMaps = new HashMap<>();
 
         for (BusGpsRecord record : records) {
-            ZonedDateTime timeTmp = Util.convertSecondsToZonedDateTime(record.getBusLocationTime());
+            ZonedDateTime timeTmp = Util.convertEpochSecondsToZonedDateTime(record.getBusLocationTime());
             Integer key = convertTimeToIntegerFormat(timeTmp);
             addRecordToMap(key, record, dayRecordsMaps);
         }

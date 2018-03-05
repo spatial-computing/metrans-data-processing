@@ -35,7 +35,7 @@ public class StatisticsCalculator {
 
         long time = startTimestamp;
         while (time < endTimestamp) {
-            ZonedDateTime currTime = Util.convertSecondsToZonedDateTime(time);
+            ZonedDateTime currTime = Util.convertEpochSecondsToZonedDateTime(time);
             logger.info("Date: " + currTime.getYear() + "-" + currTime.getMonth() + "-" + currTime.getDayOfMonth()
                     + " :: epoch " + currTime.toEpochSecond());
 
