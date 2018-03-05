@@ -7,17 +7,16 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ece9882-86b8-473b-844f-7dbdce1008de" name="Default" comment="">
+    <list default="true" id="0ece9882-86b8-473b-844f-7dbdce1008de" name="Default" comment="remove &quot;year&quot; from stats info">
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/data/metrans/shape-10.csv" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/data/metrans/shape-10.csv" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/pom.xml" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/infolab/usc/geo/demo/MetransBusMatching.java" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/infolab/usc/geo/demo/MetransBusMatching.java" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/infolab/usc/geo/util/WGS2MetricTransformer.java" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/infolab/usc/geo/util/WGS2MetricTransformer.java" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/resources/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/resources/META-INF/MANIFEST.MF" />
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/target/classes/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/target/classes/META-INF/MANIFEST.MF" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -41,13 +40,83 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="StatsInfo.java" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="StatsInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
               <caret line="11" column="27" lean-forward="false" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseIO.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="507">
+              <caret line="965" column="0" lean-forward="false" selection-start-line="965" selection-start-column="0" selection-end-line="965" selection-end-column="0" />
+              <folding>
+                <element signature="method#getConnection#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgDeviationByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getReliability#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getReliability#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getReliability#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getReliability#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getReliability#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getReliability#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getReliability#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getReliability#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getReliabilityResult#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getReliabilityResult#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
+                <marker date="1520225023709" expanded="false" signature="360:9356" ph="SELECT * FRO... estimated_arrival_time" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -117,7 +186,6 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/basicinfo/BasicInfoWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsBusBunchingWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/list/StopMetadataInfo.java" />
@@ -129,6 +197,7 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/shape/ShapePointInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/shape/ShapeWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
       </list>
     </option>
   </component>
@@ -167,8 +236,6 @@
     </navigator>
     <panes>
       <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -313,6 +380,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -489,7 +558,8 @@
       <workItem from="1519968519949" duration="6416000" />
       <workItem from="1520015766390" duration="22345000" />
       <workItem from="1520063443524" duration="1593000" />
-      <workItem from="1520065242779" duration="128000" />
+      <workItem from="1520065242779" duration="187000" />
+      <workItem from="1520222381638" duration="2342000" />
     </task>
     <task id="LOCAL-00001" summary="-add API for getting shape.csv">
       <created>1516827929598</created>
@@ -575,11 +645,18 @@
       <option name="project" value="LOCAL" />
       <updated>1520065021662</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="remove &quot;year&quot; from stats info">
+      <created>1520065383491</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1520065383491</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59679000" />
+    <option name="totallyTimeSpent" value="62080000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -608,7 +685,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26466382" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26824033" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -646,10 +723,13 @@
     <MESSAGE value="get all /stats/busbunching/route/{}/stop/{} from real data" />
     <MESSAGE value="get /list/route/{route_id} from real data" />
     <MESSAGE value="get /shape/route/{route_id} from real data" />
-    <option name="LAST_COMMIT_MESSAGE" value="get /shape/route/{route_id} from real data" />
+    <MESSAGE value="remove &quot;year&quot; from stats info" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove &quot;year&quot; from stats info" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -856,7 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -883,13 +962,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12900">
-          <caret line="865" column="5" lean-forward="false" selection-start-line="865" selection-start-column="5" selection-end-line="865" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1001,9 +1073,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="29" column="38" lean-forward="false" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1011,24 +1080,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="469">
           <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
-          <folding>
-            <element signature="e#300#301#0" expanded="false" />
-            <element signature="e#330#331#0" expanded="false" />
-            <element signature="e#376#377#0" expanded="false" />
-            <element signature="e#414#415#0" expanded="false" />
-            <element signature="e#454#455#0" expanded="false" />
-            <element signature="e#490#491#0" expanded="false" />
-            <element signature="e#548#549#0" expanded="false" />
-            <element signature="e#598#599#0" expanded="false" />
-            <element signature="e#638#639#0" expanded="false" />
-            <element signature="e#674#675#0" expanded="false" />
-            <element signature="e#732#733#0" expanded="false" />
-            <element signature="e#782#783#0" expanded="false" />
-            <element signature="e#824#825#0" expanded="false" />
-            <element signature="e#865#866#0" expanded="false" />
-            <element signature="e#930#931#0" expanded="false" />
-            <element signature="e#990#991#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1037,6 +1088,74 @@
         <state relative-caret-position="150">
           <caret line="11" column="27" lean-forward="false" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="965" column="0" lean-forward="false" selection-start-line="965" selection-start-column="0" selection-end-line="965" selection-end-column="0" />
+          <folding>
+            <element signature="method#getConnection#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgDeviationByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getReliability#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getReliability#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getReliability#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getReliability#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getReliability#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getReliability#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getReliability#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getReliability#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getReliabilityResult#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getReliabilityResult#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
+            <marker date="1520225023709" expanded="false" signature="360:9356" ph="SELECT * FRO... estimated_arrival_time" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -5,6 +5,7 @@ import edu.usc.imsc.metrans.ws.storage.DbItemInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +13,7 @@ public class DatabaseIO {
     /*
      * Average Deviation
      */
+
     private static final String SELECT_AVG_DEVIATION_OVERALL =
             " SELECT SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation_all_routes " +
                     " FROM etd_avg_deviation_month_mv ";
@@ -423,7 +425,7 @@ public class DatabaseIO {
      */
     public static ArrayList<Double> getAvgDeviationByMonth() {
         ArrayList<Long> params = new ArrayList<>();
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_MONTH, params, Calendar.MONTH);
     }
 
     /**
@@ -432,7 +434,7 @@ public class DatabaseIO {
      */
     public static ArrayList<Double> getAvgDeviationByDayOfWeek() {
         ArrayList<Long> params = new ArrayList<>();
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_DOW, params, Calendar.DAY_OF_WEEK);
     }
 
     /**
@@ -441,7 +443,7 @@ public class DatabaseIO {
      */
     public static ArrayList<Double> getAvgDeviationByHourOfDay() {
         ArrayList<Long> params = new ArrayList<>();
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_OVERALL_BY_HOUR, params, Calendar.HOUR_OF_DAY);
     }
 
 
@@ -453,7 +455,7 @@ public class DatabaseIO {
     public static ArrayList<Double> getAvgDeviationByMonth(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_ROUTE, params, Calendar.MONTH);
     }
 
     /**
@@ -464,7 +466,7 @@ public class DatabaseIO {
     public static ArrayList<Double> getAvgDeviationByDayOfWeek(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_ROUTE, params, Calendar.DAY_OF_WEEK);
     }
 
     /**
@@ -475,7 +477,7 @@ public class DatabaseIO {
     public static ArrayList<Double> getAvgDeviationByHourOfDay(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_ROUTE, params, Calendar.HOUR_OF_DAY);
     }
 
 
@@ -489,7 +491,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_STOP_OF_ROUTE, params, Calendar.MONTH);
     }
 
     /**
@@ -502,7 +504,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_STOP_OF_ROUTE, params, Calendar.DAY_OF_WEEK);
     }
 
     /**
@@ -515,7 +517,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_STOP_OF_ROUTE, params, Calendar.HOUR_OF_DAY);
     }
 
     /**
@@ -530,7 +532,7 @@ public class DatabaseIO {
         params.add(routeId);
         params.add(stopId);
         params.add(tripId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE, params, Calendar.MONTH);
     }
 
     /**
@@ -545,7 +547,7 @@ public class DatabaseIO {
         params.add(routeId);
         params.add(stopId);
         params.add(tripId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE, params, Calendar.DAY_OF_WEEK);
     }
 
     /**
@@ -560,7 +562,7 @@ public class DatabaseIO {
         params.add(routeId);
         params.add(stopId);
         params.add(tripId);
-        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE, params);
+        return getAvgDeviationByDatePart(SELECT_AVG_DEVIATION_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE, params, Calendar.HOUR_OF_DAY);
     }
 
 
@@ -568,7 +570,7 @@ public class DatabaseIO {
      * Get average arrival time deviation of all routes by date part
      * @return average arrival time deviation of all routes or empty list if error occur
      */
-    private static ArrayList<Double> getAvgDeviationByDatePart(String sqlStatement, ArrayList<Long> params) {
+    private static ArrayList<Double> getAvgDeviationByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType) {
         ArrayList<Double> results = new ArrayList<>();
         Connection connection = getConnection();
         if (connection == null) {
@@ -583,7 +585,7 @@ public class DatabaseIO {
                 for (int i = 0; i < params.size(); i++)
                     psql.setLong(i + 1, params.get(i));
 
-            results = getAvgDeviationByDatePart(psql);
+            results = getAvgDeviationByDatePart(psql, datePartType);
 
             connection.close();
 
@@ -599,7 +601,7 @@ public class DatabaseIO {
      * Get average arrival time deviation by date part
      * @return average arrival time deviation by date part or empty list if error occurred
      */
-    private static ArrayList<Double> getAvgDeviationByDatePart(PreparedStatement psql) {
+    private static ArrayList<Double> getAvgDeviationByDatePart(PreparedStatement psql, int datePartType) {
         ArrayList<Double> results = new ArrayList<>();
         try {
             ResultSet rs = psql.executeQuery();
@@ -609,8 +611,7 @@ public class DatabaseIO {
                 rows.put(rs.getLong("d_part"), rs.getDouble("avg_deviation"));
             }
 
-            for (Map.Entry<Long, Double> entry : rows.entrySet())
-                results.add(entry.getValue());
+            results = parseDataForDatePart(rows, datePartType);
 
         } catch (SQLException e) {
             System.err.println("Error selecting average arrival time deviation by date part:"  + e.getMessage());
@@ -862,7 +863,7 @@ public class DatabaseIO {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getBusBunchingByDatePart(SELECT_BUS_BUNCHING_BY_DOW_OF_STOP_OF_ROUTE, params);
+        return getBusBunchingByDatePart(SELECT_BUS_BUNCHING_BY_DOW_OF_STOP_OF_ROUTE, params, Calendar.DAY_OF_WEEK);
     }
 
 
@@ -870,7 +871,7 @@ public class DatabaseIO {
      * Get bus bunching probability of all routes by date part
      * @return bus bunching probability of all routes or empty list if error occur
      */
-    private static ArrayList<Double> getBusBunchingByDatePart(String sqlStatement, ArrayList<Long> params) {
+    private static ArrayList<Double> getBusBunchingByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType) {
         ArrayList<Double> results = new ArrayList<>();
         Connection connection = getConnection();
         if (connection == null) {
@@ -885,7 +886,7 @@ public class DatabaseIO {
                 for (int i = 0; i < params.size(); i++)
                     psql.setLong(i + 1, params.get(i));
 
-            results = getBusBunchingByDatePart(psql);
+            results = getBusBunchingByDatePart(psql, datePartType);
 
             connection.close();
 
@@ -901,7 +902,7 @@ public class DatabaseIO {
      * Get bus bunching probability by date part
      * @return bus bunching probability by date part or empty list if error occurred
      */
-    private static ArrayList<Double> getBusBunchingByDatePart(PreparedStatement psql) {
+    private static ArrayList<Double> getBusBunchingByDatePart(PreparedStatement psql, int datePartType) {
         ArrayList<Double> results = new ArrayList<>();
         try {
             ResultSet rs = psql.executeQuery();
@@ -913,8 +914,7 @@ public class DatabaseIO {
                 rows.put(rs.getLong("d_part"), (double) num_bunching / (double) num_estimations);
             }
 
-            for (Map.Entry<Long, Double> entry : rows.entrySet())
-                results.add(entry.getValue());
+            results = parseDataForDatePart(rows, datePartType);
 
         } catch (SQLException e) {
             System.err.println("Error selecting bus bunching probability by date part:"  + e.getMessage());
@@ -923,5 +923,47 @@ public class DatabaseIO {
         }
 
         return results;
+    }
+
+    /**
+     * Parse data in Map to ArrayList for different type of date part
+     * @param records data
+     * @param datePartType type of date part
+     * @return values of Map as ArrayList
+     */
+    private static ArrayList<Double> parseDataForDatePart(TreeMap<Long, Double> records, int datePartType) {
+        ArrayList<Double> result = new ArrayList<>();
+        int maxValue = 0;
+        switch (datePartType) {
+            case Calendar.MONTH:
+                maxValue = 12;
+                break;
+            case Calendar.DAY_OF_WEEK:
+                maxValue = 6;
+                break;
+            case Calendar.HOUR_OF_DAY:
+                maxValue = 23;
+                break;
+            default:
+                System.err.println("Invalid date part type : " + datePartType);
+        }
+
+        for (int i = 0; i < maxValue + 1; i++) {
+            result.add(0.0);
+        }
+
+        for (Long key : records.keySet()) {
+            Double value = records.get(key);
+
+            result.set(key.intValue() % (maxValue + 1), value);
+        }
+
+        if (datePartType == Calendar.MONTH)
+            result.remove(0);
+
+//        System.out.println("parseDataForDatePart: records = " + records.toString());
+//        System.out.println("parseDataForDatePart: result = " + result.toString());
+
+        return result;
     }
 }
