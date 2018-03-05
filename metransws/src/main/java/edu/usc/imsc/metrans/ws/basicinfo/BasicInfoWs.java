@@ -26,12 +26,15 @@ public class BasicInfoWs {
     public Response getOverallBasicInfo() {
         OverallBasicInfo info = new OverallBasicInfo();
 
-        DbItemInfo avgDeviation = DatabaseIO.getAvgDeviationOverall();
+        Double avgDeviation = DataCache.getValue(DataCache.AVG_DEVIATION_OVERALL);
         if (avgDeviation == null)
-            avgDeviation.setTimeDiff(Utils.ERROR_VALUE);
+            avgDeviation = (double)Utils.ERROR_VALUE;
 
-        info.setAvgDeviation(avgDeviation.getTimeDiff());
-        info.setReliability(DatabaseIO.getReliability());
+        info.setAvgDeviation(avgDeviation);
+        Double reliability = DataCache.getValue(DataCache.RELIABILITY_OVERALL);
+        if (reliability == null)
+            reliability = (double)Utils.ERROR_VALUE;
+        info.setReliability(reliability);
 
         info.setNumBusRoutes(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllRoutes().size());
         info.setNumBusStops(GtfsStoreProvider.getGtfsStore().getGtfsDao().getAllStops().size());
