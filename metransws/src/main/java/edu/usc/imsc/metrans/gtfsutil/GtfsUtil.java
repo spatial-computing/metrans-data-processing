@@ -335,6 +335,9 @@ public class GtfsUtil {
         //set time to noon
         time = time.withHour(12).withMinute(0).withSecond(0).withNano(0);
 
+        //set time to midnight
+        time = time.minusHours(12);
+
         time = time.plusSeconds(arrivalTime);
 
         return time.format(DateTimeFormatter.ofPattern(pattern));
