@@ -26,7 +26,7 @@ public class StatsWs {
             case "busbunching":
                 break;
             case "reliability":
-                break;
+                return Response.status(200).entity(getStatsReliability(routeId, stopId, tripId)).build();
             case "waitingtime":
                 return Response.status(200).entity(getStatsMinPosDelay(routeId, stopId, tripId)).build();
             default:
@@ -107,6 +107,45 @@ public class StatsWs {
                     info.setMonth(DatabaseIO.getAvgMinPosDelayByMonth(routeId, stopId, tripId));
                     info.setDay(DatabaseIO.getAvgMinPosDelayByHourOfDay(routeId, stopId, tripId));
                     info.setWeek(DatabaseIO.getAvgMinPosDelayByDayOfWeek(routeId, stopId, tripId));
+                }
+            }
+        }
+
+        return info;
+    }
+
+
+    /**
+     * Get reliability
+     * @param routeId route id
+     * @param stopId stop id
+     * @param tripId trip id
+     * @return stat information for reliability
+     */
+    public static StatsInfo getStatsReliability(long routeId, long stopId, long tripId) {
+        StatsInfo info = new StatsInfo();
+        if (routeId == StatsWs.INVALID_VALUE) {
+            //overview
+            info.setMonth(DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_MONTH_OVERALL));
+            info.setDay(DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_HOUR_OVERALL));
+            info.setWeek(DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_DOW_OVERALL));
+
+        } else {
+            if (stopId == StatsWs.INVALID_VALUE) {
+                //route
+                info.setMonth(DatabaseIO.getReliabilityByMonth(routeId));
+                info.setDay(DatabaseIO.getReliabilityByHourOfDay(routeId));
+                info.setWeek(DatabaseIO.getReliabilityByDayOfWeek(routeId));
+
+            } else {
+                if (tripId == StatsWs.INVALID_VALUE) {
+                    info.setMonth(DatabaseIO.getReliabilityByMonth(routeId, stopId));
+                    info.setDay(DatabaseIO.getReliabilityByHourOfDay(routeId, stopId));
+                    info.setWeek(DatabaseIO.getReliabilityByDayOfWeek(routeId, stopId));
+                } else {
+                    info.setMonth(DatabaseIO.getReliabilityByMonth(routeId, stopId, tripId));
+                    info.setDay(DatabaseIO.getReliabilityByHourOfDay(routeId, stopId, tripId));
+                    info.setWeek(DatabaseIO.getReliabilityByDayOfWeek(routeId, stopId, tripId));
                 }
             }
         }

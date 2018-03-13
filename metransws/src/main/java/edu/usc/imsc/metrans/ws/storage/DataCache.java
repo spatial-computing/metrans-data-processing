@@ -26,6 +26,10 @@ public class DataCache {
     public static final String AVG_MIN_POS_DELAY_BY_DOW_OVERALL = "AVG_MIN_POS_DELAY_BY_DOW_OVERALL";
     public static final String AVG_MIN_POS_DELAY_BY_HOUR_OVERALL = "AVG_MIN_POS_DELAY_BY_HOUR_OVERALL";
 
+    public static final String RELIABILITY_BY_MONTH_OVERALL = "RELIABILITY_BY_MONTH_OVERALL";
+    public static final String RELIABILITY_BY_DOW_OVERALL = "RELIABILITY_BY_DOW_OVERALL";
+    public static final String RELIABILITY_BY_HOUR_OVERALL = "RELIABILITY_BY_HOUR_OVERALL";
+
     private static  LoadingCache<String, ArrayList<DbItemInfo>> routeAvgDeviationsCache = null;
     private static  LoadingCache<Long, ArrayList<DbItemInfo>> stopAvgDeviationsCache = null;
 
@@ -34,6 +38,7 @@ public class DataCache {
 
     private static  LoadingCache<String, ArrayList<Double>> avgDeviationsByDatePartCache = null;
     private static  LoadingCache<String, ArrayList<Double>> avgMinPosDelayByDatePartCache = null;
+    private static  LoadingCache<String, ArrayList<Double>> reliabilityByDatePartCache = null;
 
     private static LoadingCache<String, Double> oneValueCache = null;
 
@@ -313,6 +318,52 @@ public class DataCache {
         }
     }
 
+
+    /**
+     * Get reliability of all routes by date part (month, day of week, hour)
+     * @return reliability objects of routes or empty list if error occurred
+     */
+    public static ArrayList<Double> getReliabilityByDatePart(String datePart) {
+        if (reliabilityByDatePartCache == null) {
+            synchronized (DataCache.class) {
+                if (reliabilityByDatePartCache == null) {
+                    reliabilityByDatePartCache = CacheBuilder.newBuilder()
+                            .maximumSize(10000)
+                            .expireAfterWrite(1, TimeUnit.DAYS)
+                            .build(
+                                    new CacheLoader<String, ArrayList<Double>>() {
+                                        @Override
+                                        public ArrayList<Double> load(String key) {
+                                            ArrayList<Double> values;
+                                            switch (key) {
+                                                case RELIABILITY_BY_MONTH_OVERALL:
+                                                    values = DatabaseIO.getReliabilityByMonth();
+                                                    break;
+                                                case RELIABILITY_BY_DOW_OVERALL:
+                                                    values = DatabaseIO.getReliabilityByDayOfWeek();
+                                                    break;
+                                                case RELIABILITY_BY_HOUR_OVERALL:
+                                                    values = DatabaseIO.getReliabilityByHourOfDay();
+                                                    break;
+                                                default:
+                                                    values = new ArrayList<>();
+                                            }
+
+                                            return values;
+                                        }
+                                    });
+                }
+            }
+        }
+
+        try {
+            return reliabilityByDatePartCache.get(datePart);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
     /**
      * Prepare values of caches that uses constant keys
      */
@@ -330,5 +381,9 @@ public class DataCache {
         DataCache.getAvgMinPosDelayByDatePart(DataCache.AVG_MIN_POS_DELAY_BY_MONTH_OVERALL);
         DataCache.getAvgMinPosDelayByDatePart(DataCache.AVG_MIN_POS_DELAY_BY_DOW_OVERALL);
         DataCache.getAvgMinPosDelayByDatePart(DataCache.AVG_MIN_POS_DELAY_BY_HOUR_OVERALL);
+
+        DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_MONTH_OVERALL);
+        DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_DOW_OVERALL);
+        DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_HOUR_OVERALL);
     }
 }
