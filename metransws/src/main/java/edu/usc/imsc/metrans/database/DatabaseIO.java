@@ -9,22 +9,39 @@ import java.util.Calendar;
 import java.util.TreeMap;
 
 public class DatabaseIO {
-    public static final String ANALYTIC_DATE_PART_MONTH = "date_month";
-    public static final String ANALYTIC_DATE_PART_DOW = "date_dow";
-    public static final String ANALYTIC_DATE_PART_HOUR = "date_hour";
+    private static final String ANALYTIC_COLUMN_LABEL_D_PART = "d_part";
+    private static final String ANALYTIC_COLUMN_LABEL_AVG_DEVIATION = "avg_deviation";
+    private static final String ANALYTIC_COLUMN_LABEL_AVG_MPD = "avg_min_pos_delay";
 
-    public static final String ANALYTIC_TABLE_AVG_DEVIATION_MONTH = "etd_avg_deviation_month_mv";
-    public static final String ANALYTIC_TABLE_AVG_DEVIATION_DOW = "etd_avg_deviation_dow_mv";
-    public static final String ANALYTIC_TABLE_AVG_DEVIATION_HOUR = "etd_avg_deviation_hour_mv";
+    private static final String ANALYTIC_DATE_PART_MONTH = "date_month";
+    private static final String ANALYTIC_DATE_PART_DOW = "date_dow";
+    private static final String ANALYTIC_DATE_PART_HOUR = "date_hour";
 
-    public static final String ANALYTIC_SELECT_PART_AVG_DEVIATION = "SELECT %s AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation \n";
-    public static final String ANALYTIC_SELECT_PART_BUS_BUNCHING = "SELECT date_part('dow', date(timezone('America/Los_Angeles'::text, date_estimated_time)))::BIGINT AS d_part, COUNT(CASE WHEN num_buses > 1 THEN 1 END) AS num_bunching, COUNT(*) AS num_estimations \n";
+    private static final String ANALYTIC_TABLE_AVG_DEVIATION_MONTH = "etd_avg_deviation_month_mv";
+    private static final String ANALYTIC_TABLE_AVG_DEVIATION_DOW = "etd_avg_deviation_dow_mv";
+    private static final String ANALYTIC_TABLE_AVG_DEVIATION_HOUR = "etd_avg_deviation_hour_mv";
 
-    public static final String ANALYTIC_FROM_PART = " FROM %s \n";
-    public static final String ANALYTIC_ROUTE_ID_CONDITION_PART = " WHERE route_id = ? \n";
-    public static final String ANALYTIC_STOP_ID_CONDITION_PART = " AND stop_id = ? \n";
-    public static final String ANALYTIC_TRIP_ID_CONDITION_PART = " AND trip_id = ? \n";
-    public static final String ANALYTIC_GROUP_BY_PART = " GROUP BY %s";
+    private static final String ANALYTIC_TABLE_AVG_MPD_MONTH = "empd_avg_mpd_month_mv";
+    private static final String ANALYTIC_TABLE_AVG_MPD_DOW = "empd_avg_mpd_dow_mv";
+    private static final String ANALYTIC_TABLE_AVG_MPD_HOUR = "empd_avg_mpd_hour_mv";
+
+    private static final String ANALYTIC_TABLE_ONTINE_COUNT_MONTH = "etd_ontine_count_month_mv";
+    private static final String ANALYTIC_TABLE_ONTINE_COUNT_DOW = "etd_ontine_count_month_mv";
+    private static final String ANALYTIC_TABLE_ONTINE_COUNT_HOUR = "etd_ontine_count_month_mv";
+
+    private static final String ANALYTIC_TABLE_BUS_BUNCHING_MONTH = "bus_bunching_month_mv";
+    private static final String ANALYTIC_TABLE_BUS_BUNCHING_DOW = "bus_bunching_month_mv";
+    private static final String ANALYTIC_TABLE_BUS_BUNCHING_HOUR = "bus_bunching_month_mv";
+
+    private static final String ANALYTIC_SELECT_PART_AVG_DEVIATION = "SELECT %s AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation \n";
+    private static final String ANALYTIC_SELECT_PART_AVG_MPD = "SELECT %s AS d_part, SUM((avg_min_pos_delay * num_estimations)) / SUM(num_estimations) as avg_min_pos_delay \n";
+    private static final String ANALYTIC_SELECT_PART_BUS_BUNCHING = "SELECT date_part('dow', date(timezone('America/Los_Angeles'::text, date_estimated_time)))::BIGINT AS d_part, COUNT(CASE WHEN num_buses > 1 THEN 1 END) AS num_bunching, COUNT(*) AS num_estimations \n";
+
+    private static final String ANALYTIC_FROM_PART = " FROM %s \n";
+    private static final String ANALYTIC_ROUTE_ID_CONDITION_PART = " WHERE route_id = ? \n";
+    private static final String ANALYTIC_STOP_ID_CONDITION_PART = " AND stop_id = ? \n";
+    private static final String ANALYTIC_TRIP_ID_CONDITION_PART = " AND trip_id = ? \n";
+    private static final String ANALYTIC_GROUP_BY_PART = " GROUP BY %s";
 
     /*
      * Average Deviation
@@ -52,96 +69,6 @@ public class DatabaseIO {
 
 
 
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_MONTH =
-            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_month_mv " +
-                    " GROUP BY date_month " +
-                    " ORDER BY date_month ";
-
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_DOW =
-            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_dow_mv " +
-                    " GROUP BY date_dow " +
-                    " ORDER BY date_dow ";
-
-    private static final String SELECT_AVG_DEVIATION_OVERALL_BY_HOUR =
-            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_hour_mv " +
-                    " GROUP BY date_hour " +
-                    " ORDER BY date_hour ";
-
-
-    private static final String SELECT_AVG_DEVIATION_BY_MONTH_OF_ROUTE =
-            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_month_mv " +
-                    " WHERE route_id = ?" +
-                    " GROUP BY date_month " +
-                    " ORDER BY date_month ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_DOW_OF_ROUTE =
-            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_dow_mv " +
-                    " WHERE route_id = ?" +
-                    " GROUP BY date_dow " +
-                    " ORDER BY date_dow ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_HOUR_OF_ROUTE =
-            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_hour_mv " +
-                    " WHERE route_id = ?" +
-                    " GROUP BY date_hour " +
-                    " ORDER BY date_hour ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_MONTH_OF_STOP_OF_ROUTE =
-            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_month_mv " +
-                    " WHERE route_id = ? " +
-                    " AND stop_id = ? " +
-                    " GROUP BY date_month " +
-                    " ORDER BY date_month ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_DOW_OF_STOP_OF_ROUTE =
-            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_dow_mv " +
-                    " WHERE route_id = ?" +
-                    " AND stop_id = ? " +
-                    " GROUP BY date_dow " +
-                    " ORDER BY date_dow ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_HOUR_OF_STOP_OF_ROUTE =
-            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_hour_mv " +
-                    " WHERE route_id = ?" +
-                    " AND stop_id = ? " +
-                    " GROUP BY date_hour " +
-                    " ORDER BY date_hour ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_MONTH_OF_TRIP_OF_STOP_OF_ROUTE =
-            "SELECT date_month AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_month_mv " +
-                    " WHERE route_id = ? " +
-                    " AND stop_id = ? " +
-                    " AND trip_id = ? " +
-                    " GROUP BY date_month " +
-                    " ORDER BY date_month ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_DOW_OF_TRIP_OF_STOP_OF_ROUTE =
-            "SELECT date_dow AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_dow_mv " +
-                    " WHERE route_id = ?" +
-                    " AND stop_id = ? " +
-                    " AND trip_id = ? " +
-                    " GROUP BY date_dow " +
-                    " ORDER BY date_dow ";
-
-    private static final String SELECT_AVG_DEVIATION_BY_HOUR_OF_TRIP_OF_STOP_OF_ROUTE =
-            "SELECT date_hour AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation " +
-                    " FROM etd_avg_deviation_hour_mv " +
-                    " WHERE route_id = ?" +
-                    " AND stop_id = ? " +
-                    " AND trip_id = ? " +
-                    " GROUP BY date_hour " +
-                    " ORDER BY date_hour ";
 
 
     /*
@@ -158,6 +85,8 @@ public class DatabaseIO {
                     " WHERE route_id = ?" +
                     " GROUP BY stop_id";
 
+
+
     private static final String SELECT_MIN_MAX_DATE =
             "SELECT MIN(date_estimated_time) AS min_date, MAX(date_estimated_time) AS max_date " +
                     " FROM estimated_arrival_time";
@@ -166,6 +95,8 @@ public class DatabaseIO {
             "SELECT reltuples::BIGINT AS estimated_data_points " +
                     " FROM pg_class " +
                     " WHERE relname='estimated_arrival_time'";
+
+
 
     private static final String SELECT_ONTIME_COUNT_OVERALL =
             "SELECT SUM(num_ontime_estimations)::BIGINT AS sum_ontimes, SUM(num_estimations)::BIGINT AS sum_estimations " +
@@ -284,7 +215,111 @@ public class DatabaseIO {
         return result;
     }
 
+    /**
+     * Prepare analytic query statement
+     * @param withRoute with route condition?
+     * @param withStop with stop condition?
+     * @param withTrip with trip condition?
+     * @param datePartType type of date in Calendar (MONTH, DAY_OF_WEEK, HOUR_OF_DAY)
+     * @param analyticSelectPart select part for the query
+     * @param analyticTableMonth name of table for MONTH
+     * @param analyticTableDow name of table for DAY_OF_WEEK
+     * @param analyticTableHour name of table for HOUR_OF_DAY
+     * @return analytic query statement
+     */
+    private static String prepareAnalyticSqlStatement(
+            boolean withRoute, boolean withStop, boolean withTrip,
+            int datePartType,
+            String analyticSelectPart,
+            String analyticTableMonth, String analyticTableDow, String analyticTableHour) {
+        String sqlStatement = "";
 
+        String statement = analyticSelectPart
+                + ANALYTIC_FROM_PART;
+        if (withRoute) {
+            statement += ANALYTIC_ROUTE_ID_CONDITION_PART;
+            if (withStop) {
+                statement += ANALYTIC_STOP_ID_CONDITION_PART;
+                if (withTrip)
+                    statement += ANALYTIC_TRIP_ID_CONDITION_PART;
+            }
+
+        }
+
+        statement += ANALYTIC_GROUP_BY_PART;
+
+        switch (datePartType) {
+            case Calendar.MONTH:
+                sqlStatement = String.format(statement,
+                        ANALYTIC_DATE_PART_MONTH,
+                        analyticTableMonth,
+                        ANALYTIC_DATE_PART_MONTH);
+                break;
+            case Calendar.DAY_OF_WEEK:
+                sqlStatement = String.format(statement,
+                        ANALYTIC_DATE_PART_DOW,
+                        analyticTableDow,
+                        ANALYTIC_DATE_PART_DOW);
+                break;
+            case Calendar.HOUR_OF_DAY:
+                sqlStatement = String.format(statement,
+                        ANALYTIC_DATE_PART_HOUR,
+                        analyticTableHour,
+                        ANALYTIC_DATE_PART_HOUR);
+                break;
+            default:
+                System.err.println("Invalid date part type : " + datePartType);
+        }
+
+        return sqlStatement;
+    }
+
+
+    /**
+     * Get double list as the result of a database query
+     * @param sqlStatement query statement
+     * @param params query params
+     * @param datePartType type of date in Calendar (MONTH, DAY_OF_WEEK, HOUR_OF_DAY)
+     * @param columnLabel label of column to get value
+     * @return double list as the result of a database query
+     */
+    private static ArrayList<Double> getDoubleListByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType, String columnLabel) {
+        ArrayList<Double> results = new ArrayList<>();
+        Connection connection = getConnection();
+        if (connection == null) {
+            System.err.println("No database connection");
+            return results;
+        }
+        PreparedStatement psql;
+
+        try {
+            psql = connection.prepareStatement(sqlStatement);
+            if (params != null)
+                for (int i = 0; i < params.size(); i++)
+                    psql.setLong(i + 1, params.get(i));
+
+            ResultSet rs = psql.executeQuery();
+
+            TreeMap<Long, Double> rows = new TreeMap<>();
+            while(rs.next()){
+                rows.put(rs.getLong(ANALYTIC_COLUMN_LABEL_D_PART), rs.getDouble(columnLabel));
+            }
+
+            results = parseDataForDatePart(rows, datePartType);
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error selecting average arrival time deviation of all routes by date part:"  + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return results;
+    }
+
+    /*
+     * AVEAGE DEVIATION
+     */
     /**
      * Get average arrival time deviation of all routes
      * @return average arrival time deviation of all routes or {@code null} if error occur
@@ -436,47 +471,19 @@ public class DatabaseIO {
     }
 
 
+    /**
+     * Prepare analytic query statement for average deviation
+     * @param withRoute with route condition?
+     * @param withStop with stop condition?
+     * @param withTrip with trip condition?
+     * @param datePartType type of date in Calendar (MONTH, DAY_OF_WEEK, HOUR_OF_DAY)
+     * @return analytic query statement for average deviation
+     */
     private static String prepareAnalyticAvgDeviationSqlStatement(boolean withRoute, boolean withStop, boolean withTrip, int datePartType) {
-        String sqlStatement = "";
-
-        String statement = ANALYTIC_SELECT_PART_AVG_DEVIATION
-                + ANALYTIC_FROM_PART;
-        if (withRoute) {
-            statement += ANALYTIC_ROUTE_ID_CONDITION_PART;
-            if (withStop) {
-                statement += ANALYTIC_STOP_ID_CONDITION_PART;
-                if (withTrip)
-                    statement += ANALYTIC_TRIP_ID_CONDITION_PART;
-            }
-
-        }
-
-        statement += ANALYTIC_GROUP_BY_PART;
-
-        switch (datePartType) {
-            case Calendar.MONTH:
-                sqlStatement = String.format(statement,
-                        ANALYTIC_DATE_PART_MONTH,
-                        ANALYTIC_TABLE_AVG_DEVIATION_MONTH,
-                        ANALYTIC_DATE_PART_MONTH);
-                break;
-            case Calendar.DAY_OF_WEEK:
-                sqlStatement = String.format(statement,
-                        ANALYTIC_DATE_PART_DOW,
-                        ANALYTIC_TABLE_AVG_DEVIATION_DOW,
-                        ANALYTIC_DATE_PART_DOW);
-                break;
-            case Calendar.HOUR_OF_DAY:
-                sqlStatement = String.format(statement,
-                        ANALYTIC_DATE_PART_HOUR,
-                        ANALYTIC_TABLE_AVG_DEVIATION_HOUR,
-                        ANALYTIC_DATE_PART_HOUR);
-                break;
-            default:
-                System.err.println("Invalid date part type : " + datePartType);
-        }
-
-        return sqlStatement;
+        return prepareAnalyticSqlStatement(withRoute, withStop, withTrip,
+                datePartType,
+                ANALYTIC_SELECT_PART_AVG_DEVIATION,
+                ANALYTIC_TABLE_AVG_DEVIATION_MONTH, ANALYTIC_TABLE_AVG_DEVIATION_DOW, ANALYTIC_TABLE_AVG_DEVIATION_HOUR);
     }
 
     /**
@@ -533,8 +540,6 @@ public class DatabaseIO {
 
         return getAvgDeviationByDatePart(sqlStatement, params, datePartType);
     }
-
-
 
     /**
      * Get average arrival time deviation of a route by day of week
@@ -682,74 +687,27 @@ public class DatabaseIO {
      * @return average arrival time deviation of all routes or empty list if error occur
      */
     private static ArrayList<Double> getAvgDeviationByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType) {
-        ArrayList<Double> results = new ArrayList<>();
-        Connection connection = getConnection();
-        if (connection == null) {
-            System.err.println("No database connection");
-            return results;
-        }
-        PreparedStatement psql;
-
-        try {
-            psql = connection.prepareStatement(sqlStatement);
-            if (params != null)
-                for (int i = 0; i < params.size(); i++)
-                    psql.setLong(i + 1, params.get(i));
-
-            results = getAvgDeviationByDatePart(psql, datePartType);
-
-            connection.close();
-
-        } catch (SQLException e) {
-            System.err.println("Error selecting average arrival time deviation of all routes by date part:"  + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return results;
+        return getDoubleListByDatePart(sqlStatement, params, datePartType, ANALYTIC_COLUMN_LABEL_AVG_DEVIATION);
     }
 
-    /**
-     * Get average arrival time deviation by date part
-     * @return average arrival time deviation by date part or empty list if error occurred
+
+    /*
+     * MIN POSITIVE DELAY
      */
-    private static ArrayList<Double> getAvgDeviationByDatePart(PreparedStatement psql, int datePartType) {
-        ArrayList<Double> results = new ArrayList<>();
-        try {
-            ResultSet rs = psql.executeQuery();
-
-            TreeMap<Long, Double> rows = new TreeMap<>();
-            while(rs.next()){
-                rows.put(rs.getLong("d_part"), rs.getDouble("avg_deviation"));
-            }
-
-            results = parseDataForDatePart(rows, datePartType);
-
-        } catch (SQLException e) {
-            System.err.println("Error selecting average arrival time deviation by date part:"  + e.getMessage());
-            e.printStackTrace();
-            results = new ArrayList<>();
-        }
-
-        return results;
+    /**
+     * Prepare analytic query statement for average min positive delay
+     * @param withRoute with route condition?
+     * @param withStop with stop condition?
+     * @param withTrip with trip condition?
+     * @param datePartType type of date in Calendar (MONTH, DAY_OF_WEEK, HOUR_OF_DAY)
+     * @return analytic query statement for average min positive delay
+     */
+    private static String prepareAnalyticAvgMinPosDelaySqlStatement(boolean withRoute, boolean withStop, boolean withTrip, int datePartType) {
+        return prepareAnalyticSqlStatement(withRoute, withStop, withTrip,
+                datePartType,
+                ANALYTIC_SELECT_PART_AVG_MPD,
+                ANALYTIC_TABLE_AVG_MPD_MONTH, ANALYTIC_TABLE_AVG_MPD_DOW, ANALYTIC_TABLE_AVG_MPD_HOUR);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -788,7 +746,6 @@ public class DatabaseIO {
 
         return results;
     }
-
 
     /**
      * Get list of average min positive delay of stops of a route
@@ -829,6 +786,145 @@ public class DatabaseIO {
         return results;
     }
 
+    public static ArrayList<Double> getAvgMinPosDelayByMonth() {
+        ArrayList<Long> params = new ArrayList<>();
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(false, false, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByDayOfWeek() {
+        ArrayList<Long> params = new ArrayList<>();
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(false, false, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByHourOfDay() {
+        ArrayList<Long> params = new ArrayList<>();
+
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(false, false, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByMonth(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, false, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByDayOfWeek(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, false, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByHourOfDay(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, false, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByMonth(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, true, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByDayOfWeek(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, true, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByHourOfDay(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, true, false, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByMonth(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, true, true, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByDayOfWeek(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, true, true, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getAvgMinPosDelayByHourOfDay(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
+
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticAvgMinPosDelaySqlStatement(true, true, true, datePartType);
+
+        return getAvgMinPosDelayByDatePart(sqlStatement, params, datePartType);
+    }
+
+
+    /**
+     * Get average min positive delay of all routes by date part
+     * @return average min positive delay of all routes or empty list if error occur
+     */
+    private static ArrayList<Double> getAvgMinPosDelayByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType) {
+        return getDoubleListByDatePart(sqlStatement, params, datePartType, ANALYTIC_COLUMN_LABEL_AVG_MPD);
+    }
+
+
+    /*
+     * RELIABILITY
+     */
 
     /**
      * Get overall reliability
@@ -1039,7 +1135,7 @@ public class DatabaseIO {
             while(rs.next()){
                 long num_bunching = rs.getLong("num_bunching");
                 long num_estimations = rs.getLong("num_estimations");
-                rows.put(rs.getLong("d_part"), ((double) num_bunching / (double) num_estimations) * 100.0);
+                rows.put(rs.getLong(ANALYTIC_COLUMN_LABEL_D_PART), ((double) num_bunching / (double) num_estimations) * 100.0);
             }
 
             results = parseDataForDatePart(rows, datePartType);
@@ -1088,9 +1184,6 @@ public class DatabaseIO {
 
         if (datePartType == Calendar.MONTH)
             result.remove(0);
-
-//        System.out.println("parseDataForDatePart: records = " + records.toString());
-//        System.out.println("parseDataForDatePart: result = " + result.toString());
 
         return result;
     }

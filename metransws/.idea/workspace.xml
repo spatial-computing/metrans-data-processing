@@ -12,6 +12,9 @@
       <change beforePath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/edu/usc/imsc/metrans/demo/BusDataIOMain.java" afterPath="$PROJECT_DIR$/../metrans-data-preprocessor/src/main/java/edu/usc/imsc/metrans/demo/BusDataIOMain.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationCalculator.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsWs.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsWs.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" afterPath="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -82,42 +85,78 @@
       <file leaf-file-name="DatabaseIO.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7289">
-              <caret line="752" column="0" lean-forward="false" selection-start-line="752" selection-start-column="0" selection-end-line="752" selection-end-column="0" />
+            <state relative-caret-position="-6">
+              <caret line="786" column="5" lean-forward="false" selection-start-line="786" selection-start-column="5" selection-end-line="786" selection-end-column="5" />
               <folding>
                 <element signature="method#getConnection#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#prepareAnalyticSqlStatement#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#prepareAnalyticSqlStatement#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getDoubleListByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getDoubleListByDatePart#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#prepareAnalyticAvgDeviationSqlStatement#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#prepareAnalyticAvgDeviationSqlStatement#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgDeviationByDatePart#0;class#DatabaseIO#0" expanded="false" />
-                <element signature="docComment;method#getAvgDeviationByDatePart#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgDeviationByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#prepareAnalyticAvgMinPosDelaySqlStatement#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#prepareAnalyticAvgMinPosDelaySqlStatement#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByMonth#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByMonth#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByMonth#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByMonth#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+                <element signature="docComment;method#getAvgMinPosDelayByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getAvgMinPosDelayByDatePart#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getReliability#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getReliability#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getReliability#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getReliability#1;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getReliability#2;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getReliability#2;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getReliability#3;class#DatabaseIO#0" expanded="false" />
@@ -127,22 +166,34 @@
                 <element signature="docComment;method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
+                <element signature="method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
                 <element signature="docComment;method#parseDataForDatePart#0;class#DatabaseIO#0" expanded="false" />
-                <element signature="e#40309#40395#0" expanded="false" />
-                <marker date="1520967864007" expanded="true" signature="1690:1844" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-                <marker date="1520967864007" expanded="true" signature="1927:2124" ph="SELECT route... etd_avg_deviation_month_mv" />
-                <marker date="1520967864007" expanded="true" signature="2215:2454" ph="SELECT stop_... etd_avg_deviation_month_mv" />
-                <marker date="1520967864007" expanded="true" signature="2551:2771" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-                <marker date="1520967864007" expanded="true" signature="7863:8063" ph="SELECT route... empd_avg_mpd_month_mv" />
-                <marker date="1520967864007" expanded="true" signature="8158:8400" ph="SELECT stop_... empd_avg_mpd_month_mv" />
-                <marker date="1520967864007" expanded="true" signature="8471:8606" ph="SELECT MIN(d... estimated_arrival_time" />
-                <marker date="1520967864007" expanded="true" signature="8686:8840" ph="SELECT reltu... pg_class" />
-                <marker date="1520967864007" expanded="true" signature="8919:9076" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520967864007" expanded="true" signature="9157:9357" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520967864007" expanded="true" signature="9447:9661" ph="SELECT SUM(n... etd_ontime_count_mv" />
-                <marker date="1520967864007" expanded="true" signature="9760:9988" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <element signature="method#parseDataForDatePart#0;class#DatabaseIO#0" expanded="false" />
+                <marker date="1520974954485" expanded="false" signature="2951:3105" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+                <marker date="1520974954485" expanded="false" signature="3188:3385" ph="SELECT route... etd_avg_deviation_month_mv" />
+                <marker date="1520974954485" expanded="false" signature="3476:3715" ph="SELECT stop_... etd_avg_deviation_month_mv" />
+                <marker date="1520974954485" expanded="false" signature="3812:4032" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+                <marker date="1520974954485" expanded="false" signature="4163:4363" ph="SELECT route... empd_avg_mpd_month_mv" />
+                <marker date="1520974954485" expanded="false" signature="4458:4700" ph="SELECT stop_... empd_avg_mpd_month_mv" />
+                <marker date="1520974954485" expanded="false" signature="4773:4908" ph="SELECT MIN(d... estimated_arrival_time" />
+                <marker date="1520974954485" expanded="false" signature="4988:5142" ph="SELECT reltu... pg_class" />
+                <marker date="1520974954485" expanded="false" signature="5223:5380" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520974954485" expanded="false" signature="5461:5661" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520974954485" expanded="false" signature="5751:5965" ph="SELECT SUM(n... etd_ontime_count_mv" />
+                <marker date="1520974954485" expanded="false" signature="6064:6292" ph="SELECT SUM(n... etd_ontime_count_mv" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StatsInfoBusBunching.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfoBusBunching.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -150,8 +201,8 @@
       <file leaf-file-name="StatsWs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsWs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="18" />
+            <state relative-caret-position="432">
+              <caret line="24" column="51" lean-forward="false" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -159,13 +210,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StatsDeviationCalculator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationCalculator.java">
+      <file leaf-file-name="DataCache.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="32" column="54" lean-forward="false" selection-start-line="32" selection-start-column="54" selection-end-line="32" selection-end-column="54" />
+            <state relative-caret-position="764">
+              <caret line="331" column="89" lean-forward="false" selection-start-line="331" selection-start-column="56" selection-end-line="331" selection-end-column="89" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#13329#14710#0" expanded="true" />
+                <element signature="e#14709#14710#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -196,10 +248,13 @@
       <find>logger.error</find>
       <find>slf4j</find>
       <find>9999</find>
+      <find>d_part</find>
+      <find>Deviation</find>
     </findStrings>
     <replaceStrings>
       <replace>System.out.println</replace>
       <replace>System.err.println</replace>
+      <replace>MinPosDelay</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -254,11 +309,11 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/list/ListingWs.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/basicinfo/BasicInfoWs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/gtfsutil/GtfsUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationCalculator.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsWs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/MyApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java" />
       </list>
     </option>
@@ -597,7 +652,7 @@
       <workItem from="1520299258115" duration="4000" />
       <workItem from="1520299401370" duration="152000" />
       <workItem from="1520961317110" duration="85000" />
-      <workItem from="1520961416139" duration="5281000" />
+      <workItem from="1520961416139" duration="9206000" />
     </task>
     <task id="LOCAL-00001" summary="-add API for getting shape.csv">
       <created>1516827929598</created>
@@ -711,11 +766,18 @@
       <option name="project" value="LOCAL" />
       <updated>1520287014807</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="refactor sql: avg deviation">
+      <created>1520967889826</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1520967889826</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75003000" />
+    <option name="totallyTimeSpent" value="78928000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -743,6 +805,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21420941" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -759,7 +822,6 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -786,11 +848,12 @@
     <MESSAGE value="fix incorrect order for getting for each date part" />
     <MESSAGE value="prepare for demo&#10;- bus bunching: return percentage instead of probability, &#10;and temporarily remove year, day&#10;- trips of stop: sort by service, then by time" />
     <MESSAGE value="add more caches" />
-    <option name="LAST_COMMIT_MESSAGE" value="add more caches" />
+    <MESSAGE value="refactor sql: avg deviation" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor sql: avg deviation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -980,13 +1043,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfoBusBunching.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsBusBunchingWs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1006,14 +1062,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
           <caret line="71" column="16" lean-forward="false" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="65" column="100" lean-forward="false" selection-start-line="65" selection-start-column="100" selection-end-line="65" selection-end-column="100" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1074,26 +1122,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsWs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="32" column="54" lean-forward="false" selection-start-line="32" selection-start-column="54" selection-end-line="32" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -1102,44 +1130,117 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsInfoBusBunching.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/storage/DataCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="764">
+          <caret line="331" column="89" lean-forward="false" selection-start-line="331" selection-start-column="56" selection-end-line="331" selection-end-column="89" />
+          <folding>
+            <element signature="e#13329#14710#0" expanded="true" />
+            <element signature="e#14709#14710#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsDeviationCalculator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/ws/stats/StatsWs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="51" lean-forward="false" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/usc/imsc/metrans/database/DatabaseIO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7289">
-          <caret line="752" column="0" lean-forward="false" selection-start-line="752" selection-start-column="0" selection-end-line="752" selection-end-column="0" />
+        <state relative-caret-position="-6">
+          <caret line="786" column="5" lean-forward="false" selection-start-line="786" selection-start-column="5" selection-end-line="786" selection-end-column="5" />
           <folding>
             <element signature="method#getConnection#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getMinMaxTime#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getEstimatedDataPoints#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#prepareAnalyticSqlStatement#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#prepareAnalyticSqlStatement#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getDoubleListByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getDoubleListByDatePart#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationOverall#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getAvgDeviationPerRoutes#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getAvgDeviationOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getAvgDeviationOfTripOfStopOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#prepareAnalyticAvgDeviationSqlStatement#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#prepareAnalyticAvgDeviationSqlStatement#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#1;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#2;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByMonth#3;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgDeviationByDatePart#0;class#DatabaseIO#0" expanded="false" />
-            <element signature="docComment;method#getAvgDeviationByDatePart#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgDeviationByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#prepareAnalyticAvgMinPosDelaySqlStatement#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#prepareAnalyticAvgMinPosDelaySqlStatement#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getAvgMinPosDelayPerRoutes#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getAvgMinPosDelayOfStopsOfRoute#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByMonth#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByHourOfDay#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByMonth#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByDayOfWeek#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByHourOfDay#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByMonth#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByDayOfWeek#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByHourOfDay#2;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByMonth#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByDayOfWeek#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByHourOfDay#3;class#DatabaseIO#0" expanded="false" />
+            <element signature="docComment;method#getAvgMinPosDelayByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getAvgMinPosDelayByDatePart#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getReliability#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getReliability#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getReliability#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getReliability#1;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getReliability#2;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getReliability#2;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getReliability#3;class#DatabaseIO#0" expanded="false" />
@@ -1149,21 +1250,23 @@
             <element signature="docComment;method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
             <element signature="method#getBusBunchingByDayOfWeek#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getBusBunchingByDatePart#0;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
+            <element signature="method#getBusBunchingByDatePart#1;class#DatabaseIO#0" expanded="false" />
             <element signature="docComment;method#parseDataForDatePart#0;class#DatabaseIO#0" expanded="false" />
-            <element signature="e#40309#40395#0" expanded="false" />
-            <marker date="1520967864007" expanded="true" signature="1690:1844" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-            <marker date="1520967864007" expanded="true" signature="1927:2124" ph="SELECT route... etd_avg_deviation_month_mv" />
-            <marker date="1520967864007" expanded="true" signature="2215:2454" ph="SELECT stop_... etd_avg_deviation_month_mv" />
-            <marker date="1520967864007" expanded="true" signature="2551:2771" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
-            <marker date="1520967864007" expanded="true" signature="7863:8063" ph="SELECT route... empd_avg_mpd_month_mv" />
-            <marker date="1520967864007" expanded="true" signature="8158:8400" ph="SELECT stop_... empd_avg_mpd_month_mv" />
-            <marker date="1520967864007" expanded="true" signature="8471:8606" ph="SELECT MIN(d... estimated_arrival_time" />
-            <marker date="1520967864007" expanded="true" signature="8686:8840" ph="SELECT reltu... pg_class" />
-            <marker date="1520967864007" expanded="true" signature="8919:9076" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520967864007" expanded="true" signature="9157:9357" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520967864007" expanded="true" signature="9447:9661" ph="SELECT SUM(n... etd_ontime_count_mv" />
-            <marker date="1520967864007" expanded="true" signature="9760:9988" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <element signature="method#parseDataForDatePart#0;class#DatabaseIO#0" expanded="false" />
+            <marker date="1520974954485" expanded="false" signature="2951:3105" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+            <marker date="1520974954485" expanded="false" signature="3188:3385" ph="SELECT route... etd_avg_deviation_month_mv" />
+            <marker date="1520974954485" expanded="false" signature="3476:3715" ph="SELECT stop_... etd_avg_deviation_month_mv" />
+            <marker date="1520974954485" expanded="false" signature="3812:4032" ph="SELECT SUM((... etd_avg_deviation_month_mv" />
+            <marker date="1520974954485" expanded="false" signature="4163:4363" ph="SELECT route... empd_avg_mpd_month_mv" />
+            <marker date="1520974954485" expanded="false" signature="4458:4700" ph="SELECT stop_... empd_avg_mpd_month_mv" />
+            <marker date="1520974954485" expanded="false" signature="4773:4908" ph="SELECT MIN(d... estimated_arrival_time" />
+            <marker date="1520974954485" expanded="false" signature="4988:5142" ph="SELECT reltu... pg_class" />
+            <marker date="1520974954485" expanded="false" signature="5223:5380" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520974954485" expanded="false" signature="5461:5661" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520974954485" expanded="false" signature="5751:5965" ph="SELECT SUM(n... etd_ontime_count_mv" />
+            <marker date="1520974954485" expanded="false" signature="6064:6292" ph="SELECT SUM(n... etd_ontime_count_mv" />
           </folding>
         </state>
       </provider>

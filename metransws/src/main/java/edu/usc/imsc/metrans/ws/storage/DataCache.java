@@ -22,6 +22,10 @@ public class DataCache {
     public static final String AVG_DEVIATION_BY_DOW_OVERALL = "AVG_DEVIATION_BY_DOW_OVERALL";
     public static final String AVG_DEVIATION_BY_HOUR_OVERALL = "AVG_DEVIATION_BY_HOUR_OVERALL";
 
+    public static final String AVG_MIN_POS_DELAY_BY_MONTH_OVERALL = "AVG_MIN_POS_DELAY_BY_MONTH_OVERALL";
+    public static final String AVG_MIN_POS_DELAY_BY_DOW_OVERALL = "AVG_MIN_POS_DELAY_BY_DOW_OVERALL";
+    public static final String AVG_MIN_POS_DELAY_BY_HOUR_OVERALL = "AVG_MIN_POS_DELAY_BY_HOUR_OVERALL";
+
     private static  LoadingCache<String, ArrayList<DbItemInfo>> routeAvgDeviationsCache = null;
     private static  LoadingCache<Long, ArrayList<DbItemInfo>> stopAvgDeviationsCache = null;
 
@@ -29,6 +33,7 @@ public class DataCache {
     private static  LoadingCache<Long, ArrayList<DbItemInfo>> stopAvgMinPosDelaysCache = null;
 
     private static  LoadingCache<String, ArrayList<Double>> avgDeviationsByDatePartCache = null;
+    private static  LoadingCache<String, ArrayList<Double>> avgMinPosDelayByDatePartCache = null;
 
     private static LoadingCache<String, Double> oneValueCache = null;
 
@@ -262,6 +267,52 @@ public class DataCache {
         }
     }
 
+
+    /**
+     * Get average min positive delay of all routes by date part (month, day of week, hour)
+     * @return average min positive delay objects of routes or empty list if error occurred
+     */
+    public static ArrayList<Double> getAvgMinPosDelayByDatePart(String datePart) {
+        if (avgMinPosDelayByDatePartCache == null) {
+            synchronized (DataCache.class) {
+                if (avgMinPosDelayByDatePartCache == null) {
+                    avgMinPosDelayByDatePartCache = CacheBuilder.newBuilder()
+                            .maximumSize(10000)
+                            .expireAfterWrite(1, TimeUnit.DAYS)
+                            .build(
+                                    new CacheLoader<String, ArrayList<Double>>() {
+                                        @Override
+                                        public ArrayList<Double> load(String key) {
+                                            ArrayList<Double> values;
+                                            switch (key) {
+                                                case AVG_MIN_POS_DELAY_BY_MONTH_OVERALL:
+                                                    values = DatabaseIO.getAvgMinPosDelayByMonth();
+                                                    break;
+                                                case AVG_MIN_POS_DELAY_BY_DOW_OVERALL:
+                                                    values = DatabaseIO.getAvgMinPosDelayByDayOfWeek();
+                                                    break;
+                                                case AVG_MIN_POS_DELAY_BY_HOUR_OVERALL:
+                                                    values = DatabaseIO.getAvgMinPosDelayByHourOfDay();
+                                                    break;
+                                                default:
+                                                    values = new ArrayList<>();
+                                            }
+
+                                            return values;
+                                        }
+                                    });
+                }
+            }
+        }
+
+        try {
+            return avgMinPosDelayByDatePartCache.get(datePart);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
     /**
      * Prepare values of caches that uses constant keys
      */
@@ -275,5 +326,9 @@ public class DataCache {
         DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_MONTH_OVERALL);
         DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_HOUR_OVERALL);
         DataCache.getAvgDeviationsByDatePart(DataCache.AVG_DEVIATION_BY_DOW_OVERALL);
+
+        DataCache.getAvgMinPosDelayByDatePart(DataCache.AVG_MIN_POS_DELAY_BY_MONTH_OVERALL);
+        DataCache.getAvgMinPosDelayByDatePart(DataCache.AVG_MIN_POS_DELAY_BY_DOW_OVERALL);
+        DataCache.getAvgMinPosDelayByDatePart(DataCache.AVG_MIN_POS_DELAY_BY_HOUR_OVERALL);
     }
 }
