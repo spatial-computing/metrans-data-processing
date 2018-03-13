@@ -9,6 +9,7 @@ import edu.usc.imsc.metrans.ws.list.ListingWs;
 import edu.usc.imsc.metrans.ws.shape.ShapeWs;
 import edu.usc.imsc.metrans.ws.stats.StatsBusBunchingWs;
 import edu.usc.imsc.metrans.ws.stats.StatsDeviationWs;
+import edu.usc.imsc.metrans.ws.stats.StatsWs;
 import edu.usc.imsc.metrans.ws.storage.DataCache;
 
 import javax.ws.rs.ApplicationPath;
@@ -35,6 +36,7 @@ public class MyApplication extends Application {
         h.add(TripsOfStopsWs.class);
         h.add(StatsDeviationWs.class);
         h.add(StatsBusBunchingWs.class);
+        h.add(StatsWs.class);
         h.add(ListingWs.class);
         h.add(CORSResponseFilter.class);
         return h;
