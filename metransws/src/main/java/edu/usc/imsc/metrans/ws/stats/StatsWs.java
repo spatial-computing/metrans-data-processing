@@ -24,7 +24,7 @@ public class StatsWs {
             case "deviation":
                 return Response.status(200).entity(getStatsDeviation(routeId, stopId, tripId)).build();
             case "busbunching":
-                break;
+                return Response.status(200).entity(getStatsBusBunching(routeId, stopId, tripId)).build();
             case "reliability":
                 return Response.status(200).entity(getStatsReliability(routeId, stopId, tripId)).build();
             case "waitingtime":
@@ -146,6 +146,44 @@ public class StatsWs {
                     info.setMonth(DatabaseIO.getReliabilityByMonth(routeId, stopId, tripId));
                     info.setDay(DatabaseIO.getReliabilityByHourOfDay(routeId, stopId, tripId));
                     info.setWeek(DatabaseIO.getReliabilityByDayOfWeek(routeId, stopId, tripId));
+                }
+            }
+        }
+
+        return info;
+    }
+
+    /**
+     * Get bus bunching
+     * @param routeId route id
+     * @param stopId stop id
+     * @param tripId trip id
+     * @return stat information for bus bunching
+     */
+    public static StatsInfo getStatsBusBunching(long routeId, long stopId, long tripId) {
+        StatsInfo info = new StatsInfo();
+        if (routeId == StatsWs.INVALID_VALUE) {
+            //overview
+            info.setMonth(DataCache.getBusBunchingByDatePart(DataCache.BUS_BUNCHING_BY_MONTH_OVERALL));
+            info.setDay(DataCache.getBusBunchingByDatePart(DataCache.BUS_BUNCHING_BY_HOUR_OVERALL));
+            info.setWeek(DataCache.getBusBunchingByDatePart(DataCache.BUS_BUNCHING_BY_DOW_OVERALL));
+
+        } else {
+            if (stopId == StatsWs.INVALID_VALUE) {
+                //route
+                info.setMonth(DatabaseIO.getBusBunchingByMonth(routeId));
+                info.setDay(DatabaseIO.getBusBunchingByHourOfDay(routeId));
+                info.setWeek(DatabaseIO.getBusBunchingByDayOfWeek(routeId));
+
+            } else {
+                if (tripId == StatsWs.INVALID_VALUE) {
+                    info.setMonth(DatabaseIO.getBusBunchingByMonth(routeId, stopId));
+                    info.setDay(DatabaseIO.getBusBunchingByHourOfDay(routeId, stopId));
+                    info.setWeek(DatabaseIO.getBusBunchingByDayOfWeek(routeId, stopId));
+                } else {
+                    info.setMonth(DatabaseIO.getBusBunchingByMonth(routeId, stopId, tripId));
+                    info.setDay(DatabaseIO.getBusBunchingByHourOfDay(routeId, stopId, tripId));
+                    info.setWeek(DatabaseIO.getBusBunchingByDayOfWeek(routeId, stopId, tripId));
                 }
             }
         }

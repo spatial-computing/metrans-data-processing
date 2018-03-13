@@ -41,7 +41,7 @@ public class DatabaseIO {
     private static final String ANALYTIC_SELECT_PART_AVG_DEVIATION = "SELECT %s AS d_part, SUM((avg_deviation * num_estimations)) / SUM(num_estimations) as avg_deviation \n";
     private static final String ANALYTIC_SELECT_PART_AVG_MPD = "SELECT %s AS d_part, SUM((avg_min_pos_delay * num_estimations)) / SUM(num_estimations) as avg_min_pos_delay \n";
     private static final String ANALYTIC_SELECT_PART_ONTINE = "SELECT %s AS d_part, SUM(num_ontime_estimations)::BIGINT AS num_ontimes, SUM(num_estimations)::BIGINT AS num_estimations  \n";
-    private static final String ANALYTIC_SELECT_PART_BUS_BUNCHING = "SELECT date_part('dow', date(timezone('America/Los_Angeles'::text, date_estimated_time)))::BIGINT AS d_part, COUNT(CASE WHEN num_buses > 1 THEN 1 END) AS num_bunching, COUNT(*) AS num_estimations \n";
+    private static final String ANALYTIC_SELECT_PART_BUS_BUNCHING = "SELECT %s AS d_part, SUM(num_bunching)::BIGINT AS num_bunching, SUM(num_estimations)::BIGINT AS num_estimations   \n";
 
     private static final String ANALYTIC_FROM_PART = " FROM %s \n";
     private static final String ANALYTIC_ROUTE_ID_CONDITION_PART = " WHERE route_id = ? \n";
@@ -216,6 +216,45 @@ public class DatabaseIO {
             System.err.println("Error selecting estimated data points:"  + e.getMessage());
             e.printStackTrace();
         }
+
+        return result;
+    }
+
+    /**
+     * Parse data in Map to ArrayList for different type of date part
+     * @param records data
+     * @param datePartType type of date part
+     * @return values of Map as ArrayList
+     */
+    private static ArrayList<Double> parseDataForDatePart(TreeMap<Long, Double> records, int datePartType) {
+        ArrayList<Double> result = new ArrayList<>();
+        int maxValue = 0;
+        switch (datePartType) {
+            case Calendar.MONTH:
+                maxValue = 12;
+                break;
+            case Calendar.DAY_OF_WEEK:
+                maxValue = 6;
+                break;
+            case Calendar.HOUR_OF_DAY:
+                maxValue = 23;
+                break;
+            default:
+                System.err.println("Invalid date part type : " + datePartType);
+        }
+
+        for (int i = 0; i < maxValue + 1; i++) {
+            result.add(0.0);
+        }
+
+        for (Long key : records.keySet()) {
+            Double value = records.get(key);
+
+            result.set(key.intValue() % (maxValue + 1), value);
+        }
+
+        if (datePartType == Calendar.MONTH)
+            result.remove(0);
 
         return result;
     }
@@ -1136,7 +1175,6 @@ public class DatabaseIO {
                 ANALYTIC_COLUMN_LABEL_NUM_ONTIMES, ANALYTIC_COLUMN_LABEL_NUM_ESTIMATIONS);
     }
 
-
     private static String prepareAnalyticOnTimeSqlStatement(boolean withRoute, boolean withStop, boolean withTrip, int datePartType) {
         return prepareAnalyticSqlStatement(withRoute, withStop, withTrip,
                 datePartType,
@@ -1145,7 +1183,6 @@ public class DatabaseIO {
                 ANALYTIC_TABLE_ONTINE_COUNT_DOW,
                 ANALYTIC_TABLE_ONTINE_COUNT_HOUR);
     }
-
 
     public static ArrayList<Double> getReliabilityByMonth() {
         ArrayList<Long> params = new ArrayList<>();
@@ -1173,7 +1210,6 @@ public class DatabaseIO {
 
         return getReliabilityByDatePart(sqlStatement, params, datePartType);
     }
-
 
     public static ArrayList<Double> getReliabilityByMonth(long routeId) {
         ArrayList<Long> params = new ArrayList<>();
@@ -1281,114 +1317,144 @@ public class DatabaseIO {
      * BUS BUNCHING
      */
 
-    /**
-     * Get bus bunching probability of a stop of a route by day of week
-     * @param routeId route id
-     * @param stopId stop id
-     * @return list of  average arrival time deviation or empty list if error occur
-     */
+
+    private static ArrayList<Double> getBusBunchingByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType) {
+        return getDoubleProbabilityListByDatePart(sqlStatement, params, datePartType,
+                ANALYTIC_COLUMN_LABEL_NUM_BUNCHING, ANALYTIC_COLUMN_LABEL_NUM_ESTIMATIONS);
+    }
+
+    private static String prepareAnalyticBusBunchingSqlStatement(boolean withRoute, boolean withStop, boolean withTrip, int datePartType) {
+        return prepareAnalyticSqlStatement(withRoute, withStop, withTrip,
+                datePartType,
+                ANALYTIC_SELECT_PART_BUS_BUNCHING,
+                ANALYTIC_TABLE_BUS_BUNCHING_MONTH,
+                ANALYTIC_TABLE_BUS_BUNCHING_DOW,
+                ANALYTIC_TABLE_BUS_BUNCHING_HOUR);
+    }
+
+    public static ArrayList<Double> getBusBunchingByMonth() {
+        ArrayList<Long> params = new ArrayList<>();
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(false, false, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getBusBunchingByDayOfWeek() {
+        ArrayList<Long> params = new ArrayList<>();
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(false, false, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getBusBunchingByHourOfDay() {
+        ArrayList<Long> params = new ArrayList<>();
+
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(false, false, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getBusBunchingByMonth(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, false, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getBusBunchingByDayOfWeek(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, false, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getBusBunchingByHourOfDay(long routeId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, false, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
+    public static ArrayList<Double> getBusBunchingByMonth(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, true, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
+
     public static ArrayList<Double> getBusBunchingByDayOfWeek(long routeId, long stopId) {
         ArrayList<Long> params = new ArrayList<>();
         params.add(routeId);
         params.add(stopId);
-        return getBusBunchingByDatePart(SELECT_BUS_BUNCHING_BY_DOW_OF_STOP_OF_ROUTE, params, Calendar.DAY_OF_WEEK);
+
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, true, false, datePartType);
+
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
     }
 
+    public static ArrayList<Double> getBusBunchingByHourOfDay(long routeId, long stopId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
 
-    /**
-     * Get bus bunching probability of all routes by date part
-     * @return bus bunching probability of all routes or empty list if error occur
-     */
-    private static ArrayList<Double> getBusBunchingByDatePart(String sqlStatement, ArrayList<Long> params, int datePartType) {
-        ArrayList<Double> results = new ArrayList<>();
-        Connection connection = getConnection();
-        if (connection == null) {
-            System.err.println("No database connection");
-            return results;
-        }
-        PreparedStatement psql;
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, true, false, datePartType);
 
-        try {
-            psql = connection.prepareStatement(sqlStatement);
-            if (params != null)
-                for (int i = 0; i < params.size(); i++)
-                    psql.setLong(i + 1, params.get(i));
-
-            results = getBusBunchingByDatePart(psql, datePartType);
-
-            connection.close();
-
-        } catch (SQLException e) {
-            System.err.println("Error selecting bus bunching probability of all routes by date part:"  + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return results;
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
     }
 
-    /**
-     * Get bus bunching probability by date part
-     * @return bus bunching probability by date part or empty list if error occurred
-     */
-    private static ArrayList<Double> getBusBunchingByDatePart(PreparedStatement psql, int datePartType) {
-        ArrayList<Double> results = new ArrayList<>();
-        try {
-            ResultSet rs = psql.executeQuery();
+    public static ArrayList<Double> getBusBunchingByMonth(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
 
-            TreeMap<Long, Double> rows = new TreeMap<>();
-            while(rs.next()){
-                long num_bunching = rs.getLong("num_bunching");
-                long num_estimations = rs.getLong("num_estimations");
-                rows.put(rs.getLong(ANALYTIC_COLUMN_LABEL_D_PART), ((double) num_bunching / (double) num_estimations) * 100.0);
-            }
+        int datePartType = Calendar.MONTH;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, true, true, datePartType);
 
-            results = parseDataForDatePart(rows, datePartType);
-
-        } catch (SQLException e) {
-            System.err.println("Error selecting bus bunching probability by date part:"  + e.getMessage());
-            e.printStackTrace();
-            results = new ArrayList<>();
-        }
-
-        return results;
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
     }
 
-    /**
-     * Parse data in Map to ArrayList for different type of date part
-     * @param records data
-     * @param datePartType type of date part
-     * @return values of Map as ArrayList
-     */
-    private static ArrayList<Double> parseDataForDatePart(TreeMap<Long, Double> records, int datePartType) {
-        ArrayList<Double> result = new ArrayList<>();
-        int maxValue = 0;
-        switch (datePartType) {
-            case Calendar.MONTH:
-                maxValue = 12;
-                break;
-            case Calendar.DAY_OF_WEEK:
-                maxValue = 6;
-                break;
-            case Calendar.HOUR_OF_DAY:
-                maxValue = 23;
-                break;
-            default:
-                System.err.println("Invalid date part type : " + datePartType);
-        }
+    public static ArrayList<Double> getBusBunchingByDayOfWeek(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
 
-        for (int i = 0; i < maxValue + 1; i++) {
-            result.add(0.0);
-        }
+        int datePartType = Calendar.DAY_OF_WEEK;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, true, true, datePartType);
 
-        for (Long key : records.keySet()) {
-            Double value = records.get(key);
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
+    }
 
-            result.set(key.intValue() % (maxValue + 1), value);
-        }
+    public static ArrayList<Double> getBusBunchingByHourOfDay(long routeId, long stopId, long tripId) {
+        ArrayList<Long> params = new ArrayList<>();
+        params.add(routeId);
+        params.add(stopId);
+        params.add(tripId);
 
-        if (datePartType == Calendar.MONTH)
-            result.remove(0);
+        int datePartType = Calendar.HOUR_OF_DAY;
+        String sqlStatement = prepareAnalyticBusBunchingSqlStatement(true, true, true, datePartType);
 
-        return result;
+        return getBusBunchingByDatePart(sqlStatement, params, datePartType);
     }
 }

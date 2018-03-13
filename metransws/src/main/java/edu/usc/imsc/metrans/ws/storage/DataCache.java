@@ -30,6 +30,10 @@ public class DataCache {
     public static final String RELIABILITY_BY_DOW_OVERALL = "RELIABILITY_BY_DOW_OVERALL";
     public static final String RELIABILITY_BY_HOUR_OVERALL = "RELIABILITY_BY_HOUR_OVERALL";
 
+    public static final String BUS_BUNCHING_BY_MONTH_OVERALL = "BUS_BUNCHING_BY_MONTH_OVERALL";
+    public static final String BUS_BUNCHING_BY_DOW_OVERALL = "BUS_BUNCHING_BY_DOW_OVERALL";
+    public static final String BUS_BUNCHING_BY_HOUR_OVERALL = "BUS_BUNCHING_BY_HOUR_OVERALL";
+
     private static  LoadingCache<String, ArrayList<DbItemInfo>> routeAvgDeviationsCache = null;
     private static  LoadingCache<Long, ArrayList<DbItemInfo>> stopAvgDeviationsCache = null;
 
@@ -39,6 +43,7 @@ public class DataCache {
     private static  LoadingCache<String, ArrayList<Double>> avgDeviationsByDatePartCache = null;
     private static  LoadingCache<String, ArrayList<Double>> avgMinPosDelayByDatePartCache = null;
     private static  LoadingCache<String, ArrayList<Double>> reliabilityByDatePartCache = null;
+    private static  LoadingCache<String, ArrayList<Double>> busBunchingByDatePartCache = null;
 
     private static LoadingCache<String, Double> oneValueCache = null;
 
@@ -365,6 +370,51 @@ public class DataCache {
     }
 
     /**
+     * Get busBunching of all routes by date part (month, day of week, hour)
+     * @return busBunching objects of routes or empty list if error occurred
+     */
+    public static ArrayList<Double> getBusBunchingByDatePart(String datePart) {
+        if (busBunchingByDatePartCache == null) {
+            synchronized (DataCache.class) {
+                if (busBunchingByDatePartCache == null) {
+                    busBunchingByDatePartCache = CacheBuilder.newBuilder()
+                            .maximumSize(10000)
+                            .expireAfterWrite(1, TimeUnit.DAYS)
+                            .build(
+                                    new CacheLoader<String, ArrayList<Double>>() {
+                                        @Override
+                                        public ArrayList<Double> load(String key) {
+                                            ArrayList<Double> values;
+                                            switch (key) {
+                                                case BUS_BUNCHING_BY_MONTH_OVERALL:
+                                                    values = DatabaseIO.getBusBunchingByMonth();
+                                                    break;
+                                                case BUS_BUNCHING_BY_DOW_OVERALL:
+                                                    values = DatabaseIO.getBusBunchingByDayOfWeek();
+                                                    break;
+                                                case BUS_BUNCHING_BY_HOUR_OVERALL:
+                                                    values = DatabaseIO.getBusBunchingByHourOfDay();
+                                                    break;
+                                                default:
+                                                    values = new ArrayList<>();
+                                            }
+
+                                            return values;
+                                        }
+                                    });
+                }
+            }
+        }
+
+        try {
+            return busBunchingByDatePartCache.get(datePart);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    /**
      * Prepare values of caches that uses constant keys
      */
     public static void prepareConstantKeyCache() {
@@ -385,5 +435,9 @@ public class DataCache {
         DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_MONTH_OVERALL);
         DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_DOW_OVERALL);
         DataCache.getReliabilityByDatePart(DataCache.RELIABILITY_BY_HOUR_OVERALL);
+
+        DataCache.getBusBunchingByDatePart(DataCache.BUS_BUNCHING_BY_MONTH_OVERALL);
+        DataCache.getBusBunchingByDatePart(DataCache.BUS_BUNCHING_BY_DOW_OVERALL);
+        DataCache.getBusBunchingByDatePart(DataCache.BUS_BUNCHING_BY_HOUR_OVERALL);
     }
 }
